@@ -5,7 +5,7 @@ namespace Interfaces
 {
     public interface IDBSvc
     {
-        DBResult<string> Initialize();
+        DBResult<string> Initialize(string cnnString);
 
         DBResult<string> SaveTitle(string title);
 

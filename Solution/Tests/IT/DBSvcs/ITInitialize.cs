@@ -8,9 +8,10 @@ namespace Tests.IT.DBSvcs
     public class ITInitialize : ITDBSvc
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestDBConnect()
         {
-            DBResult<string> result = _dbSvc.Initialize();
+            string cnnString = "Data Source=DESKTOP-34KSSOT\\SQLEXPRESS;Initial Catalog=CompetitionBoardDB;TrustServerCertificate=True;User ID=CompetitionBoard;Password=Tafeltafel0#";
+            DBResult<string> result = _dbSvc.Initialize(cnnString);
             Assert.AreEqual(0, result.ErrorCode);
             Assert.IsNull(result.Exception);
         }
