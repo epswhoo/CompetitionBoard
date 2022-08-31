@@ -1,4 +1,4 @@
-﻿using Models.Common;
+﻿
 using Models.IDBSvc;
 
 namespace Interfaces
@@ -6,10 +6,6 @@ namespace Interfaces
     public interface IDBSvc
     {
         DBResult<string> SetSettingsToConnection(DBConnectionSettings dBConnectionSettings);
-
-        //DBResult<string> SaveTitle(string title);
-
-        //DBResult<string> ClearTitle(string title);
 
         //DBResult<RnH> InsertRnH(RnH RnH);
         
