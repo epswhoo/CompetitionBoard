@@ -1,50 +1,55 @@
 ﻿using Interfaces;
 using Models.Common;
 using Models.IDBSvc;
-using DBSvcs.Initialize;
 using Microsoft.Data.SqlClient;
+using DBSvcs.SubSvcs;
 
 namespace DBSvcs
 {
     // All the code in this file is included in all platforms.
     public class DBSvc : IDBSvc
     {
-        private SqlConnection _sqlConnection = new SqlConnection();
+        private readonly SqlConnection _sqlConnection = new SqlConnection();
+        private SqlConnectionSvc _sqlConnectionSvc;
 
-        public DBResult<string> ClearTitle(string title)
+        public DBSvc(SqlConnectionSvc sqlConnectionSvc)
         {
-            throw new NotImplementedException();
+            _sqlConnectionSvc = sqlConnectionSvc;
         }
 
-        public DBResult<string> Initialize()
+        public DBResult<string> SetSettingsToConnection(DBConnectionSettings dBConnectionSettings)
         {
-
-            return _sqlConnection.Initialize();
+            return _sqlConnectionSvc.SetConnectionString(_sqlConnection, dBConnectionSettings);
         }
 
-        public DBResult<RnH> DeleteRnH(RnH RnH)
-        {
-            throw new NotImplementedException();
-        }
+        //public DBResult<string> ClearTitle(string title)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public DBResult<RnH> InsertOnPosRnH(RnH RnH, int Pos)
-        {
-            throw new NotImplementedException();
-        }
+        //public DBResult<RnH> DeleteRnH(RnH RnH)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public DBResult<RnH> InsertRnH(RnH RnH)
-        {
-            throw new NotImplementedException();
-        }
+        //public DBResult<RnH> InsertOnPosRnH(RnH RnH, int Pos)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public DBResult<RnH> SaveRnH(RnH RnH)
-        {
-            throw new NotImplementedException();
-        }
+        //public DBResult<RnH> InsertRnH(RnH RnH)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public DBResult<string> SaveTitle(string title)
-        {
-            throw new NotImplementedException();
-        }
+        //public DBResult<RnH> SaveRnH(RnH RnH)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public DBResult<string> SaveTitle(string title)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
