@@ -1,6 +1,6 @@
-﻿namespace Models.IDBSvc
+﻿namespace Models.Results
 {
-    public class DBResult<T>
+    public class Result<T>
     {
         public int ErrorCode { get; set; }
         public T Content { get; set; }

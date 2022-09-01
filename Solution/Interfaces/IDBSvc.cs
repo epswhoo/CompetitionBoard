@@ -1,19 +1,20 @@
 ﻿
 using Models.Common;
 using Models.IDBSvc;
+using Models.Results;
 
 namespace Interfaces
 {
     public interface IDBSvc
     {
-        DBResult<bool> SetDBSettings(DBConnectionSettings settings);
+        Result<bool> SetDBSettings(DBConnectionSettings settings);
 
-        DBResult<string> TitleSave(string title);
+        Result<string> TitleSave(string title);
 
-        DBResult<RnH> RnHInsert(RnH rnh);
+        Result<RnH> RnHInsert(RnH rnh);
 
-        DBResult<RnH> RnHSave(RnH rnh);
+        Result<RnH> RnHSave(RnH rnh);
 
-        DBResult<bool> RnHDelete(RnH rnh);
+        Result<bool> RnHDelete(RnH rnh);
     }
 }

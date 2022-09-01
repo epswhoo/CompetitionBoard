@@ -4,6 +4,7 @@ using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Models.IDBSvc;
+using Models.Results;
 using System.Reflection.Metadata;
 
 namespace Tests.IT.DBSvcs.RnHsDBSvcs
@@ -23,7 +24,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            DBResult<RnH>? result = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? result = _dbSvc?.RnHInsert(rnh);
             CompareRnH(rnh, result, false);
         }
     }

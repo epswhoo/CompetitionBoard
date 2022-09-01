@@ -1,6 +1,7 @@
 using DBSvcs.RnHExtensions;
 using Models.Common;
 using Models.IDBSvc;
+using Models.Results;
 
 namespace Tests.IT.DBSvcs.RnHsDBSvcs
 {
@@ -19,9 +20,9 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            DBResult<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
             Assert.IsNotNull(insertResult);
-            DBResult<bool>? deleteResult = _dbSvc?.RnHDelete(insertResult.Content);
+            Result<bool>? deleteResult = _dbSvc?.RnHDelete(insertResult.Content);
             Assert.IsNotNull(deleteResult);
             Assert.AreEqual(0, deleteResult.ErrorCode);
             Assert.IsNull(deleteResult.Exception);

@@ -5,6 +5,7 @@ using DBSvcs.RnHsDBSvc;
 using DBSvcs.SqlConnectionExtensions;
 using Microsoft.EntityFrameworkCore;
 using DBSvcs.RnHExtensions;
+using Models.Results;
 
 namespace DBSvcs
 {
@@ -13,7 +14,7 @@ namespace DBSvcs
     {
         private CompetitionBoardDBContext _dbContext;
 
-        public DBResult<bool> SetDBSettings(DBConnectionSettings settings)
+        public Result<bool> SetDBSettings(DBConnectionSettings settings)
         {
             return TryCatchException(() =>
                 {
@@ -27,12 +28,12 @@ namespace DBSvcs
                 });
         }
 
-        public DBResult<bool> CheckConnection()
+        public Result<bool> CheckConnection()
         {
             return TryCatchException(_dbContext.Database.CanConnect);
         }
 
-        public DBResult<bool> RnHDelete(RnH rnh)
+        public Result<bool> RnHDelete(RnH rnh)
         {
             return TryCatchException(() =>
             {
@@ -45,7 +46,7 @@ namespace DBSvcs
             });
         }
 
-        public DBResult<RnH> RnHInsert(RnH rnh)
+        public Result<RnH> RnHInsert(RnH rnh)
         {
             return TryCatchException(() =>
                 {
@@ -58,7 +59,7 @@ namespace DBSvcs
                 });
         }
 
-        public DBResult<RnH> RnHSave(RnH rnh)
+        public Result<RnH> RnHSave(RnH rnh)
         {
             return TryCatchException(() =>
             {
@@ -71,7 +72,7 @@ namespace DBSvcs
             });
         }
 
-        public DBResult<string> TitleSave(string title)
+        public Result<string> TitleSave(string title)
         {
             return TryCatchException(() =>
                 { 
@@ -82,9 +83,9 @@ namespace DBSvcs
                 });
         }
 
-        private DBResult<T> TryCatchException<T>(Func<T> todo)
+        private Result<T> TryCatchException<T>(Func<T> todo)
         {
-            DBResult<T> result = new DBResult<T>();
+            Result<T> result = new Result<T>();
             try
             {
                 result.Content = todo();

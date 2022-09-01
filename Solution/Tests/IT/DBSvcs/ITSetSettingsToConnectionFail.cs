@@ -2,6 +2,7 @@
 using DBSvcs;
 using Interfaces;
 using Models.IDBSvc;
+using Models.Results;
 
 namespace Tests.IT.DBSvcs
 {
@@ -19,7 +20,7 @@ namespace Tests.IT.DBSvcs
                 Username = "CompetitionBoard",
                 Password = "Tafeltafel0#"
             };
-            DBResult<bool>? result = _dbSvc?.SetDBSettings(settings); 
+            Result<bool>? result = _dbSvc?.SetDBSettings(settings); 
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.ErrorCode);
             Assert.IsNull(result.Exception);

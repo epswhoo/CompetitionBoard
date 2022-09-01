@@ -63,9 +63,9 @@ namespace Models.Errors {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die 1 ähnelt.
         /// </summary>
-        internal static string DBCannotOpenConnection {
+        internal static string DBError {
             get {
-                return ResourceManager.GetString("DBCannotOpenConnection", resourceCulture);
+                return ResourceManager.GetString("DBError", resourceCulture);
             }
         }
     }

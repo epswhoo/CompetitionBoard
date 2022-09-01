@@ -1,6 +1,7 @@
 using DBSvcs.RnHExtensions;
 using Models.Common;
 using Models.IDBSvc;
+using Models.Results;
 
 namespace Tests.IT.DBSvcs.RnHsDBSvcs
 {
@@ -19,7 +20,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            DBResult<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
             Assert.IsNotNull(insertResult);
             RnH toSave = new RnH
             {
@@ -32,7 +33,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
                 IsDisqualificated = true
             };
             insertResult.Content.SetData(toSave);
-            DBResult<RnH>? saveResult = _dbSvc?.RnHSave(insertResult.Content);
+            Result<RnH>? saveResult = _dbSvc?.RnHSave(insertResult.Content);
             CompareRnH(toSave, saveResult);
         }
     }

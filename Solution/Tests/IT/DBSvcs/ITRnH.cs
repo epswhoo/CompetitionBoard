@@ -1,17 +1,14 @@
-using DBSvcs.RnHsDBSvc;
-using DBSvcs.SqlConnectionExtensions;
-using Interfaces;
-using Microsoft.EntityFrameworkCore;
+
 using Models.Common;
 using Models.IDBSvc;
-using System.Reflection.Metadata;
+using Models.Results;
 
 namespace Tests.IT.DBSvcs.RnHsDBSvcs
 {
     [TestClass]
     public class ITRnH : ITDBSvc
     {
-        protected void CompareRnH(RnH expected, DBResult<RnH>? result, bool checkIds = true)
+        protected void CompareRnH(RnH expected, Result<RnH>? result, bool checkIds = true)
         {
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.ErrorCode);
