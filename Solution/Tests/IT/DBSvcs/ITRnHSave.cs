@@ -14,7 +14,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
             {
                 Order = 2,
                 HorseNo = 1,
-                Status = "",
+                Status = RnHStatus.NotPresent,
                 Mark = 0.0,
                 IsRanked = false,
                 IsDisqualificated = false
@@ -26,7 +26,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
                 Id = insertResult.Content.Id,
                 Order = 102,
                 HorseNo = 101,
-                Status = "lala",
+                Status = RnHStatus.CompetitionDone,
                 Mark = 1.2,
                 IsRanked = true,
                 IsDisqualificated = true

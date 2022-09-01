@@ -18,7 +18,7 @@ namespace Tests.IT.DBSvcs.RnHsDBSvcs
             {
                 Order = 2,
                 HorseNo = 1,
-                Status = "",
+                Status = RnHStatus.NotPresent,
                 Mark = 0.0,
                 IsRanked = false,
                 IsDisqualificated = false
