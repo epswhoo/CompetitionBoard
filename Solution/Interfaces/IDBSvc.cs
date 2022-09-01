@@ -1,18 +1,19 @@
 ﻿
+using Models.Common;
 using Models.IDBSvc;
 
 namespace Interfaces
 {
     public interface IDBSvc
     {
-        DBResult<string> SetSettingsToConnection(DBConnectionSettings dBConnectionSettings);
+        DBResult<bool> SetDBSettings(DBConnectionSettings settings);
 
-        //DBResult<RnH> InsertRnH(RnH RnH);
-        
-        //DBResult<RnH> SaveRnH(RnH RnH);
+        DBResult<string> TitleSave(string title);
 
-        //DBResult<RnH> DeleteRnH(RnH RnH);
+        DBResult<RnH> RnHInsert(RnH rnh);
 
-        //DBResult<RnH> InsertOnPosRnH(RnH RnH, int Pos);
+        DBResult<RnH> RnHSave(RnH rnh);
+
+        DBResult<bool> RnHDelete(RnH rnh);
     }
 }

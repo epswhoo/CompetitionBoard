@@ -1,16 +1,16 @@
 using Interfaces;
-using DBSvcs.SubSvcs;
 using Models.IDBSvc;
+using DBSvcs;
 
 namespace Tests.IT.DBSvcs
 {
-    public abstract class ITDBSvc
+    public abstract class ITDBSvc : TestBase
     {
+        protected readonly IDBSvc _dbSvc = new DBSvc();
+
         [TestInitialize]
         public void TestDBConnect()
         {
-            SqlConnectionSvc sqlConnectionSvc = new SqlConnectionSvc();
-            IDBSvc dbSvc = CreateIDBSvc(sqlConnectionSvc);
             DBConnectionSettings settings = new DBConnectionSettings
             {
                 Server = "DESKTOP-34KSSOT\\SQLEXPRESS",
@@ -18,9 +18,7 @@ namespace Tests.IT.DBSvcs
                 Username = "CompetitionBoard",
                 Password = "Tafeltafel0#"
             };
-            _ = dbSvc.SetSettingsToConnection(settings);
+            _ = _dbSvc.SetDBSettings(settings);
         }
-
-        protected abstract IDBSvc CreateIDBSvc(SqlConnectionSvc sqlConnectionSvc);
     }
 }
