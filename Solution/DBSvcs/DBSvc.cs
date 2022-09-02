@@ -6,6 +6,7 @@ using DBSvcs.SqlConnectionExtensions;
 using Microsoft.EntityFrameworkCore;
 using DBSvcs.RnHExtensions;
 using Models.Results;
+using Models.Errors;
 
 namespace DBSvcs
 {
@@ -92,10 +93,26 @@ namespace DBSvcs
             }
             catch (Exception ex)
             {
-                result.ErrorCode = 1;
+                result.ErrorCode = 
+                    int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 0;
                 result.Exception = ex;
             }
             return result;
-        } 
+        }
+
+        public Result<IEnumerable<RnH>> ReadAll()
+        {
+            return TryCatchException<IEnumerable<RnH>>(() =>
+                {
+                    List<RnH> rnhs = new List<RnH>();
+                    foreach (RnH rnh in _dbContext.RnHsTable)
+                    {
+                        RnH copy = new RnH();
+                        copy.SetData(rnh);
+                        rnhs.Add(copy);
+                    }
+                    return rnhs;
+                });
+        }
     }
 }

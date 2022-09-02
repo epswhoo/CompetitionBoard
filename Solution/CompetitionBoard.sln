@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBSvcs", "DBSvcs\DBSvcs.csproj", "{6A601E41-21C6-4E3F-8A23-62762F385ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C72DD770-4536-4299-8F67-0F9ABA11DA66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{C72DD770-4536-4299-8F67-0F9ABA11DA66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels", "ViewModels\ViewModels.csproj", "{354B4BB4-2A10-419E-8958-7D9A7F0343C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C72DD770-4536-4299-8F67-0F9ABA11DA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C72DD770-4536-4299-8F67-0F9ABA11DA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C72DD770-4536-4299-8F67-0F9ABA11DA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{354B4BB4-2A10-419E-8958-7D9A7F0343C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{354B4BB4-2A10-419E-8958-7D9A7F0343C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{354B4BB4-2A10-419E-8958-7D9A7F0343C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{354B4BB4-2A10-419E-8958-7D9A7F0343C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

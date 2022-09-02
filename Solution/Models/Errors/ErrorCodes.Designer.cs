@@ -22,7 +22,7 @@ namespace Models.Errors {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ErrorCodes {
+    public class ErrorCodes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Models.Errors {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Models.Errors.ErrorCodes", typeof(ErrorCodes).Assembly);
@@ -51,7 +51,7 @@ namespace Models.Errors {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,11 +61,56 @@ namespace Models.Errors {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 10 ähnelt.
+        /// </summary>
+        public static string IDBSvcException {
+            get {
+                return ResourceManager.GetString("IDBSvcException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 20 ähnelt.
+        /// </summary>
+        public static string IRnHRepoException {
+            get {
+                return ResourceManager.GetString("IRnHRepoException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 21 ähnelt.
+        /// </summary>
+        public static string IRnHRepoNotAllDeleted {
+            get {
+                return ResourceManager.GetString("IRnHRepoNotAllDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 22 ähnelt.
+        /// </summary>
+        public static string IRnHRepoNotAllInserted {
+            get {
+                return ResourceManager.GetString("IRnHRepoNotAllInserted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 23 ähnelt.
+        /// </summary>
+        public static string IRnHRepoNotAllOrderSetted {
+            get {
+                return ResourceManager.GetString("IRnHRepoNotAllOrderSetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die 1 ähnelt.
         /// </summary>
-        internal static string DBError {
+        public static string UnknownError {
             get {
-                return ResourceManager.GetString("DBError", resourceCulture);
+                return ResourceManager.GetString("UnknownError", resourceCulture);
             }
         }
     }

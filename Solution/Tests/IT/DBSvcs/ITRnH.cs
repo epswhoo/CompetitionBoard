@@ -3,7 +3,7 @@ using Models.Common;
 using Models.IDBSvc;
 using Models.Results;
 
-namespace Tests.IT.DBSvcs.RnHsDBSvcs
+namespace Tests.IT.DBSvcs
 {
     [TestClass]
     public class ITRnH : ITDBSvc

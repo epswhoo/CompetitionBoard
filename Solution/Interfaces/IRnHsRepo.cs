@@ -6,12 +6,14 @@ namespace Interfaces
 {
     public interface IRnHsRepo
     {
-        Result<IEnumerable<RnH>> SetNewRnHs(string str);
+        Result<MultiResult<RnH>> SetNewRnHs(string str);
 
         Result<RnH> RnHSave(RnH rnh);
 
         Result<bool> RnHDelete(RnH rnh);
 
-        Result<IEnumerable<RnH>> RnHInsertNewWithOrder(int order);
+        Result<MultiResult<RnH>> DeleteAll();
+
+        Result<MultiResult<RnH>> RnHInsertNewWithOrder(int order);
     }
 }

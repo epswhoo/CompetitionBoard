@@ -6,10 +6,10 @@ using Models.Results;
 namespace Tests.IT.DBSvcs
 {
     [TestClass]
-    public class ITRnHDelete : ITRnH
+    public class ITRnHReadAll : ITRnH
     {
         [TestMethod]
-        public void TestRnHDelete()
+        public void TestRnHReadAll()
         {
             RnH rnh = new RnH
             {
@@ -22,11 +22,12 @@ namespace Tests.IT.DBSvcs
             };
             Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
             Assert.IsNotNull(insertResult);
-            Result<bool>? deleteResult = _dbSvc?.RnHDelete(insertResult.Content);
-            Assert.IsNotNull(deleteResult);
-            Assert.AreEqual(0, deleteResult.ErrorCode);
-            Assert.IsNull(deleteResult.Exception);
-            Assert.IsTrue(deleteResult.Content);
+            Result<IEnumerable<RnH>>? readAllResult = _dbSvc?.ReadAll();
+            Assert.IsNotNull(readAllResult);
+            Assert.AreEqual(0, readAllResult.ErrorCode);
+            Assert.IsNull(readAllResult.Exception);
+            Assert.IsNotNull(readAllResult.Content);
+            Assert.IsTrue(readAllResult.Content.Count() > 0);
         }
     }
 }

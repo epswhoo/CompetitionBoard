@@ -16,5 +16,7 @@ namespace Interfaces
         Result<RnH> RnHSave(RnH rnh);
 
         Result<bool> RnHDelete(RnH rnh);
+
+        Result<IEnumerable<RnH>> ReadAll();
     }
 }

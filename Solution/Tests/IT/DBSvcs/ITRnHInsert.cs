@@ -7,7 +7,7 @@ using Models.IDBSvc;
 using Models.Results;
 using System.Reflection.Metadata;
 
-namespace Tests.IT.DBSvcs.RnHsDBSvcs
+namespace Tests.IT.DBSvcs
 {
     [TestClass]
     public class ITRnHInsert : ITRnH

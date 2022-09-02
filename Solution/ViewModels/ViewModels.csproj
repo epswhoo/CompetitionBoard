@@ -18,18 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Update="Errors\ErrorCodes.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ErrorCodes.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Errors\ErrorCodes.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>ErrorCodes.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+	  <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+	  <ProjectReference Include="..\Models\Models.csproj" />
 	</ItemGroup>
 
 </Project>
