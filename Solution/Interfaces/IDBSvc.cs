@@ -11,11 +11,11 @@ namespace Interfaces
 
         Result<string> TitleSave(string title);
 
-        Result<RnH> RnHInsert(RnH rnh);
+        Result<RnH> Insert(RnH rnh);
 
-        Result<RnH> RnHSave(RnH rnh);
+        Result<RnH> Save(RnH rnh);
 
-        Result<bool> RnHDelete(RnH rnh);
+        Result<bool> Delete(RnH rnh);
 
         Result<IEnumerable<RnH>> ReadAll();
     }

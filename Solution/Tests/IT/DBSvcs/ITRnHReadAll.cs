@@ -20,7 +20,7 @@ namespace Tests.IT.DBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? insertResult = _dbSvc?.Insert(rnh);
             Assert.IsNotNull(insertResult);
             Result<IEnumerable<RnH>>? readAllResult = _dbSvc?.ReadAll();
             Assert.IsNotNull(readAllResult);

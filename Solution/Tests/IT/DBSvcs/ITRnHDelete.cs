@@ -20,9 +20,9 @@ namespace Tests.IT.DBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? insertResult = _dbSvc?.Insert(rnh);
             Assert.IsNotNull(insertResult);
-            Result<bool>? deleteResult = _dbSvc?.RnHDelete(insertResult.Content);
+            Result<bool>? deleteResult = _dbSvc?.Delete(insertResult.Content);
             Assert.IsNotNull(deleteResult);
             Assert.AreEqual(0, deleteResult.ErrorCode);
             Assert.IsNull(deleteResult.Exception);

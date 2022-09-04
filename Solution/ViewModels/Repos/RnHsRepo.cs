@@ -2,6 +2,7 @@
 using Models.Common;
 using Models.Errors;
 using Models.Results;
+using ViewModels.Repos.RnHsRepoSvcs;
 
 namespace ViewModels.Repos
 {
@@ -9,102 +10,50 @@ namespace ViewModels.Repos
     public class RnHsRepo : IRnHsRepo
     {
         private readonly IDBSvc _dbSvc;
+        private readonly DeleteSvc _deleteSvc;
+        private readonly SaveSvc _saveSvc;
+        private readonly DeleteAllSvc _deleteAllSvc;
+        private readonly SetNewRnHsSvc _setNewRnHsSvc;
+        private readonly InsertNewWithOrderSvc _insertNewWithOrderSvc;
 
         public RnHsRepo(IDBSvc dBSvc)
         {
             _dbSvc = dBSvc;
+            _deleteSvc = new DeleteSvc(_dbSvc);
+            _deleteAllSvc = new DeleteAllSvc(_dbSvc);
+            _setNewRnHsSvc = new SetNewRnHsSvc(_dbSvc, _deleteAllSvc);
+            _insertNewWithOrderSvc = new InsertNewWithOrderSvc(_dbSvc);
+            _saveSvc = new SaveSvc(_dbSvc);
         }
 
-        public Result<MultiResult<RnH>> DeleteAll()
+        public Result<IEnumerable<RnH>> ReadAll()
         {
-            throw new NotImplementedException();
-            //return TryCatchException(() =>
-            //{
-            //    //Result<RnH> insertResult = _dbSvc.RnHInsert(rnh);
-
-            //    //List<RnH> inserts = new List<RnH>();
-            //    //MultiResult<RnH> result = new MultiResult<RnH>();
-            //    //foreach (RnH rnh in rnhs)
-            //    //{
-            //    //    rnh.Order = order;
-            //    //    Result<RnH> insertResult = _dbSvc.RnHInsert(rnh);
-            //    //    if (insertResult.ErrorCode == 0)
-            //    //    {
-            //    //        inserts.Add(insertResult.Content);
-            //    //        order++;
-            //    //    }
-            //    //    else
-            //    //    {
-            //    //        // Fehler
-            //    //        // Neuer ErrorCode und Results aus DB loggen
-            //    //    }
-            //    //}
-            //    result.Content = inserts;
-            //    return result;
-            //});
+            return _dbSvc.ReadAll();
         }
 
-        public Result<bool> RnHDelete(RnH rnh)
+        public Result<bool> DeleteAll()
         {
-            return _dbSvc.RnHDelete(rnh);
+            return TryCatchException(_deleteAllSvc.DeleteAll);
         }
 
-        public Result<IEnumerable<RnH>> RnHInsertNewWithOrder(int order)
+        public Result<bool> Delete(RnH rnh)
         {
-            throw new NotImplementedException();
+            return TryCatchException(() => _deleteSvc.Delete(rnh));
         }
 
-        public Result<RnH> RnHSave(RnH rnh)
+        public Result<RnH> Save(RnH rnh)
         {
-            return _dbSvc.RnHSave(rnh);
+            return TryCatchException(() => _saveSvc.Save(rnh));
         }
 
-        public Result<MultiResult<RnH>> SetNewRnHs(string str)
+        public Result<IEnumerable<RnH>> SetNewRnHs(string str)
         {
-            return TryCatchException(() =>
-                {
-                    IEnumerable<RnH> rnhs = str
-                        .Split(',')
-                        .Select(s => s.Trim())
-                        .Select(s =>
-                            int.TryParse(s, out int value) ? value : 0)
-                        .Select(h => new RnH
-                        {
-                            HorseNo = h
-                        });
-                    int order = 1;
-                    List<RnH> inserts = new List<RnH>();
-                    List<Result<RnH>> results = new List<Result<RnH>>();
-                    foreach (RnH rnh in rnhs)
-                    {
-                        rnh.Order = order;
-                        Result<RnH> insertResult = _dbSvc.RnHInsert(rnh);
-                        if (insertResult.ErrorCode == 0)
-                        {
-                            inserts.Add(insertResult.Content);
-                            order++;
-                        }
-                        else
-                        {
-                            results.Add(insertResult);
-                        }
-                    }
-                    Result<MultiResult<RnH>> result = new Result<MultiResult<RnH>>();
-                    result.Content = new MultiResult<RnH>();
-                    if (results.Count > 0)
-                    {
-                        result.Content.Results = results;
-                        result.ErrorCode =
-                            int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 0;
-                    }
-                    result.Content.Content = inserts;
-                    return result;
-                });
+            return TryCatchException(() => _setNewRnHsSvc.SetNewRnHs(str));
         }
 
-        Result<MultiResult<RnH>> IRnHsRepo.RnHInsertNewWithOrder(int order)
+        Result<RnH> IRnHsRepo.InsertNewWithOrder(int order)
         {
-            throw new NotImplementedException();
+            return  TryCatchException(() => _insertNewWithOrderSvc.InsertNewWithOrder(order));
         }
 
         private Result<T> TryCatchException<T>(Func<Result<T>> todo)
@@ -117,7 +66,7 @@ namespace ViewModels.Repos
             catch (Exception ex)
             {
                 result.ErrorCode =
-                    int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 0;
+                    int.TryParse(ErrorCodes.IRnHRepoException, out int value) ? value : 1;
                 result.Exception = ex;
             }
             return result;

@@ -34,7 +34,7 @@ namespace DBSvcs
             return TryCatchException(_dbContext.Database.CanConnect);
         }
 
-        public Result<bool> RnHDelete(RnH rnh)
+        public Result<bool> Delete(RnH rnh)
         {
             return TryCatchException(() =>
             {
@@ -47,7 +47,7 @@ namespace DBSvcs
             });
         }
 
-        public Result<RnH> RnHInsert(RnH rnh)
+        public Result<RnH> Insert(RnH rnh)
         {
             return TryCatchException(() =>
                 {
@@ -60,7 +60,7 @@ namespace DBSvcs
                 });
         }
 
-        public Result<RnH> RnHSave(RnH rnh)
+        public Result<RnH> Save(RnH rnh)
         {
             return TryCatchException(() =>
             {
@@ -94,7 +94,7 @@ namespace DBSvcs
             catch (Exception ex)
             {
                 result.ErrorCode = 
-                    int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 0;
+                    int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 1;
                 result.Exception = ex;
             }
             return result;

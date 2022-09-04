@@ -20,7 +20,7 @@ namespace Tests.IT.DBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            Result<RnH>? insertResult = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? insertResult = _dbSvc?.Insert(rnh);
             Assert.IsNotNull(insertResult);
             RnH toSave = new RnH
             {
@@ -33,7 +33,7 @@ namespace Tests.IT.DBSvcs
                 IsDisqualificated = true
             };
             insertResult.Content.SetData(toSave);
-            Result<RnH>? saveResult = _dbSvc?.RnHSave(insertResult.Content);
+            Result<RnH>? saveResult = _dbSvc?.Save(insertResult.Content);
             CompareRnH(toSave, saveResult);
         }
     }

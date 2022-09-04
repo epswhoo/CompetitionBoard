@@ -79,29 +79,83 @@ namespace Models.Errors {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 21 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string IRnHRepoNotAllDeleted {
+        public static string IRnHRepoInsertNewWithOrderOutOfRange {
             get {
-                return ResourceManager.GetString("IRnHRepoNotAllDeleted", resourceCulture);
+                return ResourceManager.GetString("IRnHRepoInsertNewWithOrderOutOfRange", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 22 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 26 ähnelt.
         /// </summary>
-        public static string IRnHRepoNotAllInserted {
+        public static string IRnHRepoSaveDisAndRank {
             get {
-                return ResourceManager.GetString("IRnHRepoNotAllInserted", resourceCulture);
+                return ResourceManager.GetString("IRnHRepoSaveDisAndRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 25 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveMarkAndDis {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveMarkAndDis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 28 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveMarkInvalidFormat {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveMarkInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 24 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveMarkOutOfRange {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveMarkOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 27 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveRankAndNoMark {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveRankAndNoMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 21 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveStatusNotCompetitionDoneWithDis {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveStatusNotCompetitionDoneWithDis", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die 23 ähnelt.
         /// </summary>
-        public static string IRnHRepoNotAllOrderSetted {
+        public static string IRnHRepoSaveStatusNotCompetitionDoneWithIsRanked {
             get {
-                return ResourceManager.GetString("IRnHRepoNotAllOrderSetted", resourceCulture);
+                return ResourceManager.GetString("IRnHRepoSaveStatusNotCompetitionDoneWithIsRanked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 22 ähnelt.
+        /// </summary>
+        public static string IRnHRepoSaveStatusNotCompetitionDoneWithMark {
+            get {
+                return ResourceManager.GetString("IRnHRepoSaveStatusNotCompetitionDoneWithMark", resourceCulture);
             }
         }
         

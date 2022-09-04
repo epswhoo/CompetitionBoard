@@ -24,7 +24,7 @@ namespace Tests.IT.DBSvcs
                 IsRanked = false,
                 IsDisqualificated = false
             };
-            Result<RnH>? result = _dbSvc?.RnHInsert(rnh);
+            Result<RnH>? result = _dbSvc?.Insert(rnh);
             CompareRnH(rnh, result, false);
         }
     }
