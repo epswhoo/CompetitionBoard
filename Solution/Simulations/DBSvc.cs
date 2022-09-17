@@ -122,5 +122,10 @@ namespace Simulations
         {
             return new Result<string> { Content = title };
         }
+
+        public Result<string> TitleLoad()
+        {
+            return new Result<string> { Content = "Prüfung A" };
+        }
     }
 }

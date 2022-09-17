@@ -84,6 +84,15 @@ namespace DBSvcs
                 });
         }
 
+        public Result<string> TitleLoad()
+        {
+            return TryCatchException(() =>
+            {
+                TitleDBContextModel model = _dbContext.TitleTable.FirstOrDefault();
+                return model.Title;
+            });
+        }
+
         private Result<T> TryCatchException<T>(Func<T> todo)
         {
             Result<T> result = new Result<T>();

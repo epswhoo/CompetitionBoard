@@ -11,6 +11,8 @@ namespace Interfaces
 
         Result<string> TitleSave(string title);
 
+        Result<string> TitleLoad();
+
         Result<RnH> Insert(RnH rnh);
 
         Result<RnH> Save(RnH rnh);

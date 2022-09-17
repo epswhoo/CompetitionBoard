@@ -1,20 +1,19 @@
-
-
 using Models.Results;
 
-namespace Tests.IT.DBSvcs
+namespace Tests.UT.UTTitleRepo
 {
     [TestClass]
-    public class ITTitleSave : ITDBSvc
+    public class UTSave : UTTitleRepos
     {
         [TestMethod]
         public void TestSave()
-        { 
-            string title = "Prüfung ABC";
-            Result<string>? result = _dbSvc?.TitleSave(title);
+        {
+            string title = "Prüfung L";
+            Result<string>? result = _titleRepo?.Save(title);
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.ErrorCode);
             Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Content);
             Assert.AreEqual(title, result.Content);
         }
     }

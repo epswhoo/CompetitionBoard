@@ -5,13 +5,14 @@ using Models.Results;
 namespace Tests.IT.DBSvcs
 {
     [TestClass]
-    public class ITTitleSave : ITDBSvc
+    public class ITTitleLoad : ITDBSvc
     {
         [TestMethod]
-        public void TestSave()
-        { 
-            string title = "Prüfung ABC";
-            Result<string>? result = _dbSvc?.TitleSave(title);
+        public void TestLoad()
+        {
+            string title = "Prüfung L*";
+            _ = _dbSvc?.TitleSave(title);
+            Result<string>? result = _dbSvc?.TitleLoad();
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.ErrorCode);
             Assert.IsNull(result.Exception);
