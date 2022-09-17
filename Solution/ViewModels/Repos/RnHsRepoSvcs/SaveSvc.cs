@@ -24,13 +24,6 @@ namespace ViewModels.Repos.RnHsRepoSvcs
                             int.TryParse(ErrorCodes.IRnHRepoSaveMarkOutOfRange,
                                 out int value) ? value : 0
                 };
-            if (!MarkFormatValidator.Validate(rnh.Mark))
-                return new Result<RnH>
-                {
-                    ErrorCode =
-                            int.TryParse(ErrorCodes.IRnHRepoSaveMarkInvalidFormat,
-                                out int value) ? value : 0
-                };
             if (rnh.Mark > 0.0 && rnh.Status != RnHStatus.CompetitionDone)
             {
                 return new Result<RnH>

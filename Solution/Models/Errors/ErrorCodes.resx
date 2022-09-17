@@ -124,16 +124,13 @@
     <value>20</value>
   </data>
   <data name="IRnHRepoInsertNewWithOrderOutOfRange" xml:space="preserve">
-    <value />
+    <value>30</value>
   </data>
   <data name="IRnHRepoSaveDisAndRank" xml:space="preserve">
     <value>26</value>
   </data>
   <data name="IRnHRepoSaveMarkAndDis" xml:space="preserve">
     <value>25</value>
-  </data>
-  <data name="IRnHRepoSaveMarkInvalidFormat" xml:space="preserve">
-    <value>28</value>
   </data>
   <data name="IRnHRepoSaveMarkOutOfRange" xml:space="preserve">
     <value>24</value>

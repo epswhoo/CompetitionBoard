@@ -79,7 +79,7 @@ namespace Models.Errors {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 30 ähnelt.
         /// </summary>
         public static string IRnHRepoInsertNewWithOrderOutOfRange {
             get {
@@ -102,15 +102,6 @@ namespace Models.Errors {
         public static string IRnHRepoSaveMarkAndDis {
             get {
                 return ResourceManager.GetString("IRnHRepoSaveMarkAndDis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 28 ähnelt.
-        /// </summary>
-        public static string IRnHRepoSaveMarkInvalidFormat {
-            get {
-                return ResourceManager.GetString("IRnHRepoSaveMarkInvalidFormat", resourceCulture);
             }
         }
         
