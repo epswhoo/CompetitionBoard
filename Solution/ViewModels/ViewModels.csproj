@@ -18,6 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\DBSvcs\DBSvcs.csproj" />
 	  <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
 	  <ProjectReference Include="..\Models\Models.csproj" />
 	</ItemGroup>

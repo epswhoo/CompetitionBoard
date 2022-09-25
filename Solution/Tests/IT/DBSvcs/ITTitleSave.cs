@@ -10,7 +10,7 @@ namespace Tests.IT.DBSvcs
         [TestMethod]
         public void TestSave()
         { 
-            string title = "Prüfung ABC";
+            string title = "Prüfung ABCD";
             Result<string>? result = _dbSvc?.TitleSave(title);
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.ErrorCode);
