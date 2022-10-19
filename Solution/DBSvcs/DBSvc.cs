@@ -14,19 +14,29 @@ namespace DBSvcs
     public class DBSvc : IDBSvc
     {
         private CompetitionBoardDBContext _dbContext;
+        private string _connectionString;
 
         public Result<bool> SetDBSettings(DBConnectionSettings settings)
         {
             return TryCatchException(() =>
                 {
-                    string cnnString = settings.GetConnectionString();
-                    _dbContext = new CompetitionBoardDBContext(
-                        SqlServerDbContextOptionsExtensions.UseSqlServer(
-                            new DbContextOptionsBuilder<CompetitionBoardDBContext>(),
-                            cnnString)
-                        .Options);
+                    _connectionString = settings.GetConnectionString();
+                    Reload();
                     return _dbContext.Database.CanConnect();
                 });
+        }
+
+        private void Reload()
+        {
+            TryCatchException(() =>
+            {
+                _dbContext = new CompetitionBoardDBContext(
+                    SqlServerDbContextOptionsExtensions.UseSqlServer(
+                        new DbContextOptionsBuilder<CompetitionBoardDBContext>(),
+                        _connectionString)
+                    .Options);
+                return true;
+            });
         }
 
         public Result<bool> CheckConnection()
@@ -88,6 +98,7 @@ namespace DBSvcs
         {
             return TryCatchException(() =>
             {
+                Reload();
                 TitleDBContextModel model = _dbContext.TitleTable.FirstOrDefault();
                 return model.Title;
             });
@@ -109,10 +120,27 @@ namespace DBSvcs
             return result;
         }
 
+        private Result<T> TryCatchException<T>(Func<Result<T>> todo)
+        {
+            try
+            {
+                return todo();
+            }
+            catch (Exception ex)
+            {
+                Result<T> result = new Result<T>();
+                result.ErrorCode =
+                    int.TryParse(ErrorCodes.IDBSvcException, out int value) ? value : 1;
+                result.Exception = ex;
+                return result;
+            }
+        }
+
         public Result<IEnumerable<RnH>> ReadAll()
         {
             return TryCatchException<IEnumerable<RnH>>(() =>
                 {
+                    Reload();
                     List<RnH> rnhs = new List<RnH>();
                     foreach (RnH rnh in _dbContext.RnHsTable)
                     {
@@ -122,6 +150,18 @@ namespace DBSvcs
                     }
                     return rnhs;
                 });
+        }
+
+        public Result<RnH> SaveIsRanked(RnH rnh)
+        {
+            return TryCatchException<RnH>(() =>
+            {
+                Reload();
+                RnH toSave = _dbContext.RnHsTable
+                        .FirstOrDefault(r => r.Id == rnh.Id);
+                toSave.IsRanked = rnh.IsRanked;
+                return Save(toSave);
+            });
         }
     }
 }

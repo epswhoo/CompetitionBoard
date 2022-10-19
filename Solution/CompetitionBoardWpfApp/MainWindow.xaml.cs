@@ -3,7 +3,7 @@ using CompetitionBoardWpfApp.Helper;
 using Interfaces;
 using Models.Messages;
 using System.Windows;
-using ViewModels.ToViews;
+using ViewModels.UI;
 using ViewModels.UI.Helper;
 
 namespace CompetitionBoardWpfApp
@@ -13,24 +13,23 @@ namespace CompetitionBoardWpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ErrorMessageSvc _errorMessageSvc;
+        private readonly TimerSvc _timerSvc;
         public MainWindow()
         {
             InitializeComponent();
-            IEventAggregator eventAggregator = new EventAggregator();
+            _errorMessageSvc = new ErrorMessageSvc();
+            IEventAggregator? eventAggregator = new EventAggregator();
             IRelayCommandCreator relayCommandCreator = new RelayCommandCreator();
             DataContext = new CompetitionBoardViewModel(eventAggregator,
                 relayCommandCreator);
             eventAggregator.Subscribe<ErrorMsg>(HandleError);
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
+            _timerSvc = new TimerSvc(eventAggregator);
         }
 
         private void HandleError(ErrorMsg errorMsg)
         {
-            string msg = $"{errorMsg.ErrorCode}";
+            string msg = $"{errorMsg.ErrorCode}: {_errorMessageSvc.GetMessage(errorMsg.ErrorCode)}";
             if (errorMsg.Exception != null)
             {
                 msg += $"\r\n\r\n{errorMsg.Exception.Message}";

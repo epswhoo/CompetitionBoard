@@ -138,6 +138,9 @@
   <data name="IRnHRepoSaveRankAndNoMark" xml:space="preserve">
     <value>27</value>
   </data>
+  <data name="IRnHRepoSaveRnHNotFound" xml:space="preserve">
+    <value>28</value>
+  </data>
   <data name="IRnHRepoSaveStatusNotCompetitionDoneWithDis" xml:space="preserve">
     <value>21</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="IRnHRepoSaveStatusNotCompetitionDoneWithMark" xml:space="preserve">
     <value>22</value>
+  </data>
+  <data name="RnHViewModelMarkIsNoDouble" xml:space="preserve">
+    <value>40</value>
   </data>
   <data name="UnknownError" xml:space="preserve">
     <value>1</value>

@@ -1,9 +1,9 @@
 ﻿using DBSvcs;
 using Interfaces;
 using Models.Messages;
-using ViewModels.ToViews.Helper;
+using ViewModels.UI.Helper;
 
-namespace ViewModels.ToViews
+namespace ViewModels.UI
 {
     public class CompetitionBoardViewModel : UIBase
     {
@@ -61,7 +61,7 @@ namespace ViewModels.ToViews
                 Server = "DESKTOP-34KSSOT\\SQLEXPRESS",
                 DB = "CompetitionBoardDB",
                 Username = "CompetitionBoard",
-                Password = "Tafeltafel0#"
+                Password = "xxx"
             };
             CheckAndHandleResult(dBSvc.SetDBSettings(dbConnectionSettings));
         }

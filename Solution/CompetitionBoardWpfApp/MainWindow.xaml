@@ -3,33 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CompetitionBoardWpfApp" xmlns:views="clr-namespace:CompetitionBoardWpfApp.Views"
+        xmlns:local="clr-namespace:CompetitionBoardWpfApp" 
+        xmlns:views="clr-namespace:CompetitionBoardWpfApp.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <views:TitleView Grid.Column="0" DataContext="{Binding TitleViewModel, UpdateSourceTrigger=PropertyChanged}"/>
             <views:AddNewListView Grid.Column="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
-            <CheckBox x:Name="ModusCheckBox" Grid.Column="4" HorizontalAlignment="Right" Width="30" Height="30"
-                      IsChecked="{Binding IsEditModusActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="CloseButton" Grid.Column="6" Content="X" Width="30" Height="30" 
-                    Click="CloseButton_Click"/>
+            <views:EditCheckBoxView Grid.Column="4"/>
+            <views:CloseButtonView Grid.Column="6"/>
         </Grid>
         <views:RnHsView Grid.Row="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>

@@ -46,6 +46,31 @@ namespace ViewModels.Repos
             return TryCatchException(() => _saveSvc.Save(rnh));
         }
 
+        public Result<RnH> SaveIsRanked(RnH rnh)
+        {
+            return TryCatchException(() => _saveSvc.SaveIsRanked(rnh));
+        }
+
+        public Result<RnH> SaveIsDisqualificated(RnH rnh)
+        {
+            return TryCatchException(() => _saveSvc.SaveIsDisqualificated(rnh));
+        }
+
+        public Result<RnH> SaveMark(RnH rnh)
+        {
+            return TryCatchException(() => _saveSvc.SaveMark(rnh));
+        }
+
+        public Result<RnH> SaveStatus(RnH rnh)
+        {
+            return TryCatchException(() => _saveSvc.SaveStatus(rnh));
+        }
+
+        public Result<RnH> SaveHorseNo(RnH rnh)
+        {
+            return TryCatchException(() => _saveSvc.SaveHorseNo(rnh));
+        }
+
         public Result<IEnumerable<RnH>> SetNewRnHs(string str)
         {
             return TryCatchException(() => _setNewRnHsSvc.SetNewRnHs(str));

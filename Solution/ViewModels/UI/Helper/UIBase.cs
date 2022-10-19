@@ -5,7 +5,7 @@ using Models.Results;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ViewModels.ToViews.Helper
+namespace ViewModels.UI.Helper
 {
     public abstract class UIBase : INotifyPropertyChanged
     {

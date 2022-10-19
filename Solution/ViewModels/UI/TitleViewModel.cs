@@ -1,11 +1,12 @@
 ﻿
 using Interfaces;
+using Models.Messages;
 using Models.Results;
 using System.Windows.Input;
 using ViewModels.Repos;
-using ViewModels.ToViews.Helper;
+using ViewModels.UI.Helper;
 
-namespace ViewModels.ToViews
+namespace ViewModels.UI
 {
     public class TitleViewModel : UIBase
     {
@@ -41,6 +42,10 @@ namespace ViewModels.ToViews
             _titleRepo = new TitleRepo(dBSvc);
             SaveCommand = _relayCommandCreator.CreateCommand(obj => Save());
             Load();
+            _eventAggregator.Subscribe<IsEditModusMsg>(isEditModusMsg =>
+                Load());
+            _eventAggregator.Subscribe<ReloadTitleMsg>(reloadTitleMsg =>
+                Load());
         }
 
         private void Save()

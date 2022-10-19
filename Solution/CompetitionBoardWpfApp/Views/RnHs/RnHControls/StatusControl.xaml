@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="CompetitionBoardWpfApp.Views.RnHs.RnHControls.StatusControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:CompetitionBoardWpfApp.Helper.Converters" 
+             xmlns:rnhcontrols="clr-namespace:CompetitionBoardWpfApp.Views.RnHs.RnHControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="100">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converters:InvBoolToVisConverter x:Key="InvBoolToVis" />
+    </UserControl.Resources>
+    <Grid>
+        <rnhcontrols:StatusImage DataContext="{Binding Status}"  Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource InvBoolToVis}}" Width="80" Height="80"/>
+        <ComboBox Name="StatusComboBox" Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource BoolToVis}}"
+                  SelectedItem="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                <Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <rnhcontrols:StatusImage Grid.Column="0" Width="40" Height="40"/>
+                                        <Label Grid.Column="2">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger  Binding="{Binding }" Value="NotPresent">
+                                                            <Setter Property="Content" Value="Nicht da"/>
+                                                        </DataTrigger >
+                                                        <DataTrigger  Binding="{Binding }" Value="OnWarmUpField">
+                                                            <Setter Property="Content" Value="Abreitplatz"/>
+                                                        </DataTrigger >
+                                                        <DataTrigger  Binding="{Binding }" Value="OnPreparationField">
+                                                            <Setter Property="Content" Value="Vorbereitungsviereck"/>
+                                                        </DataTrigger >
+                                                        <DataTrigger  Binding="{Binding }" Value="OnCompetitionField">
+                                                            <Setter Property="Content" Value="Prüfung"/>
+                                                        </DataTrigger >
+                                                        <DataTrigger  Binding="{Binding }" Value="CompetitionDone">
+                                                            <Setter Property="Content" Value="fertig"/>
+                                                        </DataTrigger >
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+    </Grid>
+</UserControl>

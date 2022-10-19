@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CompetitionBoardWpfApp.Views
+namespace CompetitionBoardWpfApp.Views.RnHs.RnHControls
 {
     /// <summary>
-    /// Interaction logic for TitleView.xaml
+    /// Interaction logic for StatusControl.xaml
     /// </summary>
-    public partial class RnHsView : UserControl
+    public partial class StatusImage : UserControl
     {
-        public RnHsView()
+        public StatusImage()
         {
             InitializeComponent();
         }
