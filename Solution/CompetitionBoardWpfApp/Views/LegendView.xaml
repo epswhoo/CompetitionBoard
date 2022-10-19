@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="CompetitionBoardWpfApp.Views.LegendView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:rnhcontrols="clr-namespace:CompetitionBoardWpfApp.Views.RnHs.RnHControls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"  FontSize="16"
+             Background="White">
+    <Grid>
+        <StackPanel Orientation="Horizontal" Height="40" Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <rnhcontrols:StatusImage DataContext="OnWarmUpField" Width="40" Height="40"/>
+                <Label Content="Abreitplatz" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <rnhcontrols:StatusImage DataContext="OnPreparationField" Width="40" Height="40"/>
+                <Label Grid.Column="2" Content="Vorbereitungsviereck" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <rnhcontrols:StatusImage DataContext="OnCompetitionField" Width="40" Height="40"/>
+                <Label Grid.Column="2" Content="Prüfung" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <rnhcontrols:StatusImage DataContext="CompetitionDone" Width="40" Height="40"/>
+                <Label Grid.Column="2" Content="Fertig" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/images/dis.jpg" Width="20" Height="20"/>
+                <Label Content="Disqualifiziert" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/images/ranked.jpg" Width="20" Height="20"/>
+                <Label Content="Platziert" Margin="10,0,20,0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -17,8 +17,8 @@ namespace CompetitionBoardWpfApp.Helper
             _eventAggregator = eventAggregator;
             _readOnlyTimer = new Timer { Interval = 3000 };
             _editTimer = new Timer { Interval = 10000 };
-            //_readOnlyTimer.Elapsed += new ElapsedEventHandler((source, e) => OnTimedEvent());
-            //_editTimer.Elapsed += new ElapsedEventHandler((source, e) => OnTimedEvent());
+            _readOnlyTimer.Elapsed += new ElapsedEventHandler((source, e) => OnTimedEvent());
+            _editTimer.Elapsed += new ElapsedEventHandler((source, e) => OnTimedEvent());
             _readOnlyTimer.Enabled = true;
             _eventAggregator?.Subscribe<IsEditModusMsg>(OnEditModeChanged);
         }

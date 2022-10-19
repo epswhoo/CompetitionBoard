@@ -15,8 +15,8 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="75"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -34,5 +34,6 @@
             <views:CloseButtonView Grid.Column="6"/>
         </Grid>
         <views:RnHsView Grid.Row="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <views:LegendView Grid.Row="4" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
