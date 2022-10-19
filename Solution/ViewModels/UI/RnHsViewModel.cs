@@ -99,14 +99,7 @@ namespace ViewModels.UI
             _rnHsRepo = new RnHsRepo(dBSvc);
             AddNewListCommand = _relayCommandCreator.CreateCommand(obj => AddNewList());
             Load();
-            _eventAggregator.Subscribe<IsEditModusMsg>(OnEditModeChanged);
-            eventAggregator.Subscribe<ReloadRnHsMsg>(msg => ReLoad());
-        }
-
-        private void ReLoad()
-        {
-            Load();
-            //_eventAggregator.Publish(new IsEditModusMsg { IsEditModus = IsEditModus });
+            eventAggregator.Subscribe<ReloadRnHsMsg>(msg => Load());
         }
 
         private void UpdateNewListStr()
@@ -134,14 +127,6 @@ namespace ViewModels.UI
             rnhvms.AddRange(RnHs4);
             rnhvms.AddRange(RnHs5);
             return rnhvms;
-        }
-
-        private void OnEditModeChanged(IsEditModusMsg isEditModusMsg)
-        {
-            //if (!isEditModusMsg.IsEditModus)
-            //{
-            //    Load();
-            //}
         }
 
         private void AddNewList()
