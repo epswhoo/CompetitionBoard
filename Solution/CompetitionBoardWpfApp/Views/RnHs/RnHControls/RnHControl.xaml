@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         <rnhs:MarkControl Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <rnhs:RankedControl Grid.Column="0"  Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <rnhs:DisControl Grid.Column="0"/>
+        <rnhs:DisControl Grid.Column="0" Height="70"/>
         <rnhs:StatusControl Grid.Column="2" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <rnhs:HorseNoControl Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Width="100"/>
         <rnhs:AddControl Grid.Column="6" HorizontalAlignment="Right"/>

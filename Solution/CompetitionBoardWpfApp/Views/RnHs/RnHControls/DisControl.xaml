@@ -12,8 +12,8 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
-                Converter={StaticResource InvBoolToVis}}">
-            <Image Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Converter={StaticResource InvBoolToVis}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Width="25" Height="25"
                Visibility="{Binding IsDisqualificated, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BoolToVis}}"
                Source="/images/dis.jpg"/>
