@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CompetitionBoardWpfApp" 
         xmlns:views="clr-namespace:CompetitionBoardWpfApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" WindowStyle="None" WindowState="Maximized">
     <Window.Resources>
         
     </Window.Resources>

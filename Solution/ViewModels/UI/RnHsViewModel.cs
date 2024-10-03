@@ -104,18 +104,18 @@ namespace ViewModels.UI
 
         private void UpdateNewListStr()
         {
-            List<RnHViewModel> rnhvms = GetAllRnhVm();
-            string newList = string.Empty;
-            foreach (RnHViewModel rnhvm in rnhvms)
-            {
-                newList += $"{rnhvm.HorseNo}, "; 
-            }
-            int length = newList.Length;
-            if (length > 2)
-            {
-                newList = newList.Substring(0, length - 2);
-            }
-            NewListStr = newList;
+            //List<RnHViewModel> rnhvms = GetAllRnhVm();
+            //string newList = string.Empty;
+            //foreach (RnHViewModel rnhvm in rnhvms)
+            //{
+            //    newList += $"{rnhvm.HorseNo}, "; 
+            //}
+            //int length = newList.Length;
+            //if (length > 2)
+            //{
+            //    newList = newList.Substring(0, length - 2);
+            //}
+            //NewListStr = newList;
         }
 
         private List<RnHViewModel> GetAllRnhVm()
