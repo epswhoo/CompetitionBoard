@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Interfaces\CompetitionBoard_Net8.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Models\CompetitionBoard_Net8.Models.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.ViewModels\CompetitionBoard_Net8.ViewModels.csproj" />
+    <ProjectReference Include="..\CompetitionBoard_Net8.Tests.Base\CompetitionBoard_Net8.Tests.Base.csproj" />
+    <ProjectReference Include="..\CompetitionBoard_Net8.Tests.Sim\CompetitionBoard_Net8.Tests.Sim.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+</Project>

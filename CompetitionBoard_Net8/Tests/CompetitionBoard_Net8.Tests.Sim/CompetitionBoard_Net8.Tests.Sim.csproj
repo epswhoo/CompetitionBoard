@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Interfaces\CompetitionBoard_Net8.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Models\CompetitionBoard_Net8.Models.csproj" />
+  </ItemGroup>
+
+</Project>
