@@ -8,7 +8,7 @@ using CompetitionBoard_Net8.ViewModels.Repos;
 using CompetitionBoard_Net8.ViewModels.Svcs;
 using CompetitionBoard_Net8.ViewModels.UI.Helper;
 
-namespace ViewModels.UI
+namespace CompetitionBoard_Net8.ViewModels.UI
 {
     public class RnHsViewModel : UIBase
     {

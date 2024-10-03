@@ -3,9 +3,74 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\close.png" />
+    <None Remove="images\dis.jpg" />
+    <None Remove="images\dressageImgs\almost.jpg" />
+    <None Remove="images\dressageImgs\compesition.jpg" />
+    <None Remove="images\dressageImgs\empty.jpg" />
+    <None Remove="images\dressageImgs\finished.jpg" />
+    <None Remove="images\dressageImgs\prepare.jpg" />
+    <None Remove="images\ranked.jpg" />
+    <None Remove="images\StatusImgs\index.png" />
+    <None Remove="images\StatusImgs\play.png" />
+    <None Remove="images\StatusImgs\prepare.png" />
+    <None Remove="images\StatusImgs\wait.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="images\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dis.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dressageImgs\almost.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dressageImgs\compesition.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dressageImgs\empty.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dressageImgs\finished.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\dressageImgs\prepare.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\ranked.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\StatusImgs\index.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\StatusImgs\play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\StatusImgs\prepare.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\StatusImgs\wait.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Core" Version="9.0.537" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.DBSvc\CompetitionBoard_Net8.DBSvc.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Interfaces\CompetitionBoard_Net8.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.Models\CompetitionBoard_Net8.Models.csproj" />
+    <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.ViewModels\CompetitionBoard_Net8.ViewModels.csproj" />
+  </ItemGroup>
 
 </Project>

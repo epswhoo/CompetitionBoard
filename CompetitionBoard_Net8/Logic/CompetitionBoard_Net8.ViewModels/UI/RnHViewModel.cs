@@ -6,7 +6,7 @@ using CompetitionBoard_Net8.Models.Results;
 using System.Windows.Input;
 using CompetitionBoard_Net8.ViewModels.UI.Helper;
 
-namespace ViewModels.UI
+namespace CompetitionBoard_Net8.ViewModels.UI
 {
     public class RnHViewModel : UIBase
     {

@@ -3,7 +3,7 @@ using CompetitionBoard_Net8.Interfaces;
 using CompetitionBoard_Net8.Models.Messages;
 using CompetitionBoard_Net8.ViewModels.UI.Helper;
 
-namespace ViewModels.UI
+namespace CompetitionBoard_Net8.ViewModels.UI
 {
     public class CompetitionBoardViewModel : UIBase
     {
@@ -58,10 +58,11 @@ namespace ViewModels.UI
             CompetitionBoard_Net8.Models.IDBSvc.DBConnectionSettings dbConnectionSettings =
                 new CompetitionBoard_Net8.Models.IDBSvc.DBConnectionSettings
             {
-                Server = "DESKTOP-34KSSOT\\SQLEXPRESS",
+                Server = "DESKTOP-34KSSOT\\SQLEXPRESS2",
                 DB = "CompetitionBoardDB",
                 Username = "CompetitionBoard",
-                Password = "0000"
+                Password = "0000",
+                TimeOut = 5
             };
             CheckAndHandleResult(dBSvc.SetDBSettings(dbConnectionSettings));
         }

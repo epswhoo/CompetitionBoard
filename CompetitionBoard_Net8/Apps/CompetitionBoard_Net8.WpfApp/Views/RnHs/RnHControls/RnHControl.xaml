@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="CompetitionBoard_Net8.WpfApp.Views.RnHs.RnHControls.RnHControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:CompetitionBoard_Net8.WpfApp.Helper.Converters" 
+             xmlns:rnhs="clr-namespace:CompetitionBoard_Net8.WpfApp.Views.RnHs.RnHControls"
+             mc:Ignorable="d" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converters:InvBoolToVisConverter x:Key="InvBoolToVis" />
+        <converters:MarkVisConverter x:Key="MarkVis"/>
+        <converters:MarkFormatConverter x:Key="MarkFormat"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <rnhs:MarkControl Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <rnhs:RankedControl Grid.Column="0"  Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <rnhs:DisControl Grid.Column="0" Height="70"/>
+        <rnhs:StatusControl Grid.Column="2" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <rnhs:HorseNoControl Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Width="100"/>
+        <rnhs:AddControl Grid.Column="6" HorizontalAlignment="Right"/>
+    </Grid>
+
+</UserControl>
