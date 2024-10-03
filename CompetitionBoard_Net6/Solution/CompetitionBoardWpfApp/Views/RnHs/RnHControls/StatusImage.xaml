@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="CompetitionBoardWpfApp.Views.RnHs.RnHControls.StatusImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:CompetitionBoardWpfApp.Helper.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="80">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converters:InvBoolToVisConverter x:Key="InvBoolToVis" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.6*"/>
+        </Grid.RowDefinitions>
+        
+        <Image Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <DataTrigger  Binding="{Binding }" Value="NotPresent">
+                                <Setter Property="Source" Value="/images/dressageImgs/empty.jpg"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnWarmUpField">
+                                <Setter Property="Source" Value="/images/dressageImgs/prepare.jpg"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnPreparationField">
+                                <Setter Property="Source" Value="/images/dressageImgs/almost.jpg"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnCompetitionField">
+                                <Setter Property="Source" Value="/images/dressageImgs/compesition.jpg"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="CompetitionDone">
+                                <Setter Property="Source" Value="/images/dressageImgs/finished.jpg"/>
+                            </DataTrigger >
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Image>
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <DataTrigger  Binding="{Binding }" Value="NotPresent">
+                                <Setter Property="Source" Value="/images/dressageImgs/empty.jpg"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnWarmUpField">
+                                <Setter Property="Source" Value="/images/StatusImgs/prepare.png"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnPreparationField">
+                                <Setter Property="Source" Value="/images/StatusImgs/wait.png"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="OnCompetitionField">
+                                <Setter Property="Source" Value="/images/StatusImgs/play.png"/>
+                            </DataTrigger >
+                            <DataTrigger  Binding="{Binding }" Value="CompetitionDone">
+                                <Setter Property="Source" Value="/images/StatusImgs/index.png"/>
+                            </DataTrigger >
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </StackPanel>
+    </Grid>
+</UserControl>
