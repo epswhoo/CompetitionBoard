@@ -1,5 +1,6 @@
 ﻿
 using CompetitionBoard_Net8.Interfaces;
+using CompetitionBoard_Net8.Models.IDBSvc;
 using CompetitionBoard_Net8.Models.Messages;
 using CompetitionBoard_Net8.ViewModels.UI.Helper;
 
@@ -43,28 +44,20 @@ namespace CompetitionBoard_Net8.ViewModels.UI
         }
 
         public CompetitionBoardViewModel(IEventAggregator eventAggregator,
-            IRelayCommandCreator relayCommandCreator)
+            IRelayCommandCreator relayCommandCreator,
+            DBConnectionSettings dbSettings)
             : base(eventAggregator, relayCommandCreator)
         {
-            IDBSvc dbSvc = new CompetitionBoard_Net8.DBSvc.DBSvc();
-            Connect(dbSvc);
+            IDBSvc dbSvc = new DBSvc.DBSvc();
+            Connect(dbSvc, dbSettings);
             TitleViewModel = new TitleViewModel(eventAggregator, relayCommandCreator,
                 dbSvc);
             RnHsViewModel = new RnHsViewModel(eventAggregator, relayCommandCreator, dbSvc);
         }
 
-        private void Connect(IDBSvc dBSvc)
+        private void Connect(IDBSvc dBSvc, DBConnectionSettings dbSettings)
         {
-            CompetitionBoard_Net8.Models.IDBSvc.DBConnectionSettings dbConnectionSettings =
-                new CompetitionBoard_Net8.Models.IDBSvc.DBConnectionSettings
-            {
-                Server = "DESKTOP-34KSSOT\\SQLEXPRESS2",
-                DB = "CompetitionBoardDB",
-                Username = "CompetitionBoard",
-                Password = "0000",
-                TimeOut = 5
-            };
-            CheckAndHandleResult(dBSvc.SetDBSettings(dbConnectionSettings));
+            CheckAndHandleResult(dBSvc.SetDBSettings(dbSettings));
         }
     }
 }

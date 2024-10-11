@@ -4,6 +4,9 @@ using CompetitionBoard_Net8.WpfApp.Helper;
 using System.Windows;
 using CompetitionBoard_Net8.ViewModels.UI;
 using CompetitionBoard_Net8.WpfApp.Helper.Messages;
+using CompetitionBoard_Net8.WpfApp.Configs;
+using System.Text.Json;
+using System.IO;
 
 namespace CompetitionBoard_Net8.WpfApp
 {
@@ -18,14 +21,16 @@ namespace CompetitionBoard_Net8.WpfApp
         public MainWindow()
         {
             InitializeComponent();
+            string configjson = File.ReadAllText("config.json");
+            Config config = JsonSerializer.Deserialize<Config>(configjson);
             _errorMessageSvc = new ErrorMessageSvc();
             Interfaces.IEventAggregator? eventAggregator = new Helper.EventAggregator();
             IRelayCommandCreator relayCommandCreator = new RelayCommandCreator();
             DataContext = new CompetitionBoardViewModel(eventAggregator,
-                relayCommandCreator);
+                relayCommandCreator, config.Db);
             eventAggregator.Subscribe<ErrorMsg>(HandleError);
             eventAggregator.Subscribe<ResetErrorMsg>(HandleResetError);
-            _timerSvc = new TimerSvc(eventAggregator);
+            _timerSvc = new TimerSvc(eventAggregator, config.UI);
         }
 
         private void HandleError(ErrorMsg errorMsg)

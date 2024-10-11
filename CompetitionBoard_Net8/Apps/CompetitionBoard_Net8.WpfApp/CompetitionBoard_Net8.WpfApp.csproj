@@ -73,4 +73,10 @@
     <ProjectReference Include="..\..\Logic\CompetitionBoard_Net8.ViewModels\CompetitionBoard_Net8.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
