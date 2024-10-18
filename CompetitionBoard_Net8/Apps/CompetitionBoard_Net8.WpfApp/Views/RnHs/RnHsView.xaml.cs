@@ -31,7 +31,7 @@ namespace CompetitionBoard_Net8.WpfApp.Views
 
         private double GetRowHeight()
         {
-            IEnumerable<RnHViewModel>? rnhsDC = RnHs1.DataContext as IEnumerable<RnHViewModel>;
+            IEnumerable<RnHViewModel> rnhsDC = RnHs1.DataContext as IEnumerable<RnHViewModel>;
             if (rnhsDC == null)
             {
                 return 0;

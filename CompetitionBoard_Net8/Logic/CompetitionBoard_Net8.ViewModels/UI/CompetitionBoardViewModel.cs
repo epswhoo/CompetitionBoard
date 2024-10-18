@@ -8,6 +8,19 @@ namespace CompetitionBoard_Net8.ViewModels.UI
 {
     public class CompetitionBoardViewModel : UIBase
     {
+        private bool _isEditListModusActivated;
+        public bool IsEditListModusActivated
+        {
+            get => _isEditListModusActivated;
+            set
+            {
+                _isEditListModusActivated = value;
+                NotifyPropertyChanged();
+                IsEditListModusMsg isEditListModusMsg = new IsEditListModusMsg { IsEditListModus = _isEditListModusActivated };
+                _eventAggregator.Publish(isEditListModusMsg);
+            }
+        }
+
         private bool _isEditModusActivated;
         public bool IsEditModusActivated
         {
@@ -15,6 +28,10 @@ namespace CompetitionBoard_Net8.ViewModels.UI
             set
             {
                 _isEditModusActivated = value;
+                if (!_isEditModusActivated)
+                {
+                    IsEditListModusActivated = false;
+                }           
                 NotifyPropertyChanged();
                 IsEditModusMsg isEditModusMsg = new IsEditModusMsg { IsEditModus = _isEditModusActivated };
                 _eventAggregator.Publish(isEditModusMsg);

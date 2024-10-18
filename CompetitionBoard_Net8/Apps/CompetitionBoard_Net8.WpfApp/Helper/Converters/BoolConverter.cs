@@ -14,7 +14,7 @@ namespace CompetitionBoard_Net8.WpfApp.Helper.Converters
         public T True { get; set; }
         public T False { get; set; }
 
-        public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is bool && ((bool)value) ? True : False;
         }

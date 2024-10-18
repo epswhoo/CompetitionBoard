@@ -10,7 +10,7 @@
         <converters:InvBoolToVisConverter x:Key="InvBoolToVis" />
     </UserControl.Resources>
     <Grid Height="40">
-        <Grid Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+        <Grid Visibility="{Binding IsEditListModus, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BoolToVis}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

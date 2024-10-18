@@ -35,8 +35,16 @@ namespace CompetitionBoard_Net8.DBSvc
     //.Options;
 
                 _dbContext = new CompetitionBoardDBContext(
-                        new DbContextOptionsBuilder<CompetitionBoardDBContext>().UseSqlServer(_connectionString)
+                        new DbContextOptionsBuilder<CompetitionBoardDBContext>()
+                        .UseSqlServer(
+                            _connectionString,
+                            options => options.EnableRetryOnFailure(
+                                maxRetryCount: 5,
+                                maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                                errorNumbersToAdd: null))
                         .Options);
+
+                
                 return true;
             });
         }

@@ -1,4 +1,8 @@
-﻿using CompetitionBoard_Net8.WpfApp.Helper.StandByModus;
+﻿using CompetitionBoard_Net8.Models.IDBSvc;
+using CompetitionBoard_Net8.WpfApp.Configs;
+using CompetitionBoard_Net8.WpfApp.Helper.StandByModus;
+using Microsoft.Extensions.Configuration;
+using System.ComponentModel;
 using System.Windows;
 
 namespace CompetitionBoard_Net8.WpfApp
@@ -8,18 +12,18 @@ namespace CompetitionBoard_Net8.WpfApp
     /// </summary>
     public partial class App : Application
     {
+        public static IConfiguration Config { get; private set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+
             StandBySvc.SuppressStandby();
 
-            //Compose();
-
-            //var window = new MainWindow();
-            //window.Show();
-
         }
+
+
     }
 
 }

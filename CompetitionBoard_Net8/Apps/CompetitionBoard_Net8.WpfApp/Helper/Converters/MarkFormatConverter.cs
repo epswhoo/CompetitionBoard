@@ -5,7 +5,7 @@ namespace CompetitionBoard_Net8.WpfApp.Helper.Converters
 {
     public class MarkFormatConverter : IValueConverter
     {
-        public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double)
             {

@@ -6,7 +6,7 @@ namespace CompetitionBoard_Net8.WpfApp.Helper.Converters
 {
     public class MarkVisConverter : IValueConverter
     {
-        public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Visibility vis;
             if (value is double && ((double)value < 0.001))

@@ -102,22 +102,6 @@ namespace CompetitionBoard_Net8.ViewModels.UI
             eventAggregator.Subscribe<ReloadRnHsMsg>(msg => Load());
         }
 
-        private void UpdateNewListStr()
-        {
-            //List<RnHViewModel> rnhvms = GetAllRnhVm();
-            //string newList = string.Empty;
-            //foreach (RnHViewModel rnhvm in rnhvms)
-            //{
-            //    newList += $"{rnhvm.HorseNo}, "; 
-            //}
-            //int length = newList.Length;
-            //if (length > 2)
-            //{
-            //    newList = newList.Substring(0, length - 2);
-            //}
-            //NewListStr = newList;
-        }
-
         private List<RnHViewModel> GetAllRnhVm()
         {
             List<RnHViewModel> rnhvms = new List<RnHViewModel>();
@@ -143,8 +127,8 @@ namespace CompetitionBoard_Net8.ViewModels.UI
             {
                 SetRnHsLists(result.Content);
             }
-            UpdateNewListStr();
             _eventAggregator.Publish(new IsEditModusMsg { IsEditModus = IsEditModus });
+            _eventAggregator.Publish(new IsEditListModusMsg { IsEditListModus = IsEditListModus });
         }
 
         private void SetRnHsLists(IEnumerable<RnH> total)

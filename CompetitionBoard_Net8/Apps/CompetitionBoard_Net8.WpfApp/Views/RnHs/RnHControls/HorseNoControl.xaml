@@ -13,9 +13,9 @@
     </UserControl.Resources>
     <Grid>
         <Label Content="{Binding HorseNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                   Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+                                   Visibility="{Binding IsEditListModus, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource InvBoolToVis}}" HorizontalAlignment="Center"/>
-        <StackPanel Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+        <StackPanel Visibility="{Binding IsEditListModus, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BoolToVis}}">
             <TextBox Text="{Binding HorseNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <Button Margin="0,-5,0,0" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Bottom"

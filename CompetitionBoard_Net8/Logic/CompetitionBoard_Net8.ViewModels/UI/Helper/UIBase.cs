@@ -12,11 +12,22 @@ namespace CompetitionBoard_Net8.ViewModels.UI.Helper
         protected readonly IEventAggregator _eventAggregator;
         protected readonly IRelayCommandCreator _relayCommandCreator;
 
+        private bool _isEditListModus;
+        public bool IsEditListModus
+        {
+            get => _isEditListModus;
+            set 
+            {
+                _isEditListModus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private bool _isEditModus;
         public bool IsEditModus
         {
             get => _isEditModus;
-            set 
+            set
             {
                 _isEditModus = value;
                 NotifyPropertyChanged();
@@ -29,6 +40,8 @@ namespace CompetitionBoard_Net8.ViewModels.UI.Helper
             _eventAggregator = eventAggregator;
             _eventAggregator.Subscribe<IsEditModusMsg>(isEditModusMsg => 
                 IsEditModus = isEditModusMsg.IsEditModus);
+            _eventAggregator.Subscribe<IsEditListModusMsg>(isEditListModusMsg =>
+                IsEditListModus = isEditListModusMsg.IsEditListModus);
             _relayCommandCreator = relayCommandCreator;
         }
 

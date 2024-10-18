@@ -7,6 +7,9 @@
         xmlns:views="clr-namespace:CompetitionBoard_Net8.WpfApp.Views"
         mc:Ignorable="d"
         Title="CompetitionBoard_Net8"  WindowStyle="None" WindowState="Maximized">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -25,11 +28,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <views:TitleView Grid.Column="0" DataContext="{Binding TitleViewModel, UpdateSourceTrigger=PropertyChanged}"/>
             <views:AddNewListView Grid.Column="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
-            <views:EditCheckBoxView Grid.Column="4"/>
-            <views:CloseButtonView Grid.Column="6"/>
+            <views:EditListCheckBoxView Grid.Column="4"   Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource BoolToVis}}"/>
+            <views:EditCheckBoxView Grid.Column="6"/>
+            <views:CloseButtonView Grid.Column="8"/>
         </Grid>
         <views:RnHsView Grid.Row="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         <views:LegendView Grid.Row="5" HorizontalAlignment="Center"/>

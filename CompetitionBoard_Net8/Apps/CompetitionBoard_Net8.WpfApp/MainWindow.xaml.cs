@@ -7,6 +7,8 @@ using CompetitionBoard_Net8.WpfApp.Helper.Messages;
 using CompetitionBoard_Net8.WpfApp.Configs;
 using System.Text.Json;
 using System.IO;
+using CompetitionBoard_Net8.Models.IDBSvc;
+using Microsoft.Extensions.Configuration;
 
 namespace CompetitionBoard_Net8.WpfApp
 {
@@ -20,17 +22,29 @@ namespace CompetitionBoard_Net8.WpfApp
 
         public MainWindow()
         {
-            InitializeComponent();
-            string configjson = File.ReadAllText("config.json");
-            Config config = JsonSerializer.Deserialize<Config>(configjson);
+            InitializeComponent();                        
+            
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
             _errorMessageSvc = new ErrorMessageSvc();
-            Interfaces.IEventAggregator? eventAggregator = new Helper.EventAggregator();
+            Interfaces.IEventAggregator eventAggregator = new Helper.EventAggregator();
             IRelayCommandCreator relayCommandCreator = new RelayCommandCreator();
+            
+            DBConnectionSettings dbSettings = new DBConnectionSettings();
+            config.GetSection("Db").Bind(dbSettings);
+
             DataContext = new CompetitionBoardViewModel(eventAggregator,
-                relayCommandCreator, config.Db);
+                relayCommandCreator, dbSettings);
+
             eventAggregator.Subscribe<ErrorMsg>(HandleError);
             eventAggregator.Subscribe<ResetErrorMsg>(HandleResetError);
-            _timerSvc = new TimerSvc(eventAggregator, config.UI);
+
+            UIConfig uiConfig = new UIConfig();
+            config.GetSection("UI").Bind(uiConfig);
+
+            _timerSvc = new TimerSvc(eventAggregator, uiConfig);
         }
 
         private void HandleError(ErrorMsg errorMsg)

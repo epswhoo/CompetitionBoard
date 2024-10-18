@@ -11,9 +11,9 @@
     </UserControl.Resources>
     <Grid Height="50">
         <Label Content="{Binding Title, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-               Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+               Visibility="{Binding IsEditListModus, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource InvBoolToVis}}"/>
-        <Grid Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
+        <Grid Visibility="{Binding IsEditListModus, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BoolToVis}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
