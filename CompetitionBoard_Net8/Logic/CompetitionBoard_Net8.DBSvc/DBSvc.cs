@@ -40,7 +40,7 @@ namespace CompetitionBoard_Net8.DBSvc
                             _connectionString,
                             options => options.EnableRetryOnFailure(
                                 maxRetryCount: 5,
-                                maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                                maxRetryDelay: TimeSpan.FromSeconds(5),
                                 errorNumbersToAdd: null))
                         .Options);
 
