@@ -30,13 +30,16 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <views:TitleView Grid.Column="0" DataContext="{Binding TitleViewModel, UpdateSourceTrigger=PropertyChanged}"/>
             <views:AddNewListView Grid.Column="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
             <views:EditListCheckBoxView Grid.Column="4"   Visibility="{Binding IsEditModus, UpdateSourceTrigger=PropertyChanged,
                                 Converter={StaticResource BoolToVis}}"/>
             <views:EditCheckBoxView Grid.Column="6"/>
-            <views:CloseButtonView Grid.Column="8"/>
+            <views:InfoButtonView Grid.Column="8"/>
+            <views:CloseButtonView Grid.Column="10"/>
         </Grid>
         <views:RnHsView Grid.Row="2" DataContext="{Binding RnHsViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         <views:LegendView Grid.Row="5" HorizontalAlignment="Center"/>
