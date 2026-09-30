@@ -1,0 +1,17 @@
+<div class="rnhs-view @(IsEditModus ? "editing" : null)">
+    @foreach (IReadOnlyList<RnH> column in Columns)
+    {
+        <RnHsControl RnHs="column" RowCount="RowCount"
+                     IsEditModus="IsEditModus" IsEditListModus="IsEditListModus" />
+    }
+</div>
+
+@code {
+    [Parameter] public IReadOnlyList<IReadOnlyList<RnH>> Columns { get; set; }
+
+    [Parameter] public int RowCount { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+}

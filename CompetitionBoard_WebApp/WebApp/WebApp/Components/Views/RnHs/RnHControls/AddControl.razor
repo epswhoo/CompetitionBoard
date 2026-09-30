@@ -1,0 +1,19 @@
+@inject BoardSvc Board
+
+@if (IsEditListModus)
+{
+    <div class="add-control">
+        <ImageButton Source="images/StatusImgs/play.png" Size="20" Title="Davor einfügen"
+                     OnClick="() => Board.AddPreviousAsync(RnH)" />
+        <ImageButton Source="images/dis.jpg" Size="20" Title="Löschen"
+                     OnClick="() => Board.DeleteAsync(RnH)" />
+        <ImageButton Source="images/StatusImgs/play.png" Size="20" Title="Danach einfügen"
+                     OnClick="() => Board.AddFollowingAsync(RnH)" />
+    </div>
+}
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+}

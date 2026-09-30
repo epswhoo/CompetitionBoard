@@ -1,0 +1,15 @@
+@* Entspricht den WPF-Buttons mit Image-ControlTemplate. *@
+<button type="button" class="image-button" title="@Title"
+        style="width:@(Size)px;height:@(Size)px" @onclick="OnClick">
+    <img src="@Source" alt="@Title" />
+</button>
+
+@code {
+    [Parameter] public string Source { get; set; }
+
+    [Parameter] public int Size { get; set; } = 40;
+
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public EventCallback OnClick { get; set; }
+}

@@ -1,0 +1,27 @@
+@inject BoardSvc Board
+
+<div class="ranked-control">
+    @if (!IsEditModus)
+    {
+        @if (RnH.IsRanked)
+        {
+            <img src="images/ranked.jpg" alt="Platziert" />
+        }
+    }
+    else
+    {
+        <ImageCheckBox Source="images/ranked.jpg" Size="20" Title="Platziert"
+                       Checked="RnH.IsRanked" CheckedChanged="SaveAsync" />
+    }
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    private Task SaveAsync(bool isRanked)
+    {
+        return Board.SaveIsRankedAsync(RnH, isRanked);
+    }
+}

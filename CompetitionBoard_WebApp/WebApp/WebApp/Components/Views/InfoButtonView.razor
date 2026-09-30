@@ -1,0 +1,14 @@
+<ImageButton Source="images/info.png" Size="40"
+             Title="@(IsInfoVisible ? "Bedienungsanleitung ausblenden" : "Bedienungsanleitung einblenden")"
+             OnClick="ToggleAsync" />
+
+@code {
+    [Parameter] public bool IsInfoVisible { get; set; }
+
+    [Parameter] public EventCallback<bool> IsInfoVisibleChanged { get; set; }
+
+    private Task ToggleAsync()
+    {
+        return IsInfoVisibleChanged.InvokeAsync(!IsInfoVisible);
+    }
+}

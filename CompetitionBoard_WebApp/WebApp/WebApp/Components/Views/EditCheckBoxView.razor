@@ -1,0 +1,8 @@
+<ImageCheckBox Source="images/StatusImgs/prepare.png" Size="40" Title="Bearbeiten"
+               Checked="IsEditModusActivated" CheckedChanged="IsEditModusActivatedChanged" />
+
+@code {
+    [Parameter] public bool IsEditModusActivated { get; set; }
+
+    [Parameter] public EventCallback<bool> IsEditModusActivatedChanged { get; set; }
+}

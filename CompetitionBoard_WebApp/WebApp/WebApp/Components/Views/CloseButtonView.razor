@@ -1,0 +1,12 @@
+@inject IJSRuntime JS
+
+<ImageButton Source="images/close.png" Size="40" Title="Schließen" OnClick="CloseAsync" />
+
+@code {
+    // Die WPF-App hat sich beendet. Im Browser wird das Fenster geschlossen,
+    // der Windows-Dienst läuft weiter.
+    private async Task CloseAsync()
+    {
+        await JS.InvokeVoidAsync("window.close");
+    }
+}

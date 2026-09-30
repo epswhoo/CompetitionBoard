@@ -1,0 +1,25 @@
+@inject BoardSvc Board
+
+<div class="add-new-list-view">
+    @if (IsEditListModus)
+    {
+        <div class="add-new-list-edit">
+            <input type="text" class="wpf-textbox" title="Startnummern, durch Komma getrennt"
+                   @bind="_newListStr" @bind:event="oninput" />
+            <span></span>
+            <ImageButton Source="images/StatusImgs/play.png" Size="40" Title="Neue Liste anlegen"
+                         OnClick="AddNewListAsync" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool IsEditListModus { get; set; }
+
+    private string _newListStr;
+
+    private Task AddNewListAsync()
+    {
+        return Board.AddNewListAsync(_newListStr);
+    }
+}

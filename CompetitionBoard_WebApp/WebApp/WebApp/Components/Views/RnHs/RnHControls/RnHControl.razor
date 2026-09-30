@@ -1,0 +1,29 @@
+<div class="rnh-control">
+    <div class="rnh-mark-cell">
+        <MarkControl RnH="RnH" IsEditModus="IsEditModus" />
+        <RankedControl RnH="RnH" IsEditModus="IsEditModus" />
+        <DisControl RnH="RnH" IsEditModus="IsEditModus" />
+    </div>
+    <span></span>
+    <div class="rnh-status-cell">
+        <StatusControl RnH="RnH" IsEditModus="IsEditModus" OpenUpwards="IsInLowerHalf" />
+    </div>
+    <span></span>
+    <div class="rnh-horse-no-cell">
+        <HorseNoControl RnH="RnH" IsEditListModus="IsEditListModus" />
+    </div>
+    <span></span>
+    <div class="rnh-add-cell">
+        <AddControl RnH="RnH" IsEditListModus="IsEditListModus" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+
+    [Parameter] public bool IsInLowerHalf { get; set; }
+}

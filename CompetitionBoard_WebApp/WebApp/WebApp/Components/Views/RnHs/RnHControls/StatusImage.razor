@@ -1,0 +1,11 @@
+@* Großes Dressurbild mit kleinem Status-Symbol oben rechts. *@
+<div class="status-image" style="width:@(Size)px;height:@(Size)px">
+    <img class="status-image-main" src="@RnHStatusTexts.GetImage(Status)" alt="@RnHStatusTexts.GetText(Status)" />
+    <img class="status-image-icon" src="@RnHStatusTexts.GetIcon(Status)" alt="" />
+</div>
+
+@code {
+    [Parameter] public RnHStatus Status { get; set; }
+
+    [Parameter] public int Size { get; set; } = 80;
+}

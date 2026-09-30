@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CompetitionBoard – Bedienungsanleitung</title>
+<link rel="icon" href="../favicon.ico" />
+<style>
+  /* Stil wie die technischen Dokus (BaseDocu, ReposDocu, …), aber immer hell. */
+  :root {
+    color-scheme: light only;
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #e6ebf0;
+    --surface-3: #dbe2e8;
+    --border: #cdd6dd;
+    --text: #182430;
+    --text-muted: #576773;
+    --accent: #1b94a7;
+    --accent-ink: #155a65;
+    --accent-soft: #cdeef3;
+    --accent-2: #2c6e8e;
+    --accent-2-soft: #dbeaf0;
+    --good: #2b7a4b;
+    --good-soft: #dcefe2;
+    --bad: #ad3a3a;
+    --bad-soft: #f6dede;
+    --code-bg: #eaeef2;
+    --shadow: 0 1px 2px rgba(24,36,48,.06), 0 8px 24px rgba(24,36,48,.05);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--accent-soft); }
+
+  h1, h2, h3 {
+    font-family: system-ui, -apple-system, "Segoe UI Semibold", Roboto, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .mono {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  code {
+    font-size: .9em;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+
+  kbd {
+    font-family: system-ui, "Segoe UI", sans-serif;
+    font-size: .85em;
+    font-weight: 600;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 5px;
+  }
+
+  a { color: var(--accent-2); }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 28px 24px;
+    border-right: 1px solid var(--border);
+  }
+
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+
+  .brand-mark {
+    width: 30px; height: 30px; flex: none;
+    border-radius: 7px;
+    background: linear-gradient(155deg, var(--accent) 0%, var(--accent-ink) 100%);
+    position: relative;
+  }
+  .brand-mark::before, .brand-mark::after {
+    content: ""; position: absolute; background: var(--surface); opacity: .85;
+  }
+  .brand-mark::before { left: 7px; top: 8px; width: 16px; height: 2px; }
+  .brand-mark::after { left: 7px; top: 15px; width: 10px; height: 2px; }
+
+  .brand-name {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-weight: 600; font-size: 13.5px; letter-spacing: .01em;
+  }
+
+  .brand-sub { font-size: 11px; color: var(--text-muted); margin: 2px 0 20px; padding-left: 40px; }
+
+  .side-group { margin-bottom: 4px; }
+
+  .side-group-label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em;
+    color: var(--text-muted); margin: 18px 0 6px; padding: 0 10px;
+  }
+  .side-group:first-of-type .side-group-label { margin-top: 4px; }
+
+  nav.side a {
+    display: flex; align-items: baseline; gap: 8px;
+    text-decoration: none; color: var(--text-muted);
+    font-size: 13.5px; padding: 6px 10px;
+    border-radius: 6px; border-left: 2px solid transparent;
+  }
+  nav.side a .num {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 11px; color: #9fb0bc; flex: none;
+  }
+  nav.side a:hover { background: var(--surface-2); color: var(--text); }
+  nav.side a.active {
+    color: var(--text); background: var(--surface-2);
+    border-left-color: var(--accent); font-weight: 600;
+  }
+  nav.side a.active .num { color: var(--accent); }
+  nav.side a.sub { padding-left: 24px; font-size: 12.5px; }
+  nav.side a.sub .num { font-size: 10px; }
+
+  /* ---------- Main ---------- */
+
+  main { padding: 40px clamp(16px, 4vw, 56px) 100px; min-width: 0; }
+
+  header.hero { margin-bottom: 44px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+
+  .eyebrow {
+    display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--accent-ink); background: var(--accent-soft);
+    padding: 4px 9px; border-radius: 5px; margin-bottom: 14px;
+  }
+
+  header.hero h1 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 10px; }
+  header.hero .lede { max-width: 64ch; color: var(--text-muted); font-size: 16px; margin: 0 0 20px; }
+
+  .stack-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .chip {
+    font-size: 12px; font-family: ui-monospace, "Cascadia Code", monospace;
+    padding: 5px 10px; border-radius: 6px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted);
+  }
+
+  section { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .sub-section { scroll-margin-top: 24px; }
+
+  section > .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+  section > .section-head .idx { font-family: ui-monospace, "Cascadia Code", monospace; color: var(--accent); font-size: 14px; }
+  section h2 { font-size: 22px; margin: 0; }
+  section > p.intro { max-width: 70ch; color: var(--text-muted); margin: 0 0 20px; }
+
+  h3 { font-size: 16px; margin: 36px 0 10px; }
+  h3 .sub-idx {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-size: 12px; font-weight: 600; color: var(--accent); margin-right: 8px;
+  }
+
+  p { max-width: 74ch; margin: 0 0 14px; }
+  ul.plain { max-width: 74ch; padding-left: 20px; margin: 0 0 14px; }
+  ul.plain li { margin-bottom: 4px; }
+
+  img.ico { width: 20px; height: 20px; vertical-align: -5px; object-fit: cover; margin: 0 2px; }
+  img.ico.off { opacity: .5; }
+
+  /* ---------- Cards / grid ---------- */
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); }
+
+  .kv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .kv-card { padding: 14px 16px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); }
+  .kv-card .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 4px; }
+  .kv-card .v { font-size: 14px; font-weight: 600; }
+  .kv-card .v small { display: block; font-weight: 400; font-size: 12.5px; color: var(--text-muted); }
+
+  /* ---------- Figures ---------- */
+
+  figure { margin: 0 0 22px; }
+
+  figcaption {
+    font-size: 12.5px; color: var(--text-muted);
+    margin-top: 10px; max-width: 74ch;
+  }
+
+  .fig-frame {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+    overflow-x: auto;
+  }
+
+  ol.callouts {
+    list-style: none; padding: 0; margin: 14px 0 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 6px 20px; font-size: 13px;
+  }
+  ol.callouts li { display: flex; gap: 9px; align-items: baseline; }
+  ol.callouts li b { font-weight: 600; }
+
+  .n, .mk {
+    display: inline-block; flex: none;
+    width: 19px; height: 19px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font: 700 10.5px/19px system-ui, "Segoe UI", sans-serif;
+    text-align: center; font-style: normal;
+  }
+  .mk {
+    position: absolute; top: -9px; left: -9px; z-index: 8;
+    box-shadow: 0 0 0 2px #fff;
+  }
+  .has-mk { position: relative; }
+  .mk.tr { left: auto; right: -9px; }
+  .mk.bl { top: auto; bottom: -5px; left: -23px; }
+  .mk.br { top: auto; left: auto; bottom: -9px; right: -9px; }
+  .mk.r { top: 50%; left: auto; right: -26px; margin-top: -9.5px; }
+
+  /* ---------- Steps ---------- */
+
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 0 0 18px; max-width: 74ch; }
+  ol.steps > li {
+    counter-increment: step; position: relative;
+    padding: 0 0 12px 38px; min-height: 28px;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent-ink);
+    font: 700 12.5px/26px system-ui, "Segoe UI", sans-serif; text-align: center;
+  }
+  ol.steps > li:not(:last-child)::after {
+    content: ""; position: absolute; left: 12.5px; top: 30px; bottom: 2px;
+    width: 1px; background: var(--border);
+  }
+
+  /* ---------- Beispiel-Box ---------- */
+
+  .example {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 9px;
+    padding: 14px 18px 4px;
+    margin: 0 0 20px;
+    max-width: 880px;
+  }
+  .example > .ex-label {
+    display: inline-block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em;
+    color: var(--accent-ink); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 4px; margin-bottom: 8px;
+  }
+  .example p, .example ol.steps { max-width: none; }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 18px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--surface); min-width: 560px; }
+
+  th {
+    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--text-muted); background: var(--surface-2);
+    padding: 10px 14px; border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  td.icon-cell { width: 70px; text-align: center; }
+  td.icon-cell > img { width: 36px; height: 36px; object-fit: cover; display: inline-block; }
+  td.icon-cell > img.off { opacity: .5; }
+  td.msg { font-style: italic; }
+  td.muted { color: var(--text-muted); }
+
+  /* ---------- Hinweise ---------- */
+
+  .note {
+    display: flex; gap: 10px; padding: 12px 14px; border-radius: 9px;
+    background: var(--accent-2-soft); border: 1px solid var(--accent-2);
+    font-size: 13.5px; max-width: 74ch; margin: 0 0 18px;
+  }
+  .note b { color: var(--accent-2); font-weight: 700; flex: none; }
+  .note span { min-width: 0; overflow-wrap: break-word; }
+  .note.warn { background: var(--bad-soft); border-color: var(--bad); }
+  .note.warn b { color: var(--bad); }
+  .note.tip { background: var(--good-soft); border-color: var(--good); }
+  .note.tip b { color: var(--good); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+  .pill.info { background: var(--accent-2-soft); color: var(--accent-2); }
+
+  pre.code {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; overflow-x: auto; font-size: 12.8px; line-height: 1.55; margin: 0 0 18px;
+  }
+  pre.code .k { color: var(--accent-2); }
+  pre.code .s { color: var(--accent-ink); }
+  pre.code .c { color: var(--text-muted); font-style: italic; }
+
+  footer.page-foot {
+    margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+  }
+
+  /* =====================================================================
+     Nachbau der Anzeigetafel (wird per Script aus data-Attributen erzeugt)
+     ===================================================================== */
+
+  .mock-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    background: var(--surface-3);
+  }
+
+  .win { min-width: 820px; }
+
+  .win-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 12px; background: var(--surface-3); border-bottom: 1px solid var(--border);
+  }
+  .win-dots { display: flex; gap: 5px; }
+  .win-dots i { width: 9px; height: 9px; border-radius: 50%; background: #b9c5ce; }
+  .win-url {
+    flex: 1; font: 11.5px ui-monospace, "Cascadia Code", Consolas, monospace;
+    background: #fff; border: 1px solid var(--border); border-radius: 5px;
+    padding: 2px 10px; color: var(--text-muted);
+  }
+
+  .b {
+    background: #fff; color: #000;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    padding: 12px 14px 8px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .b-head { display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 18px; min-height: 30px; }
+  .b-title { text-align: center; font-size: 20px; min-width: 0; }
+  .b-title > .b-title-t { display: block; white-space: nowrap; overflow: hidden; }
+  .b-btns { display: flex; justify-content: flex-end; gap: 8px; }
+  .b-btns .ib { width: 26px; height: 26px; }
+
+  .ib { display: inline-block; flex: none; }
+  .ib > img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .ib.off > img { opacity: .5; }
+
+  .b-edit { display: flex; gap: 7px; align-items: center; min-width: 0; }
+  .b-edit .ib { width: 26px; height: 26px; }
+  .b-input {
+    flex: 1; min-width: 0; height: 28px;
+    display: flex; align-items: center;
+    border: 1px solid #abadb3; padding: 0 5px;
+    font-size: 15px; white-space: nowrap; overflow: hidden; background: #fff;
+  }
+  .b-input.focus { border-color: #569de5; }
+  .caret { display: inline-block; width: 1px; height: 17px; background: #000; margin-left: 1px; }
+
+  .b-cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .b-col { display: grid; grid-auto-rows: 64px; align-content: start; }
+  .b-cell { display: flex; justify-content: center; align-items: center; }
+
+  .b-error { font-size: 12px; white-space: pre-line; padding: 0 4px; min-height: 16px; }
+  .b-legend {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px;
+    font-size: 11.5px; align-items: center; padding-top: 2px;
+  }
+  .b-legend > span { display: inline-flex; align-items: center; gap: 5px; }
+  .b-legend .lg-small { width: 12px; height: 12px; }
+
+  /* Ein Teilnehmer (RnHControl) */
+  .p {
+    display: grid;
+    grid-template-columns: 36px 48px 50px 12px;
+    column-gap: 3px;
+    align-items: center;
+    height: 56px;
+  }
+  .p.hl { outline: 2px dashed var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .p.hl-bad { outline: 2px dashed var(--bad); outline-offset: 3px; border-radius: 4px; }
+
+  .p-mark { position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; }
+  .p-note { font-size: 17px; }
+  .p-rank { position: absolute; top: 2px; left: 0; width: 11px; height: 11px; }
+  .p-dis { position: absolute; top: 50%; left: 50%; width: 14px; height: 14px; transform: translate(-50%, -50%); }
+
+  .si { position: relative; display: inline-block; flex: none; }
+  .si-main { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .si-icon { position: absolute; top: 0; right: 0; width: 40%; max-height: 40%; object-fit: contain; }
+
+  .p-status { display: flex; justify-content: center; align-items: center; height: 100%; }
+
+  .p-no { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; height: 100%; }
+  .p-no-l { font-size: 26px; font-weight: 700; width: 100%; text-align: center; line-height: 1; }
+
+  .p-add { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; height: 100%; padding: 4px 0; }
+  .p-add .ib { width: 11px; height: 11px; }
+
+  /* Bearbeitungsmodus */
+  .p.ed { grid-template-columns: 44px 50px 46px 12px; }
+  .ed .p-mark {
+    display: grid; grid-template-columns: 13px minmax(0, 1fr); grid-template-rows: 24px auto;
+    column-gap: 2px; align-content: center;
+  }
+  .p-cb { width: 13px; height: 13px; grid-column: 1; grid-row: 1; }
+  .p-cb > img { width: 100%; height: 100%; display: block; opacity: .5; }
+  .p-cb.on > img { opacity: 1; }
+  .p-cb-rank { align-self: start; }
+  .p-cb-dis { align-self: end; }
+  .p-in {
+    grid-column: 2; grid-row: 1; height: 24px;
+    border: 1px solid #abadb3; background: #fff;
+    font-size: 12.5px; display: flex; align-items: center; justify-content: flex-end;
+    padding: 0 2px; overflow: hidden; white-space: nowrap;
+  }
+  .p-in.focus { border-color: #569de5; }
+  .p-in.has-mk { overflow: visible; }
+  .p-save { grid-column: 2; grid-row: 2; justify-self: end; width: 14px; height: 14px; margin-top: -2px; }
+  .p-save > img { width: 100%; height: 100%; display: block; }
+  .p-no .p-in { width: 100%; font-size: 15px; font-weight: 400; }
+
+  .combo { position: relative; width: 100%; }
+  .combo-sel {
+    display: grid; grid-template-columns: 22px minmax(0, 1fr) 7px; column-gap: 2px;
+    align-items: center; font-size: 8.5px; overflow: hidden; white-space: nowrap;
+    border: 1px solid transparent; padding: 1px;
+  }
+  .combo-sel > .combo-t { overflow: hidden; }
+  .combo-arrow {
+    width: 0; height: 0; justify-self: center;
+    border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 3px solid #000;
+  }
+  .combo.open .combo-sel { border-color: #569de5; }
+  .combo-pop {
+    position: absolute; top: 100%; left: 0; z-index: 7;
+    background: #fff; border: 1px solid #acacac; box-shadow: 2px 2px 4px rgba(0,0,0,.25);
+    min-width: 138px;
+  }
+  .combo-it {
+    display: grid; grid-template-columns: 24px auto; column-gap: 7px; align-items: center;
+    font-size: 11px; padding: 2px 3px; white-space: nowrap;
+  }
+  .combo-it.sel { background: #cce8ff; }
+  .combo-it.hover { background: #e5f3fb; }
+
+  /* Tafel im Bearbeitungsmodus: Popups dürfen überstehen */
+  .ed .b-col, .ed .b-cell { overflow: visible; }
+
+  /* Vergrößerte Einzelansicht */
+  .zoom-row { display: flex; flex-wrap: wrap; gap: 26px 40px; align-items: flex-start; }
+  .zoom-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .zoom-item > .zoom-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted);
+  }
+  .zoom { zoom: 2.3; background: #fff; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; }
+  .zoom .mk { zoom: .45; }
+
+  /* Streifen (Abläufe) */
+  .strip { display: flex; flex-wrap: wrap; gap: 14px 6px; align-items: stretch; }
+  .strip-item {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    min-width: 170px;
+  }
+  .strip-item .cap { font-size: 11.5px; color: var(--text-muted); text-align: center; max-width: 170px; line-height: 1.35; }
+  .strip-arrow { align-self: center; color: var(--accent); font-size: 20px; padding: 0 2px; }
+
+  /* Vorher / Nachher */
+  .ba { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .ba-col {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .ba-col > .ba-label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted);
+    border-bottom: 1px solid var(--border); padding-bottom: 5px;
+  }
+  .ba-col .p { height: 52px; }
+  .ba-arrow { color: var(--accent); font-size: 26px; }
+
+  /* Status-Tabelle */
+  .status-cell { display: flex; align-items: center; gap: 12px; }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.side { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .zoom { zoom: 1.7; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    nav.side a { transition: background .12s ease, border-color .12s ease; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <nav class="side" aria-label="Inhaltsverzeichnis">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">CompetitionBoard</span>
+    </div>
+    <div class="brand-sub">Bedienungsanleitung</div>
+
+    <div class="side-group">
+      <a href="#ueberblick" data-nav><span class="num">00</span> Auf einen Blick</a>
+      <a href="#zugang" data-nav class="sub"><span class="num">00.01</span> Anzeige &amp; Bedienung</a>
+      <a href="#anzeige" data-nav><span class="num">01</span> Die Anzeige lesen</a>
+      <a href="#aufbau" data-nav class="sub"><span class="num">01.01</span> Aufbau eines Teilnehmers</a>
+      <a href="#status" data-nav class="sub"><span class="num">01.02</span> Status</a>
+      <a href="#ergebnis" data-nav class="sub"><span class="num">01.03</span> Note, Platz, Disqualifikation</a>
+      <a href="#spalten" data-nav class="sub"><span class="num">01.04</span> Verteilung auf Spalten</a>
+      <a href="#aktualisierung" data-nav class="sub"><span class="num">01.05</span> Aktualisierung</a>
+      <a href="#schaltflaechen" data-nav><span class="num">02</span> Schaltflächen</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Während der Prüfung</div>
+      <a href="#bearbeiten" data-nav><span class="num">03</span> Bearbeiten</a>
+      <a href="#bearbeiten-start" data-nav class="sub"><span class="num">03.01</span> Starten &amp; beenden</a>
+      <a href="#status-aendern" data-nav class="sub"><span class="num">03.02</span> Status ändern</a>
+      <a href="#note" data-nav class="sub"><span class="num">03.03</span> Note eintragen</a>
+      <a href="#platzieren" data-nav class="sub"><span class="num">03.04</span> Platzieren</a>
+      <a href="#disqualifizieren" data-nav class="sub"><span class="num">03.05</span> Disqualifizieren</a>
+      <a href="#ablauf" data-nav class="sub"><span class="num">03.06</span> Beispiel: ganzer Ablauf</a>
+      <a href="#regeln" data-nav class="sub"><span class="num">03.07</span> Regeln</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Vor der Prüfung</div>
+      <a href="#liste" data-nav><span class="num">04</span> Teilnehmerliste</a>
+      <a href="#liste-start" data-nav class="sub"><span class="num">04.01</span> Liste bearbeiten starten</a>
+      <a href="#titel" data-nav class="sub"><span class="num">04.02</span> Titel ändern</a>
+      <a href="#neue-liste" data-nav class="sub"><span class="num">04.03</span> Neue Liste erstellen</a>
+      <a href="#nummer" data-nav class="sub"><span class="num">04.04</span> Startnummer ändern</a>
+      <a href="#einfuegen" data-nav class="sub"><span class="num">04.05</span> Teilnehmer einfügen</a>
+      <a href="#loeschen" data-nav class="sub"><span class="num">04.06</span> Teilnehmer löschen</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Hilfe</div>
+      <a href="#fehler" data-nav><span class="num">05</span> Fehlermeldungen</a>
+      <a href="#faq" data-nav><span class="num">06</span> Tipps &amp; Fragen</a>
+      <a href="#einstellungen" data-nav><span class="num">07</span> Einstellungen</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <span class="eyebrow">Bedienungsanleitung</span>
+      <h1>CompetitionBoard</h1>
+      <p class="lede">
+        Die Anzeigetafel zeigt für eine Dressurprüfung, wo sich jeder Teilnehmer (Reiter mit Pferd)
+        gerade befindet, welche Note er bekommen hat und ob er platziert oder disqualifiziert ist.
+        Diese Anleitung erklärt Schritt für Schritt, wie Sie die Tafel lesen, während der Prüfung
+        pflegen und vor der Prüfung eine neue Teilnehmerliste anlegen.
+      </p>
+      <div class="stack-row">
+        <span class="chip">Bedienung: http://&lt;Rechner&gt;:5080</span>
+        <span class="chip">Nur Anzeige: http://&lt;Rechner&gt;:5081</span>
+        <span class="chip">Aktualisiert sich alle 2 s</span>
+        <span class="chip">Mehrere Geräte gleichzeitig</span>
+        <span class="chip">Handy &amp; Tablet</span>
+      </div>
+    </header>
+
+    <!-- 00 ÜBERBLICK -->
+    <section id="ueberblick">
+      <div class="section-head"><span class="idx">00</span><h2>Auf einen Blick</h2></div>
+      <p class="intro">
+        So sieht die Tafel im normalen Betrieb aus. Sie läuft im Browser, zum Beispiel auf einem großen
+        Bildschirm am Platz, und aktualisiert sich von selbst. Solange niemand etwas ändern möchte,
+        muss hier nichts angeklickt werden.
+      </p>
+
+      <figure>
+        <div class="mock-wrap">
+          <div class="mock" data-mode="view"
+               data-title="Dressurprüfung Kl. A – Abteilung 1"
+               data-marks="title=1,edit=2,info=3,close=4,cols=5,legend=6"
+               data-items="122/4/7.2/r; 444/4/6.8/r; 654/4/0/d; 131/4/6.5#7; 208/3; 315/2; 97/1; 402/1; 519/0; 233/0; 610/0; 77/0"></div>
+        </div>
+        <figcaption>Die Anzeigetafel mit zwölf Teilnehmern. Vier sind fertig, einer reitet gerade, einer wartet am Vorbereitungsviereck, zwei reiten sich ab, vier sind noch nicht da.</figcaption>
+        <ol class="callouts">
+          <li><span class="n">1</span><span><b>Titel</b> der Prüfung, mittig oben.</span></li>
+          <li><span class="n">2</span><span><b>Bearbeiten</b> ein- und ausschalten (<a href="#bearbeiten">Kapitel 03</a>).</span></li>
+          <li><span class="n">3</span><span><b>Info</b>: blendet diese Anleitung ein und wieder aus.</span></li>
+          <li><span class="n">4</span><span><b>Schließen</b>: schließt das Browserfenster.</span></li>
+          <li><span class="n">5</span><span><b>Teilnehmer</b> in Startreihenfolge, spaltenweise von oben nach unten.</span></li>
+          <li><span class="n">6</span><span><b>Legende</b>: erklärt die Symbole.</span></li>
+          <li><span class="n">7</span><span><b>Ein Teilnehmer</b>: Note, Statusbild und Startnummer (<a href="#aufbau">01.01</a>).</span></li>
+        </ol>
+      </figure>
+
+      <div class="kv-grid">
+        <div class="kv-card"><div class="k">Anschauen</div><div class="v">Nichts zu tun<small>Die Tafel aktualisiert sich alle 2 Sekunden.</small></div></div>
+        <div class="kv-card"><div class="k">Während der Prüfung</div><div class="v">Bearbeiten <img class="ico" src="../images/StatusImgs/prepare.png" alt=""><small>Status, Note, Platzierung, Disqualifikation</small></div></div>
+        <div class="kv-card"><div class="k">Vor der Prüfung</div><div class="v">Liste bearbeiten <img class="ico" src="../images/editList.png" alt=""><small>Titel, neue Liste, Startnummern, einfügen, löschen</small></div></div>
+        <div class="kv-card"><div class="k">Hilfe</div><div class="v">Info <img class="ico" src="../images/info.png" alt=""><small>Blendet diese Anleitung ein, ein zweiter Klick zeigt wieder die Tafel.</small></div></div>
+      </div>
+
+      <div class="sub-section" id="zugang">
+        <h3><span class="sub-idx">00.01</span>Anzeige und Bedienung: zwei Adressen</h3>
+        <p>
+          Die Tafel ist unter zwei Adressen erreichbar. Beide zeigen dieselben Daten, sie unterscheiden sich nur darin,
+          ob man etwas ändern kann.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Adresse</th><th>Wofür?</th><th>Schaltflächen</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">http://&lt;Rechner&gt;:5080</td><td><b>Bedienung</b>: Meldestelle, Richterturm, Helfer mit Handy.</td><td>alle</td></tr>
+              <tr><td class="mono">http://&lt;Rechner&gt;:5081</td><td><b>Nur Anzeige</b>: großer Bildschirm für Zuschauer, Anzeigegeräte am Platz.</td><td>keine</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Auf der Anzeige-Adresse fehlen die Schaltflächen oben rechts vollständig. Dort kann niemand etwas verstellen,
+          auch nicht aus Versehen. Die Tafel aktualisiert sich dort genauso alle 2 Sekunden.
+        </p>
+      </div>
+    </section>
+
+    <!-- 01 ANZEIGE -->
+    <section id="anzeige">
+      <div class="section-head"><span class="idx">01</span><h2>Die Anzeige lesen</h2></div>
+      <p class="intro">
+        Jeder Teilnehmer steht in einer eigenen Zeile. Aus dem Bild, der Zahl daneben und den kleinen
+        Symbolen lässt sich alles Wichtige ablesen, ohne etwas anzuklicken.
+      </p>
+
+      <div class="sub-section" id="aufbau">
+        <h3><span class="sub-idx">01.01</span>Aufbau eines Teilnehmers</h3>
+        <p>Ein Teilnehmer besteht von links nach rechts aus vier Teilen:</p>
+        <figure>
+          <div class="fig-frame">
+            <div class="zoom-row">
+              <div class="zoom-item">
+                <div class="zoom"><div class="single" data-mode="view" data-item="122/4/7.2/r#note=1,rank=2,status=3,no=4"></div></div>
+                <span class="zoom-label">Platziert mit Note</span>
+              </div>
+              <div class="zoom-item">
+                <div class="zoom"><div class="single" data-mode="view" data-item="654/4/0/d#dis=5"></div></div>
+                <span class="zoom-label">Disqualifiziert</span>
+              </div>
+            </div>
+          </div>
+          <ol class="callouts">
+            <li><span class="n">1</span><span><b>Note</b> mit einer Nachkommastelle. Ohne Note bleibt das Feld leer.</span></li>
+            <li><span class="n">2</span><span><b>Pokal</b> <img class="ico" src="../images/ranked.jpg" alt="">: Der Teilnehmer ist platziert.</span></li>
+            <li><span class="n">3</span><span><b>Statusbild</b>: Wo ist der Teilnehmer gerade? (<a href="#status">01.02</a>)</span></li>
+            <li><span class="n">4</span><span><b>Startnummer</b> des Pferdes, groß und fett.</span></li>
+            <li><span class="n">5</span><span><b>Rotes X</b> <img class="ico" src="../images/dis.jpg" alt="">: Der Teilnehmer ist disqualifiziert.</span></li>
+          </ol>
+        </figure>
+      </div>
+
+      <div class="sub-section" id="status">
+        <h3><span class="sub-idx">01.02</span>Status: Wo ist der Teilnehmer gerade?</h3>
+        <p>
+          Das große Bild zeigt den Ort, das kleine Symbol oben rechts im Bild hilft bei der
+          Unterscheidung aus der Ferne. Ein Teilnehmer durchläuft die Stationen normalerweise
+          der Reihe nach von oben nach unten.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bild</th><th>Status</th><th>Bedeutung</th><th>Beispiel</th></tr></thead>
+            <tbody>
+              <tr><td class="icon-cell"><span data-si="0" data-size="52"></span></td><td><b>Nicht da</b></td><td>Der Teilnehmer ist noch nicht angekommen. Das Feld bleibt leer.</td><td class="muted">Neu angelegte Liste: alle Teilnehmer stehen auf „Nicht da“.</td></tr>
+              <tr><td class="icon-cell"><span data-si="1" data-size="52"></span></td><td><b>Abreitplatz</b></td><td>Der Teilnehmer reitet sich auf dem Abreiteplatz warm.</td><td class="muted">Nr. 97 ist eingetroffen und wärmt sich auf.</td></tr>
+              <tr><td class="icon-cell"><span data-si="2" data-size="52"></span></td><td><b>Vorbereitungsviereck</b></td><td>Der Teilnehmer wartet direkt vor dem Viereck und ist als Nächstes dran.</td><td class="muted">Nr. 315 reitet gleich.</td></tr>
+              <tr><td class="icon-cell"><span data-si="3" data-size="52"></span></td><td><b>Prüfung</b></td><td>Der Teilnehmer reitet gerade seine Prüfung.</td><td class="muted">Nr. 208 ist im Viereck.</td></tr>
+              <tr><td class="icon-cell"><span data-si="4" data-size="52"></span></td><td><b>fertig</b></td><td>Der Teilnehmer hat die Prüfung beendet. Erst jetzt kann eine Note eingetragen werden.</td><td class="muted">Nr. 122 ist fertig, Note 7,2.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Die Legende unten auf der Tafel wiederholt diese Bilder, damit auch Zuschauer sie verstehen.</p>
+      </div>
+
+      <div class="sub-section" id="ergebnis">
+        <h3><span class="sub-idx">01.03</span>Note, Platzierung und Disqualifikation</h3>
+        <p>Links neben dem Statusbild stehen die Ergebnisse. Hier einige typische Kombinationen:</p>
+        <figure>
+          <div class="fig-frame">
+            <div class="strip" data-mode="view"
+                 data-items="208/3//|Reitet gerade, noch keine Note; 131/4/6.5/|Fertig, Note 6,5; 122/4/7.2/r|Fertig, Note 7,2, platziert; 654/4/0/d|Fertig, disqualifiziert"
+                 data-arrows="0"></div>
+          </div>
+          <figcaption>Die Note erscheint erst, wenn sie eingetragen wurde. Ein disqualifizierter Teilnehmer hat nie eine Note.</figcaption>
+        </figure>
+        <div class="note"><b>Gut zu wissen</b><span>Die Tafel zeigt Noten immer mit genau einer Nachkommastelle und deutschem Komma, z. B. <code>7,2</code>. Eine Note von <code>0</code> wird nicht angezeigt; sie bedeutet „keine Note“.</span></div>
+      </div>
+
+      <div class="sub-section" id="spalten">
+        <h3><span class="sub-idx">01.04</span>Wie die Teilnehmer auf Spalten verteilt werden</h3>
+        <p>
+          Die Teilnehmer stehen in Startreihenfolge und werden <b>spaltenweise von oben nach unten</b> gefüllt.
+          Bis 20 Teilnehmer nutzt die Tafel 4 Spalten, ab 21 Teilnehmern alle 5 Spalten.
+          Die Zeilen teilen sich die Bildschirmhöhe gleichmäßig; bei vielen Teilnehmern werden die Zeilen enger.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Teilnehmer</th><th>Spalten</th><th>Zeilen je Spalte</th><th>Aufteilung</th></tr></thead>
+            <tbody>
+              <tr><td>8</td><td>4</td><td>2</td><td class="mono">2 · 2 · 2 · 2 · –</td></tr>
+              <tr><td>12</td><td>4</td><td>3</td><td class="mono">3 · 3 · 3 · 3 · –</td></tr>
+              <tr><td>17</td><td>4</td><td>5</td><td class="mono">5 · 5 · 5 · 2 · –</td></tr>
+              <tr><td>20</td><td>4</td><td>5</td><td class="mono">5 · 5 · 5 · 5 · –</td></tr>
+              <tr><td>23</td><td>5</td><td>5</td><td class="mono">5 · 5 · 5 · 5 · 3</td></tr>
+              <tr><td>30</td><td>5</td><td>6</td><td class="mono">6 · 6 · 6 · 6 · 6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure>
+          <div class="mock-wrap">
+            <div class="mock" data-mode="view" data-title="Dressurreiterprüfung Kl. L" data-nolegend="1"
+                 data-items="12/4/7.4/r; 18/4/7.1/r; 25/4/6.9; 31/4/0/d; 33/4/6.6; 40/4/7.0/r; 41/4/6.2; 47/4/6.4; 52/4/6.8; 58/4/7.3/r; 60/4/6.1; 63/4/6.7; 67/3; 71/2; 74/1; 78/1; 81/1; 85/0; 88/0; 90/0; 93/0; 96/0; 99/0"></div>
+          </div>
+          <figcaption>Beispiel mit 23 Teilnehmern: 5 Spalten mit je 5 Zeilen, die letzte Spalte hat 3 Teilnehmer. Gelesen wird von oben links (Nr. 12) nach unten rechts (Nr. 99).</figcaption>
+        </figure>
+      </div>
+
+      <div class="sub-section" id="aktualisierung">
+        <h3><span class="sub-idx">01.05</span>Automatische Aktualisierung</h3>
+        <p>
+          Die Tafel holt sich die Daten regelmäßig neu aus der Datenbank, im normalen Betrieb
+          <b>alle 2 Sekunden</b>. Ändert jemand an einem anderen Gerät einen Status oder eine Note,
+          ist das kurz darauf auf allen Bildschirmen zu sehen. Sie müssen die Seite also nie selbst neu laden.
+        </p>
+        <p>
+          Während <a href="#bearbeiten">Bearbeiten</a> eingeschaltet ist, aktualisiert sich die Tafel nur
+          <b>alle 15 Sekunden</b>, damit Ihnen beim Tippen nichts dazwischenkommt.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 SCHALTFLÄCHEN -->
+    <section id="schaltflaechen">
+      <div class="section-head"><span class="idx">02</span><h2>Schaltflächen</h2></div>
+      <p class="intro">
+        Oben rechts sitzen die Schaltflächen. Zeigen Sie mit der Maus auf ein Symbol, erscheint ein kurzer
+        Hilfetext. Schalter (Bearbeiten, Liste bearbeiten) sind <b>blass, wenn sie aus sind</b>, und
+        <b>kräftig, wenn sie an sind</b>. Auf der Anzeige-Adresse (Port 5081) gibt es keine Schaltflächen
+        (<a href="#zugang">00.01</a>).
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aus</th><th>An</th><th>Name</th><th>Funktion</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="icon-cell"><img class="off" src="../images/StatusImgs/prepare.png" alt="Bearbeiten aus"></td>
+              <td class="icon-cell"><img src="../images/StatusImgs/prepare.png" alt="Bearbeiten an"></td>
+              <td><b>Bearbeiten</b></td>
+              <td>Schaltet den Bearbeitungsmodus ein oder aus. Dann lassen sich Status, Note, Platzierung und Disqualifikation ändern.</td>
+            </tr>
+            <tr>
+              <td class="icon-cell"><img class="off" src="../images/editList.png" alt="Liste bearbeiten aus"></td>
+              <td class="icon-cell"><img src="../images/editList.png" alt="Liste bearbeiten an"></td>
+              <td><b>Liste bearbeiten</b></td>
+              <td>Nur sichtbar, solange <b>Bearbeiten</b> an ist. Erlaubt zusätzlich Titel, Startnummern und die Teilnehmerliste zu ändern.</td>
+            </tr>
+            <tr>
+              <td class="icon-cell" colspan="2"><img src="../images/info.png" alt="Info"></td>
+              <td><b>Info</b></td>
+              <td>Blendet diese Anleitung anstelle der Teilnehmer ein; die Kopfzeile mit den Schaltflächen bleibt stehen. Ein erneuter Klick auf Info zeigt wieder die Tafel. Im Hintergrund wird die Tafel weiter aktualisiert.</td>
+            </tr>
+            <tr>
+              <td class="icon-cell" colspan="2"><img src="../images/close.png" alt="Schließen"></td>
+              <td><b>Schließen</b></td>
+              <td>Schließt das Browserfenster der Tafel. Der Dienst im Hintergrund läuft weiter, die Tafel kann jederzeit wieder geöffnet werden.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Im Bearbeitungsmodus kommen an jedem Teilnehmer weitere, kleinere Schaltflächen dazu:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symbol</th><th>Name</th><th>Wo?</th><th>Funktion</th></tr></thead>
+          <tbody>
+            <tr><td class="icon-cell"><img src="../images/StatusImgs/index.png" alt=""></td><td><b>Speichern</b></td><td class="muted">unter Note, Startnummer, Titel</td><td>Übernimmt den eingetippten Wert.</td></tr>
+            <tr><td class="icon-cell"><img src="../images/ranked.jpg" alt=""></td><td><b>Platziert</b></td><td class="muted">links oben neben der Note</td><td>Platzierung an/aus. Wird sofort gespeichert.</td></tr>
+            <tr><td class="icon-cell"><img src="../images/dis.jpg" alt=""></td><td><b>Disqualifiziert</b></td><td class="muted">links unten neben der Note</td><td>Disqualifikation an/aus. Wird sofort gespeichert.</td></tr>
+            <tr><td class="icon-cell"><img src="../images/StatusImgs/play.png" alt=""></td><td><b>Einfügen / Neue Liste</b></td><td class="muted">rechts am Teilnehmer, oben links</td><td>Fügt einen Teilnehmer davor bzw. danach ein oder legt eine neue Liste an.</td></tr>
+            <tr><td class="icon-cell"><img src="../images/dis.jpg" alt=""></td><td><b>Löschen</b></td><td class="muted">rechts am Teilnehmer, Mitte</td><td>Entfernt den Teilnehmer sofort aus der Liste.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 03 BEARBEITEN -->
+    <section id="bearbeiten">
+      <div class="section-head"><span class="idx">03</span><h2>Bearbeiten: die Prüfung begleiten</h2></div>
+      <p class="intro">
+        Während der Prüfung trägt die Meldestelle oder der Richterturm ein, wo sich die Teilnehmer
+        befinden und welche Note sie bekommen haben. Dafür gibt es den Bearbeitungsmodus.
+      </p>
+
+      <div class="sub-section" id="bearbeiten-start">
+        <h3><span class="sub-idx">03.01</span>Bearbeiten starten und beenden</h3>
+        <ol class="steps">
+          <li>Klicken Sie oben rechts auf <b>Bearbeiten</b> <img class="ico off" src="../images/StatusImgs/prepare.png" alt="">. Das Symbol wird kräftig <img class="ico" src="../images/StatusImgs/prepare.png" alt="">.</li>
+          <li>An jedem Teilnehmer erscheinen jetzt ein Eingabefeld für die Note, zwei kleine Schalter und eine Auswahlliste für den Status.</li>
+          <li>Neben dem Bearbeiten-Symbol erscheint zusätzlich <b>Liste bearbeiten</b> <img class="ico off" src="../images/editList.png" alt=""> (siehe <a href="#liste">Kapitel 04</a>).</li>
+          <li>Wenn Sie fertig sind, klicken Sie erneut auf <b>Bearbeiten</b>. Die Tafel sieht wieder normal aus und aktualisiert sich wieder alle 2 Sekunden.</li>
+        </ol>
+        <figure>
+          <div class="mock-wrap">
+            <div class="mock" data-mode="edit"
+                 data-title="Dressurprüfung Kl. A – Abteilung 1"
+                 data-marks="edit=1,list=2"
+                 data-items="122/4/7.2/r#rank=3,note=4,dis=5; 444/4/6.8/r; 654/4/0/d; 131/4/6.5; 208/3#status=6; 315/2; 97/1; 402/1; 519/0; 233/0; 610/0; 77/0"></div>
+          </div>
+          <figcaption>Die gleiche Tafel im Bearbeitungsmodus.</figcaption>
+          <ol class="callouts">
+            <li><span class="n">1</span><span><b>Bearbeiten</b> ist an (kräftig).</span></li>
+            <li><span class="n">2</span><span><b>Liste bearbeiten</b> ist jetzt sichtbar, aber aus (blass).</span></li>
+            <li><span class="n">3</span><span>Schalter <b>Platziert</b>, hier an.</span></li>
+            <li><span class="n">4</span><span>Eingabefeld für die <b>Note</b> mit Speichern-Knopf darunter.</span></li>
+            <li><span class="n">5</span><span>Schalter <b>Disqualifiziert</b>, hier aus.</span></li>
+            <li><span class="n">6</span><span>Auswahlliste für den <b>Status</b>.</span></li>
+          </ol>
+        </figure>
+        <div class="note tip"><b>Tipp</b><span>Schalten Sie Bearbeiten nur auf dem Gerät ein, an dem Sie tatsächlich etwas eintragen. Der große Bildschirm für die Zuschauer öffnet am besten die Anzeige-Adresse mit Port 5081 (<a href="#zugang">00.01</a>): Dort gibt es keine Schaltflächen, und er zeigt alle Änderungen nach spätestens 2 Sekunden an.</span></div>
+      </div>
+
+      <div class="sub-section" id="status-aendern">
+        <h3><span class="sub-idx">03.02</span>Status ändern</h3>
+        <ol class="steps">
+          <li>Klicken Sie beim gewünschten Teilnehmer auf das Statusbild mit dem kleinen Pfeil.</li>
+          <li>Eine Liste mit allen fünf Stationen klappt auf. Der aktuelle Status ist blau hinterlegt.</li>
+          <li>Klicken Sie auf den neuen Status. <b>Er wird sofort gespeichert</b>, ein Speichern-Knopf ist nicht nötig.</li>
+        </ol>
+        <p>Um die Liste zu schließen, ohne etwas zu ändern, klicken Sie irgendwo daneben.</p>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 315 wartet am Vorbereitungsviereck und reitet jetzt ins Viereck ein. Sie stellen den Status von <b>Vorbereitungsviereck</b> auf <b>Prüfung</b>:</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" style="min-height:230px;justify-content:flex-start" data-mode="edit" data-label="Liste aufgeklappt" data-items="315/2//o"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="edit" data-label="Nach dem Klick auf „Prüfung“" data-items="315/3//h"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="So sehen es die Zuschauer" data-items="315/3"></div>
+            </div>
+          </figure>
+        </div>
+        <div class="note"><b>Hinweis</b><span>Die Auswahlliste klappt bei Teilnehmern in der unteren Bildschirmhälfte nach oben auf, damit sie nicht aus dem Bild ragt.</span></div>
+      </div>
+
+      <div class="sub-section" id="note">
+        <h3><span class="sub-idx">03.03</span>Note eintragen</h3>
+        <p>Eine Note kann nur eingetragen werden, wenn der Teilnehmer den Status <b>fertig</b> hat und nicht disqualifiziert ist.</p>
+        <ol class="steps">
+          <li>Stellen Sie den Status zuerst auf <b>fertig</b> (<a href="#status-aendern">03.02</a>).</li>
+          <li>Klicken Sie in das Eingabefeld links und tippen Sie die Note ein, z. B. <kbd>7,2</kbd>.</li>
+          <li>Klicken Sie auf den kleinen <b>Speichern</b>-Knopf <img class="ico" src="../images/StatusImgs/index.png" alt=""> direkt unter dem Eingabefeld.</li>
+        </ol>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 131 hat die Prüfung beendet und bekommt die Note 6,5.</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="edit" data-label="1. Status fertig" data-items="131/4/0/"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="edit" data-label="2. Note tippen" data-items="131/4/0/f#save=1" data-typed="6,5"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="3. Nach dem Speichern" data-items="131/4/6.5/h"></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span>Erst mit diesem Knopf wird die Note gespeichert.</span></li></ol>
+          </figure>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Eingabe</th><th>Ergebnis</th><th>Anzeige</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">7,2</td><td><span class="pill good">gespeichert</span></td><td class="mono">7,2</td></tr>
+              <tr><td class="mono">7.2</td><td><span class="pill good">gespeichert</span></td><td class="mono">7,2</td></tr>
+              <tr><td class="mono">6,75</td><td><span class="pill good">gespeichert</span></td><td class="mono">6,8 <span class="muted">(gerundet angezeigt)</span></td></tr>
+              <tr><td class="mono">10</td><td><span class="pill good">gespeichert</span></td><td class="mono">10,0</td></tr>
+              <tr><td class="mono">0</td><td><span class="pill info">Note entfernt</span></td><td class="muted">keine Anzeige</td></tr>
+              <tr><td class="mono">11</td><td><span class="pill bad">abgelehnt</span></td><td class="muted">„Note 11 nicht erlaubt.“</td></tr>
+              <tr><td class="mono">sieben</td><td><span class="pill bad">abgelehnt</span></td><td class="muted">„Die Note ist kein gültiger Zahlenwert“</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note warn"><b>Achtung</b><span>Eine eingetippte Note ist erst nach dem Klick auf <b>Speichern</b> übernommen. Schalten Sie vorher Bearbeiten aus, geht die Eingabe verloren.</span></div>
+        <p>Eine falsche Note korrigieren Sie genauso: neue Note eintippen und speichern. Um eine Note ganz zu entfernen, tragen Sie <kbd>0</kbd> ein.</p>
+      </div>
+
+      <div class="sub-section" id="platzieren">
+        <h3><span class="sub-idx">03.04</span>Platzieren</h3>
+        <p>Nach der Siegerehrung bzw. Auswertung markieren Sie die platzierten Teilnehmer mit dem Pokal.</p>
+        <ol class="steps">
+          <li>Prüfen Sie, dass der Teilnehmer eine Note hat.</li>
+          <li>Klicken Sie auf den blassen Pokal <img class="ico off" src="../images/ranked.jpg" alt=""> links oben neben der Note.</li>
+          <li>Der Pokal wird kräftig <img class="ico" src="../images/ranked.jpg" alt=""> und ist <b>sofort gespeichert</b>. Ein erneuter Klick nimmt die Platzierung wieder zurück.</li>
+        </ol>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 444 hat 6,8 erreicht und ist platziert.</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="edit" data-label="Vorher" data-items="444/4/6.8/#rank=1"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="edit" data-label="Pokal angeklickt" data-items="444/4/6.8/rh"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="Anzeige" data-items="444/4/6.8/r"></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span>Blasser Pokal = nicht platziert. Einmal klicken.</span></li></ol>
+          </figure>
+        </div>
+      </div>
+
+      <div class="sub-section" id="disqualifizieren">
+        <h3><span class="sub-idx">03.05</span>Disqualifizieren</h3>
+        <p>Ein Teilnehmer kann nur disqualifiziert werden, wenn er den Status <b>fertig</b> hat, <b>keine Note</b> hat und <b>nicht platziert</b> ist.</p>
+        <ol class="steps">
+          <li>Stellen Sie den Status auf <b>fertig</b>, falls noch nicht geschehen.</li>
+          <li>Hat der Teilnehmer schon eine Note, tragen Sie <kbd>0</kbd> ein und speichern.</li>
+          <li>Klicken Sie auf das blasse rote X <img class="ico off" src="../images/dis.jpg" alt=""> links unten neben der Note. Es wird kräftig und ist <b>sofort gespeichert</b>.</li>
+        </ol>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 654 hat sich verritten und wird ausgeschlossen. Versehentlich wurde schon 5,9 eingetragen.</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="edit" data-label="Note noch drin" data-items="654/4/5.9/"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="edit" data-label="0 speichern" data-items="654/4/0/f" data-typed="0"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="edit" data-label="X anklicken" data-items="654/4/0/dh#dis=1"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="Anzeige" data-items="654/4/0/d"></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span>Kräftiges X = disqualifiziert.</span></li></ol>
+          </figure>
+        </div>
+      </div>
+
+      <div class="sub-section" id="ablauf">
+        <h3><span class="sub-idx">03.06</span>Beispiel: ein Teilnehmer vom Eintreffen bis zur Platzierung</h3>
+        <p>So entwickelt sich Nr. 208 im Laufe der Prüfung auf der Tafel. Jeder Pfeil ist eine Aktion im Bearbeitungsmodus.</p>
+        <figure>
+          <div class="fig-frame">
+            <div class="strip" data-mode="view"
+                 data-items="208/0|Noch nicht da; 208/1|Status → Abreitplatz; 208/2|Status → Vorbereitungsviereck; 208/3|Status → Prüfung; 208/4|Status → fertig; 208/4/6.9|Note 6,9 speichern; 208/4/6.9/r|Pokal anklicken"></div>
+          </div>
+          <figcaption>Status und Pokal werden beim Klick sofort gespeichert, nur die Note braucht den Speichern-Knopf.</figcaption>
+        </figure>
+      </div>
+
+      <div class="sub-section" id="regeln">
+        <h3><span class="sub-idx">03.07</span>Regeln, die die Tafel prüft</h3>
+        <p>Damit keine widersprüchlichen Angaben entstehen, lehnt die Tafel bestimmte Kombinationen ab und zeigt unten eine Meldung an. Die Änderung wird dann <b>nicht</b> gespeichert.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sie möchten …</th><th>Voraussetzung</th><th>Sonst</th></tr></thead>
+            <tbody>
+              <tr><td>eine Note eintragen</td><td>Status <b>fertig</b>, nicht disqualifiziert, Note zwischen 0 und 10</td><td><span class="pill bad">abgelehnt</span></td></tr>
+              <tr><td>platzieren</td><td>Note eingetragen (nicht 0), nicht disqualifiziert</td><td><span class="pill bad">abgelehnt</span></td></tr>
+              <tr><td>disqualifizieren</td><td>Status <b>fertig</b>, keine Note, nicht platziert</td><td><span class="pill bad">abgelehnt</span></td></tr>
+              <tr><td>den Status von <b>fertig</b> zurücksetzen</td><td>keine Note und nicht disqualifiziert</td><td><span class="pill bad">abgelehnt</span></td></tr>
+              <tr><td>eine Note entfernen (0)</td><td>nicht platziert</td><td><span class="pill bad">abgelehnt</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 122 wurde aus Versehen auf <b>fertig</b> gestellt, mit 7,2 bewertet und platziert, reitet aber erst noch. Zum Zurücksetzen gehen Sie in umgekehrter Reihenfolge vor:</p>
+          <ol class="steps">
+            <li>Pokal anklicken → Platzierung entfernt.</li>
+            <li><kbd>0</kbd> als Note speichern → Note entfernt.</li>
+            <li>Status auf <b>Prüfung</b> stellen.</li>
+          </ol>
+          <p>Wird Schritt 1 oder 2 übersprungen, erscheint eine Meldung und der Status bleibt auf <b>fertig</b>.</p>
+        </div>
+        <figure>
+          <div class="mock-wrap">
+            <div class="mock" data-mode="edit" data-title="Dressurprüfung Kl. A – Abteilung 1" data-marks="error=1"
+                 data-error="Note kann nicht eingetragen werden, da Reiter mit diesem Pferd die Prüfung noch nicht abgeschlossen hat."
+                 data-items="122/4/7.2/r; 444/4/6.8/r; 654/4/0/d; 131/4/6.5; 208/3/0/f" data-typed="7"></div>
+          </div>
+          <figcaption>Bei Nr. 208 (Status „Prüfung“) wurde die Note 7 gespeichert. Die Tafel lehnt das ab und zeigt die Meldung über der Legende.</figcaption>
+          <ol class="callouts"><li><span class="n">1</span><span><b>Meldungszeile</b>: Hier erscheinen alle Hinweise und Fehler (<a href="#fehler">Kapitel 05</a>).</span></li></ol>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 04 LISTE -->
+    <section id="liste">
+      <div class="section-head"><span class="idx">04</span><h2>Teilnehmerliste bearbeiten</h2></div>
+      <p class="intro">
+        Vor Beginn einer Prüfung wird der Titel gesetzt und die Starterliste angelegt. Auch während der
+        Prüfung lassen sich Nachnennungen einfügen, Startnummern korrigieren oder Abmeldungen löschen.
+      </p>
+
+      <div class="sub-section" id="liste-start">
+        <h3><span class="sub-idx">04.01</span>Liste bearbeiten starten</h3>
+        <ol class="steps">
+          <li>Schalten Sie zuerst <b>Bearbeiten</b> <img class="ico" src="../images/StatusImgs/prepare.png" alt=""> ein.</li>
+          <li>Klicken Sie auf das daneben erschienene Symbol <b>Liste bearbeiten</b> <img class="ico off" src="../images/editList.png" alt="">. Es wird kräftig <img class="ico" src="../images/editList.png" alt="">.</li>
+          <li>Oben links erscheint ein Feld für eine neue Liste, der Titel wird zum Eingabefeld und an jedem Teilnehmer erscheinen die Startnummer als Eingabefeld sowie drei kleine Knöpfe rechts.</li>
+          <li>Zum Beenden klicken Sie erneut auf <b>Liste bearbeiten</b>. Wenn Sie <b>Bearbeiten</b> ausschalten, wird auch Liste bearbeiten automatisch beendet.</li>
+        </ol>
+        <figure>
+          <div class="mock-wrap">
+            <div class="mock" data-mode="list"
+                 data-title="Dressurprüfung Kl. A – Abteilung 1"
+                 data-marks="newlist=1,title=2,list=3"
+                 data-items="122/4/7.2/r; 444/4/6.8/r; 654/4/0/d; 131/4/6.5; 208/3; 315/2; 97/1; 402/1; 519/0; 233/0; 610/0; 77/0"></div>
+          </div>
+          <figcaption>Die Tafel mit eingeschaltetem „Liste bearbeiten“.</figcaption>
+          <ol class="callouts">
+            <li><span class="n">1</span><span><b>Neue Liste</b>: Startnummern eintragen und anlegen (<a href="#neue-liste">04.03</a>).</span></li>
+            <li><span class="n">2</span><span><b>Titel</b> ändern und speichern (<a href="#titel">04.02</a>).</span></li>
+            <li><span class="n">3</span><span><b>Liste bearbeiten</b> ist an.</span></li>
+          </ol>
+        </figure>
+        <p>Jeder Teilnehmer bekommt im Listenmodus ein Eingabefeld für die Startnummer und rechts drei kleine Knöpfe:</p>
+        <figure>
+          <div class="fig-frame">
+            <div class="zoom-row">
+              <div class="zoom-item">
+                <div class="zoom" style="padding-right:30px"><div class="single" data-mode="list" data-item="122/4/7.2/r#no=4,ins=5,del=6,ins2=7"></div></div>
+                <span class="zoom-label">Teilnehmer im Listenmodus</span>
+              </div>
+            </div>
+          </div>
+          <ol class="callouts">
+            <li><span class="n">4</span><span><b>Startnummer</b> ändern und speichern (<a href="#nummer">04.04</a>).</span></li>
+            <li><span class="n">5</span><span><b>Davor einfügen</b> (<a href="#einfuegen">04.05</a>).</span></li>
+            <li><span class="n">6</span><span><b>Löschen</b> (<a href="#loeschen">04.06</a>).</span></li>
+            <li><span class="n">7</span><span><b>Danach einfügen</b> (<a href="#einfuegen">04.05</a>).</span></li>
+          </ol>
+        </figure>
+      </div>
+
+      <div class="sub-section" id="titel">
+        <h3><span class="sub-idx">04.02</span>Titel ändern</h3>
+        <ol class="steps">
+          <li>Klicken Sie in das Titelfeld oben in der Mitte und ändern Sie den Text.</li>
+          <li>Klicken Sie auf <b>Titel speichern</b> <img class="ico" src="../images/StatusImgs/index.png" alt=""> rechts neben dem Feld.</li>
+        </ol>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nach der ersten Abteilung beginnt die zweite:</p>
+          <figure>
+            <div class="mock-wrap">
+              <div class="mock mock-head" data-mode="list" data-title="Dressurprüfung Kl. A – Abteilung 2" data-title-focus="1" data-marks="titlesave=1" data-items=""></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span>Erst der Klick auf diesen Knopf übernimmt den neuen Titel auf allen Bildschirmen.</span></li></ol>
+          </figure>
+        </div>
+      </div>
+
+      <div class="sub-section" id="neue-liste">
+        <h3><span class="sub-idx">04.03</span>Neue Liste erstellen</h3>
+        <p>Mit einer neuen Liste ersetzen Sie <b>alle</b> bisherigen Teilnehmer durch eine neue Starterliste.</p>
+        <ol class="steps">
+          <li>Klicken Sie in das Feld oben links.</li>
+          <li>Tragen Sie die Startnummern <b>in Startreihenfolge</b> ein, getrennt durch Kommas, z. B. <kbd>122, 444, 654</kbd>. Leerzeichen sind erlaubt.</li>
+          <li>Klicken Sie auf <b>Neue Liste anlegen</b> <img class="ico" src="../images/StatusImgs/play.png" alt="">.</li>
+        </ol>
+        <div class="note warn"><b>Achtung</b><span>Die alte Liste wird <b>ohne Rückfrage vollständig gelöscht</b>, einschließlich aller Noten, Platzierungen und Disqualifikationen. Das lässt sich nicht rückgängig machen.</span></div>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Eingabe: <code>122, 444, 654, 131, 208, 315</code></p>
+          <figure>
+            <div class="mock-wrap">
+              <div class="mock" data-mode="list" data-title="Dressurprüfung Kl. A – Abteilung 2" data-nolegend="1"
+                   data-newlist="122, 444, 654, 131, 208, 315" data-marks="newlistbtn=1"
+                   data-items="122/0; 444/0; 654/0; 131/0; 208/0; 315/0"></div>
+            </div>
+            <figcaption>Nach dem Klick auf den grünen Knopf stehen die sechs Teilnehmer in der eingegebenen Reihenfolge auf der Tafel, alle mit Status „Nicht da“ und ohne Note. Bei 6 Teilnehmern ergeben sich 4 Spalten mit je 2 Zeilen.</figcaption>
+            <ol class="callouts"><li><span class="n">1</span><span><b>Neue Liste anlegen</b></span></li></ol>
+          </figure>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Eingabe</th><th>Ergebnis</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">122,444,654</td><td><span class="pill good">3 Teilnehmer</span> 122, 444, 654</td></tr>
+              <tr><td class="mono">122, 444 , 654</td><td><span class="pill good">3 Teilnehmer</span> Leerzeichen werden ignoriert</td></tr>
+              <tr><td class="mono">7</td><td><span class="pill good">1 Teilnehmer</span> Nr. 7</td></tr>
+              <tr><td class="mono">122; 444</td><td><span class="pill bad">abgelehnt</span> „Pferdenummer '122; 444' ist keine gültige Zahl.“ Nur Kommas trennen.</td></tr>
+              <tr><td class="mono">122, , 444</td><td><span class="pill bad">abgelehnt</span> „Pferdenummer '' ist keine gültige Zahl.“ Doppeltes Komma entfernen.</td></tr>
+              <tr><td class="muted">(leer)</td><td><span class="pill bad">abgelehnt</span> „Die Liste der Startnummern ist leer.“</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Wird die Eingabe abgelehnt, bleibt die alte Liste unverändert erhalten.</p>
+      </div>
+
+      <div class="sub-section" id="nummer">
+        <h3><span class="sub-idx">04.04</span>Startnummer ändern</h3>
+        <ol class="steps">
+          <li>Klicken Sie in das Startnummer-Feld des Teilnehmers und tippen Sie die richtige Nummer ein.</li>
+          <li>Klicken Sie auf <b>Startnummer speichern</b> <img class="ico" src="../images/StatusImgs/index.png" alt=""> direkt darunter.</li>
+        </ol>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Bei der Eingabe wurde 413 statt 431 getippt:</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="list" data-label="Tippfehler" data-items="413/1"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="list" data-label="431 tippen, speichern" data-items="431/1//g#save2=1"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="Anzeige" data-items="431/1//h"></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span>Startnummer speichern</span></li></ol>
+          </figure>
+        </div>
+        <p>Status, Note und Platzierung des Teilnehmers bleiben dabei erhalten. Es sind nur ganze Zahlen erlaubt.</p>
+      </div>
+
+      <div class="sub-section" id="einfuegen">
+        <h3><span class="sub-idx">04.05</span>Teilnehmer einfügen (Nachnennung)</h3>
+        <p>Rechts an jedem Teilnehmer gibt es zwei grüne Knöpfe:</p>
+        <ul class="plain">
+          <li><img class="ico" src="../images/StatusImgs/play.png" alt=""> <b>oben</b>: <b>Davor einfügen</b>, also vor diesem Teilnehmer,</li>
+          <li><img class="ico" src="../images/StatusImgs/play.png" alt=""> <b>unten</b>: <b>Danach einfügen</b>, also nach diesem Teilnehmer.</li>
+        </ul>
+        <p>Der neue Teilnehmer erscheint mit Startnummer <b>0</b> und Status <b>Nicht da</b>. Alle folgenden Teilnehmer rücken eine Position nach hinten. Tragen Sie anschließend die richtige Startnummer ein (<a href="#nummer">04.04</a>).</p>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 250 wird nachgemeldet und soll <b>nach</b> Nr. 208 starten. Klicken Sie bei Nr. 208 auf den <b>unteren</b> grünen Knopf:</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="list" data-label="Vorher" data-items="131/4/6.5; 208/3#ins2=1; 315/2"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="list" data-label="Nach „Danach einfügen“" data-items="131/4/6.5; 208/3; 0/0//h#no=2; 315/2"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="Nummer 250 gespeichert" data-items="131/4/6.5; 208/3; 250/0//h; 315/2"></div>
+            </div>
+            <ol class="callouts">
+              <li><span class="n">1</span><span><b>Danach einfügen</b> bei Nr. 208.</span></li>
+              <li><span class="n">2</span><span>Neuer Teilnehmer mit Nummer 0: richtige Nummer eintragen und speichern.</span></li>
+            </ol>
+          </figure>
+        </div>
+        <div class="note tip"><b>Tipp</b><span>Soll ein Teilnehmer ganz an den Anfang, klicken Sie beim ersten Teilnehmer auf <b>Davor einfügen</b>. Für ganz ans Ende klicken Sie beim letzten auf <b>Danach einfügen</b>.</span></div>
+      </div>
+
+      <div class="sub-section" id="loeschen">
+        <h3><span class="sub-idx">04.06</span>Teilnehmer löschen (Abmeldung)</h3>
+        <p>Klicken Sie auf das rote X <img class="ico" src="../images/dis.jpg" alt=""> in der <b>Mitte</b> rechts am Teilnehmer. Der Teilnehmer wird entfernt, alle folgenden rücken eine Position nach vorne.</p>
+        <div class="note warn"><b>Achtung</b><span>Gelöscht wird <b>sofort und ohne Rückfrage</b>. Verwechseln Sie das rote X rechts (Löschen) nicht mit dem kleinen roten X links neben der Note (Disqualifizieren).</span></div>
+        <div class="example">
+          <span class="ex-label">Beispiel</span>
+          <p>Nr. 315 hat abgesagt:</p>
+          <figure>
+            <div class="ba">
+              <div class="ba-col" data-mode="list" data-label="Vorher" data-items="208/3; 315/0//x#del=1; 97/1; 402/1"></div>
+              <div class="ba-arrow">→</div>
+              <div class="ba-col" data-mode="view" data-label="Nachher" data-items="208/3; 97/1; 402/1"></div>
+            </div>
+            <ol class="callouts"><li><span class="n">1</span><span><b>Löschen</b>: Nr. 97 und 402 rücken nach oben.</span></li></ol>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 FEHLER -->
+    <section id="fehler">
+      <div class="section-head"><span class="idx">05</span><h2>Fehlermeldungen</h2></div>
+      <p class="intro">
+        Meldungen erscheinen in der Zeile direkt über der Legende. Sie verschwinden bei der nächsten Aktion
+        oder der nächsten automatischen Aktualisierung (nach 2 Sekunden, im Bearbeitungsmodus nach 15 Sekunden).
+        Eine abgelehnte Änderung wird nicht gespeichert.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Meldung</th><th>Ursache</th><th>Was tun?</th></tr></thead>
+          <tbody>
+            <tr><td class="msg">Die Note ist kein gültiger Zahlenwert</td><td>Buchstaben oder leeres Feld als Note.</td><td>Zahl eingeben, z. B. <code>7,2</code>.</td></tr>
+            <tr><td class="msg">Note 11 nicht erlaubt.</td><td>Note kleiner 0 oder größer 10.</td><td>Note zwischen 0 und 10 eingeben.</td></tr>
+            <tr><td class="msg">Note kann nicht eingetragen werden, da Reiter mit diesem Pferd die Prüfung noch nicht abgeschlossen hat.</td><td>Note bei einem Status ungleich „fertig“, <b>oder</b> Status eines Teilnehmers mit Note zurückgesetzt.</td><td>Zuerst Status auf „fertig“ stellen. Zum Zurücksetzen erst Note auf 0 setzen.</td></tr>
+            <tr><td class="msg">Note kann nicht eingetragen werden, da Reiter mit diesem Pferd in dieser Prüfung disqualifiziert sind.</td><td>Teilnehmer ist disqualifiziert.</td><td>Erst Disqualifikation aufheben (X links anklicken).</td></tr>
+            <tr><td class="msg">Reiter mit Pferd kann nicht disqualifiziert werden, da Reiter mit diesem Pferd die Prüfung noch nicht abgeschlossen hat.</td><td>Disqualifizieren bei Status ungleich „fertig“, oder Status eines Disqualifizierten zurückgesetzt.</td><td>Status auf „fertig“ stellen bzw. erst Disqualifikation aufheben.</td></tr>
+            <tr><td class="msg">Reiter mit Pferd kann nicht disqualifiziert werden, da Reiter mit diesem Pferd in dieser Prüfung platziert wurden.</td><td>Teilnehmer ist platziert.</td><td>Erst den Pokal abwählen.</td></tr>
+            <tr><td class="msg">Reiter mit Pferd kann nicht platziert werden, da Reiter mit diesem Pferd in dieser Prüfung nicht bewertet wurden.</td><td>Platzieren ohne Note oder Note auf 0 gesetzt, obwohl platziert.</td><td>Erst Note eintragen bzw. erst den Pokal abwählen.</td></tr>
+            <tr><td class="msg">Die Startnummer ist kein gültiger Zahlenwert</td><td>Buchstaben, Komma oder leeres Feld als Startnummer.</td><td>Ganze Zahl eingeben.</td></tr>
+            <tr><td class="msg">Die Liste der Startnummern ist leer.</td><td>„Neue Liste anlegen“ mit leerem Feld.</td><td>Startnummern mit Komma getrennt eingeben.</td></tr>
+            <tr><td class="msg">Pferdenummer 'abc' ist keine gültige Zahl.</td><td>Ein Eintrag der neuen Liste ist keine Zahl.</td><td>Eingabe prüfen: nur Zahlen, nur Kommas als Trenner.</td></tr>
+            <tr><td class="msg">Keine Verbindung zur Datenbank CompetitionBoardDB auf …</td><td>Der Datenbankserver ist nicht erreichbar.</td><td>Netzwerk und SQL-Server prüfen, Administrator informieren (<a href="#einstellungen">Kapitel 07</a>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 FAQ -->
+    <section id="faq">
+      <div class="section-head"><span class="idx">06</span><h2>Tipps &amp; häufige Fragen</h2></div>
+
+      <h3>Wie öffne ich die Tafel?</h3>
+      <p>Zum Bedienen im Browser die Adresse <code>http://&lt;Rechnername&gt;:5080</code> aufrufen, auf dem Rechner mit dem Dienst selbst <code>http://localhost:5080</code>. Für reine Anzeigegeräte die Adresse mit Port <code>5081</code> verwenden. Am großen Bildschirm empfiehlt sich der Vollbildmodus mit <kbd>F11</kbd>.</p>
+
+      <h3>Ein Symbol sieht nach einem Update noch alt aus.</h3>
+      <p>Der Browser merkt sich Bilder eine Zeit lang. Laden Sie die Seite mit <kbd>Strg</kbd>+<kbd>F5</kbd> neu. Hilft das nicht, leeren Sie den Cache des Browsers oder warten Sie eine Stunde.</p>
+
+      <h3>Können mehrere Personen gleichzeitig arbeiten?</h3>
+      <p>Ja. Jedes Gerät hat seine eigene Verbindung. Änderungen erscheinen auf allen anderen Bildschirmen nach spätestens 2 Sekunden, auf Geräten im Bearbeitungsmodus nach spätestens 15 Sekunden. Sprechen Sie sich trotzdem ab, wer welche Teilnehmer pflegt, damit sich Eingaben nicht überschneiden.</p>
+
+      <h3>Geht das auch auf dem Handy?</h3>
+      <p>Ja. Auf kleinen Bildschirmen werden die Spalten untereinander angezeigt und die Seite lässt sich scrollen. Alle Funktionen stehen genauso zur Verfügung. So kann z. B. ein Helfer am Abreiteplatz die Status direkt vom Handy aus setzen.</p>
+
+      <h3>Meine Eingabe wird wieder überschrieben.</h3>
+      <p>Ein eingetipptes Feld wird nur überschrieben, wenn sich der gespeicherte Wert inzwischen geändert hat, z. B. weil jemand anderes denselben Teilnehmer bearbeitet. Klicken Sie nach dem Tippen immer gleich auf <b>Speichern</b>.</p>
+
+      <h3>Der Schließen-Knopf tut nichts.</h3>
+      <p>Viele Browser erlauben einer Seite nicht, ein Fenster zu schließen, das sie nicht selbst geöffnet hat. Schließen Sie den Tab dann ganz normal. Der Dienst läuft in jedem Fall weiter.</p>
+
+      <h3>Ich habe aus Versehen eine neue Liste angelegt oder jemanden gelöscht.</h3>
+      <p>Diese Aktionen lassen sich nicht rückgängig machen. Legen Sie die Liste neu an bzw. fügen Sie den Teilnehmer wieder ein und tragen Sie Status und Note erneut ein.</p>
+
+      <h3>Wofür steht „Nicht da“?</h3>
+      <p>Das ist der Anfangsstatus jedes Teilnehmers. Er erscheint ohne Bild und steht nicht in der Legende, damit die Tafel übersichtlich bleibt.</p>
+    </section>
+
+    <!-- 07 EINSTELLUNGEN -->
+    <section id="einstellungen">
+      <div class="section-head"><span class="idx">07</span><h2>Einstellungen (für Administratoren)</h2></div>
+      <p class="intro">
+        Die Tafel läuft als Windows-Dienst <code>CompetitionBoard</code>. Ihre Einstellungen stehen in der Datei
+        <code>appsettings.json</code> im Installationsordner, direkt neben <code>WebApp.exe</code>.
+        Öffnen Sie die Datei mit einem Texteditor, z. B. Notepad.
+      </p>
+      <pre class="code">{
+  <span class="k">"Kestrel"</span>: {
+    <span class="k">"Endpoints"</span>: {
+      <span class="k">"Http"</span>: { <span class="k">"Url"</span>: <span class="s">"http://0.0.0.0:5080"</span> },    <span class="c">// Adresse und Port der Bedienung</span>
+      <span class="k">"Display"</span>: { <span class="k">"Url"</span>: <span class="s">"http://0.0.0.0:5081"</span> } <span class="c">// Adresse und Port der reinen Anzeige</span>
+    }
+  },
+  <span class="k">"Db"</span>: {
+    <span class="k">"Server"</span>: <span class="s">"MEINRECHNER\\SQLEXPRESS"</span>,  <span class="c">// SQL-Server (Backslash doppelt schreiben)</span>
+    <span class="k">"DB"</span>: <span class="s">"CompetitionBoardDB"</span>,           <span class="c">// Name der Datenbank</span>
+    <span class="k">"Username"</span>: <span class="s">"CompetitionBoard"</span>,
+    <span class="k">"Password"</span>: <span class="s">"…"</span>
+  },
+  <span class="k">"UI"</span>: {
+    <span class="k">"EditTime"</span>: 15,          <span class="c">// Aktualisierung im Bearbeitungsmodus [Sekunden]</span>
+    <span class="k">"RefreshTime"</span>: 2,        <span class="c">// Aktualisierung der normalen Anzeige [Sekunden]</span>
+    <span class="k">"DisplayPort"</span>: 5081      <span class="c">// Port der reinen Anzeige ohne Schaltflächen</span>
+  }
+}</pre>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Einstellung</th><th>Bedeutung</th><th>Standard</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Kestrel:Endpoints:Http:Url</td><td>Adresse der Bedienung. Den Port ändern Sie hier.</td><td class="mono">http://0.0.0.0:5080</td></tr>
+            <tr><td class="mono">Kestrel:Endpoints:Display:Url</td><td>Adresse der reinen Anzeige. Wird der Port geändert, muss <span class="mono">UI:DisplayPort</span> denselben Wert bekommen.</td><td class="mono">http://0.0.0.0:5081</td></tr>
+            <tr><td class="mono">Db:Server</td><td>Rechner und Instanz des SQL-Servers.</td><td class="muted">–</td></tr>
+            <tr><td class="mono">Db:DB</td><td>Name der Datenbank.</td><td class="mono">CompetitionBoardDB</td></tr>
+            <tr><td class="mono">Db:Username / Password</td><td>Anmeldedaten für die Datenbank.</td><td class="muted">–</td></tr>
+            <tr><td class="mono">UI:RefreshTime</td><td>Sekunden zwischen zwei Aktualisierungen der normalen Anzeige.</td><td class="mono">2</td></tr>
+            <tr><td class="mono">UI:EditTime</td><td>Sekunden zwischen zwei Aktualisierungen im Bearbeitungsmodus.</td><td class="mono">15</td></tr>
+            <tr><td class="mono">UI:DisplayPort</td><td>Port, auf dem die Tafel nur angezeigt wird, ohne Schaltflächen. <span class="mono">0</span> schaltet die reine Anzeige ab.</td><td class="mono">5081</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>Wichtig</b><span>Änderungen werden erst nach einem Neustart des Dienstes wirksam, z. B. in einer PowerShell als Administrator: <code>Restart-Service CompetitionBoard</code>. Danach alle geöffneten Tafeln im Browser neu laden.</span></div>
+      <div class="note tip"><b>Update</b><span>Das Skript <code>install-service.ps1</code> gibt die Ports 5080 und 5081 in der Windows-Firewall frei.</span></div>
+    </section>
+
+    <footer class="page-foot">
+      CompetitionBoard · Bedienungsanleitung der WebApp · Stand September 2026
+    </footer>
+  </main>
+</div>
+
+<script>
+  /* Navigation: aktiven Abschnitt markieren (wie in den übrigen Dokus). */
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.side a[data-nav]'));
+    var sections = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    if ('IntersectionObserver' in window && sections.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        if (visible.length) {
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] });
+
+      sections.forEach(function (s) { observer.observe(s); });
+    }
+
+    if (sections.length) setActive(sections[0].id);
+  })();
+
+  /* Nachbau der Anzeigetafel. Die Bilder kommen direkt aus wwwroot/images.
+     Teilnehmer-Syntax: "Nr/Status/Note/Flags#Markierungen|Beschriftung"
+       Status: 0 Nicht da, 1 Abreitplatz, 2 Vorbereitungsviereck, 3 Prüfung, 4 fertig
+       Flags:  r platziert, d disqualifiziert, h/x hervorgehoben (blau/rot),
+               o Statusliste offen, f Note-Eingabe aktiv, g Nummer-Eingabe aktiv
+       Markierungen: "3" (ganzer Teilnehmer) oder "note=1,rank=2,..." */
+  (function () {
+    var IMG = '../images/';
+    var ST = [
+      { t: 'Nicht da', img: 'dressageImgs/empty.jpg', icon: 'dressageImgs/empty.jpg' },
+      { t: 'Abreitplatz', img: 'dressageImgs/prepare.jpg', icon: 'StatusImgs/prepare.png' },
+      { t: 'Vorbereitungsviereck', img: 'dressageImgs/almost.jpg', icon: 'StatusImgs/wait.png' },
+      { t: 'Prüfung', img: 'dressageImgs/compesition.jpg', icon: 'StatusImgs/play.png' },
+      { t: 'fertig', img: 'dressageImgs/finished.jpg', icon: 'StatusImgs/index.png' }
+    ];
+
+    function esc(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function img(src, cls) {
+      return '<img' + (cls ? ' class="' + cls + '"' : '') + ' src="' + IMG + src + '" alt="">';
+    }
+
+    function mk(n, pos) { return n ? '<i class="mk' + (pos ? ' ' + pos : '') + '">' + n + '</i>' : ''; }
+    function hm(n) { return n ? ' has-mk' : ''; }
+
+    function si(s, size) {
+      return '<span class="si" style="width:' + size + 'px;height:' + size + 'px">' +
+        img(ST[s].img, 'si-main') + img(ST[s].icon, 'si-icon') + '</span>';
+    }
+
+    function fmtMark(m) { return m.toFixed(1).replace('.', ','); }
+    function fmtEdit(m) { return String(m).replace('.', ','); }
+
+    function parseMarks(str) {
+      var res = {};
+      if (!str) return res;
+      str.split(',').forEach(function (kv) {
+        var p = kv.split('=');
+        if (p.length === 1) res.card = +p[0]; else res[p[0].trim()] = +p[1];
+      });
+      return res;
+    }
+
+    function parseItem(str) {
+      var cap = '';
+      var bar = str.indexOf('|');
+      if (bar >= 0) { cap = str.slice(bar + 1).trim(); str = str.slice(0, bar); }
+      var hash = str.indexOf('#');
+      var marks = {};
+      if (hash >= 0) { marks = parseMarks(str.slice(hash + 1)); str = str.slice(0, hash); }
+      var p = str.trim().split('/');
+      var f = p[3] || '';
+      return {
+        no: p[0], s: +(p[1] || 0), m: parseFloat(p[2] || '0') || 0,
+        r: f.indexOf('r') >= 0, d: f.indexOf('d') >= 0, h: f.indexOf('h') >= 0, x: f.indexOf('x') >= 0,
+        o: f.indexOf('o') >= 0, f: f.indexOf('f') >= 0, g: f.indexOf('g') >= 0,
+        mk: marks, cap: cap
+      };
+    }
+
+    function parseItems(str) {
+      if (!str || !str.trim()) return [];
+      return str.split(';').map(parseItem);
+    }
+
+    function card(it, mode, typed) {
+      var ed = mode !== 'view';
+      var le = mode === 'list';
+      var k = it.mk;
+      var h = '<div class="p' + (ed ? ' ed' : '') + (it.h ? ' hl' : '') + (it.x ? ' hl-bad' : '') + hm(k.card) + '">' + mk(k.card);
+
+      // Note, Pokal, X
+      h += '<div class="p-mark' + (ed ? '' : hm(k.note)) + '">' + (ed ? '' : mk(k.note));
+      if (!ed) {
+        if (it.r) h += '<span class="p-rank' + hm(k.rank) + '" style="position:absolute">' + mk(k.rank) + img('ranked.jpg') .replace('<img', '<img style="width:100%;height:100%;display:block"') + '</span>';
+        if (it.m > 0) h += '<span class="p-note">' + fmtMark(it.m) + '</span>';
+        if (it.d) h += '<span class="p-dis' + hm(k.dis) + '" style="position:absolute">' + mk(k.dis) + img('dis.jpg').replace('<img', '<img style="width:100%;height:100%;display:block"') + '</span>';
+      } else {
+        var val = it.f && typed !== undefined ? typed : fmtEdit(it.m);
+        h += '<span class="p-cb p-cb-rank' + (it.r ? ' on' : '') + hm(k.rank) + '">' + mk(k.rank) + img('ranked.jpg') + '</span>';
+        h += '<span class="p-cb p-cb-dis' + (it.d ? ' on' : '') + hm(k.dis) + '">' + mk(k.dis, 'bl') + img('dis.jpg') + '</span>';
+        h += '<span class="p-in' + (it.f ? ' focus' : '') + hm(k.note) + '">' + mk(k.note, 'tr') + esc(val) + (it.f ? '<span class="caret"></span>' : '') + '</span>';
+        h += '<span class="p-save' + hm(k.save) + '">' + mk(k.save, 'br') + img('StatusImgs/index.png') + '</span>';
+      }
+      h += '</div>';
+
+      // Status
+      h += '<div class="p-status' + hm(k.status) + '">' + mk(k.status);
+      if (!ed) {
+        h += si(it.s, 48);
+      } else {
+        h += '<div class="combo' + (it.o ? ' open' : '') + '"><div class="combo-sel">' + si(it.s, 22) +
+          '<span class="combo-t">' + ST[it.s].t + '</span><span class="combo-arrow"></span></div>';
+        if (it.o) {
+          h += '<div class="combo-pop">';
+          for (var s = 0; s < ST.length; s++) {
+            h += '<div class="combo-it' + (s === it.s ? ' sel' : '') + (s === 3 ? ' hover' : '') + '">' + si(s, 24) + '<span>' + ST[s].t + '</span></div>';
+          }
+          h += '</div>';
+        }
+        h += '</div>';
+      }
+      h += '</div>';
+
+      // Startnummer
+      h += '<div class="p-no' + hm(k.no) + '">' + mk(k.no);
+      if (le) {
+        h += '<span class="p-in' + (it.g ? ' focus' : '') + '">' + esc(it.no) + (it.g ? '<span class="caret"></span>' : '') + '</span>' +
+          '<span class="p-save' + hm(k.save2) + '" style="margin-top:-2px">' + mk(k.save2, 'br') + img('StatusImgs/index.png') + '</span>';
+      } else {
+        h += '<span class="p-no-l">' + esc(it.no) + '</span>';
+      }
+      h += '</div>';
+
+      // Einfügen / Löschen
+      h += '<div class="p-add">';
+      if (le) {
+        h += '<span class="ib' + hm(k.ins) + '">' + mk(k.ins, 'r') + img('StatusImgs/play.png') + '</span>';
+        h += '<span class="ib' + hm(k.del) + '">' + mk(k.del, 'r') + img('dis.jpg') + '</span>';
+        h += '<span class="ib' + hm(k.ins2) + '">' + mk(k.ins2, 'r') + img('StatusImgs/play.png') + '</span>';
+      }
+      h += '</div>';
+
+      return h + '</div>';
+    }
+
+    function btn(src, on, mark) {
+      return '<span class="ib' + (on === false ? ' off' : '') + hm(mark) + '">' + mk(mark) + img(src) + '</span>';
+    }
+
+    function board(el) {
+      var d = el.dataset;
+      var mode = d.mode || 'view';
+      var ed = mode !== 'view';
+      var le = mode === 'list';
+      var items = parseItems(d.items);
+      var m = parseMarks(d.marks);
+      var n = items.length;
+      var used = n > 20 ? 5 : 4;
+      var rows = Math.max(1, Math.ceil(n / used));
+      var headOnly = el.classList.contains('mock-head');
+
+      var h = '<div class="win"><div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span>' +
+        '<span class="win-url">http://anzeige:5080/</span></div>';
+      h += '<div class="b' + (ed ? ' ed' : '') + '">';
+
+      // Kopfzeile
+      h += '<div class="b-head">';
+      if (le) {
+        var nl = d.newlist || '';
+        h += '<div class="b-edit' + hm(m.newlist) + '">' + mk(m.newlist) +
+          '<span class="b-input' + (nl ? ' focus' : '') + '">' + esc(nl) + (nl ? '<span class="caret"></span>' : '') + '</span>' +
+          btn('StatusImgs/play.png', true, m.newlistbtn) + '</div>';
+      } else {
+        h += '<div></div>';
+      }
+      if (le) {
+        h += '<div class="b-edit' + hm(m.title) + '">' + mk(m.title) +
+          '<span class="b-input' + (d.titleFocus ? ' focus' : '') + '" style="font-size:18px">' + esc(d.title || '') + (d.titleFocus ? '<span class="caret"></span>' : '') + '</span>' +
+          btn('StatusImgs/index.png', true, m.titlesave) + '</div>';
+      } else {
+        h += '<div class="b-title' + hm(m.title) + '">' + mk(m.title) + '<span class="b-title-t">' + esc(d.title || '') + '</span></div>';
+      }
+      h += '<div class="b-btns">';
+      if (ed) h += btn('editList.png', le, m.list);
+      h += btn('StatusImgs/prepare.png', ed, m.edit);
+      h += btn('info.png', true, m.info);
+      h += btn('close.png', true, m.close);
+      h += '</div></div>';
+
+      if (!headOnly) {
+        // Spalten
+        h += '<div class="b-cols' + hm(m.cols) + '">' + mk(m.cols);
+        for (var c = 0; c < 5; c++) {
+          h += '<div class="b-col">';
+          items.slice(c * rows, (c + 1) * rows).forEach(function (it) {
+            h += '<div class="b-cell">' + card(it, mode, d.typed) + '</div>';
+          });
+          h += '</div>';
+        }
+        h += '</div>';
+
+        h += '<div class="b-error' + hm(m.error) + '">' + mk(m.error) + esc(d.error || '') + '</div>';
+
+        if (!d.nolegend) {
+          h += '<div class="b-legend' + hm(m.legend) + '">' + mk(m.legend) +
+            '<span>' + si(1, 24) + 'Abreitplatz</span>' +
+            '<span>' + si(2, 24) + 'Vorbereitungsviereck</span>' +
+            '<span>' + si(3, 24) + 'Prüfung</span>' +
+            '<span>' + si(4, 24) + 'Fertig</span>' +
+            '<span>' + img('dis.jpg', 'lg-small') + 'Disqualifiziert</span>' +
+            '<span>' + img('ranked.jpg', 'lg-small') + 'Platziert</span>' +
+            '</div>';
+        }
+      }
+
+      h += '</div></div>';
+      el.innerHTML = h;
+    }
+
+    document.querySelectorAll('.mock').forEach(board);
+
+    document.querySelectorAll('.single').forEach(function (el) {
+      el.innerHTML = card(parseItem(el.dataset.item), el.dataset.mode || 'view', el.dataset.typed);
+    });
+
+    document.querySelectorAll('.strip').forEach(function (el) {
+      var mode = el.dataset.mode || 'view';
+      var arrows = el.dataset.arrows !== '0';
+      el.innerHTML = parseItems(el.dataset.items).map(function (it, i) {
+        return (i && arrows ? '<span class="strip-arrow">→</span>' : '') +
+          '<div class="strip-item">' + card(it, mode) + (it.cap ? '<span class="cap">' + esc(it.cap) + '</span>' : '') + '</div>';
+      }).join('');
+    });
+
+    document.querySelectorAll('.ba-col').forEach(function (el) {
+      var mode = el.dataset.mode || 'view';
+      var typed = el.dataset.typed;
+      el.innerHTML = '<span class="ba-label">' + esc(el.dataset.label || '') + '</span>' +
+        '<div class="' + (mode !== 'view' ? 'ed' : '') + '" style="display:flex;flex-direction:column;gap:10px">' +
+        parseItems(el.dataset.items).map(function (it) { return card(it, mode, typed); }).join('') + '</div>';
+    });
+
+    document.querySelectorAll('[data-si]').forEach(function (el) {
+      el.innerHTML = si(+el.dataset.si, +(el.dataset.size || 40));
+    });
+  })();
+</script>
+
+</body>
+</html>

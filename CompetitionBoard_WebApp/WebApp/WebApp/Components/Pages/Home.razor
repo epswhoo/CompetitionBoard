@@ -1,0 +1,115 @@
+@page "/"
+@using Microsoft.Extensions.Options
+@using WebApp.Configs
+@using WebApp.Services.Login
+@implements IDisposable
+@inject BoardSvc Board
+@inject IOptionsMonitor<UIConfig> UIConfig
+
+<PageTitle>CompetitionBoard</PageTitle>
+
+@if (_accessLevel == AccessLevel.Locked)
+{
+    @* Jeder Seitenaufruf ist ein neuer Circuit und beginnt daher gesperrt. *@
+    <LoginView IsWrongPassword="_isWrongPassword" OnLogin="LoginAsync" />
+}
+else
+{
+    @* Entspricht MainWindow.xaml *@
+    <div class="board @(_isInfoVisible ? "info-visible" : null)">
+        <div class="board-header">
+            <AddNewListView IsEditListModus="Board.IsEditListModus" />
+            <span></span>
+            <TitleView Title="@Board.Title" IsEditListModus="Board.IsEditListModus" />
+            <span></span>
+            <div class="board-header-buttons">
+                @* Auf dem Anzeige-Port gibt es keine Bedienelemente. *@
+                @if (!Board.IsDisplayOnly)
+                {
+                    @if (Board.IsEditModus)
+                    {
+                        <EditListCheckBoxView IsEditListModusActivated="Board.IsEditListModus"
+                                              IsEditListModusActivatedChanged="Board.SetEditListModus" />
+                    }
+                    <EditCheckBoxView IsEditModusActivated="Board.IsEditModus"
+                                      IsEditModusActivatedChanged="Board.SetEditModusAsync" />
+                    @if (_accessLevel == AccessLevel.Admin)
+                    {
+                        <ChangePasswordView />
+                    }
+                    <InfoButtonView IsInfoVisible="_isInfoVisible" IsInfoVisibleChanged="SetInfoVisible" />
+                    <CloseButtonView />
+                }
+            </div>
+        </div>
+        <span></span>
+        @if (_isInfoVisible)
+        {
+            @* Die Bedienungsanleitung ersetzt die Tafel, der Header bleibt stehen. *@
+            <iframe class="info-frame" src="docu/Bedienungsanleitung.html" title="Bedienungsanleitung"></iframe>
+        }
+        else
+        {
+            <RnHsView Columns="Board.Columns" RowCount="Board.RowCount"
+                      IsEditModus="Board.IsEditModus" IsEditListModus="Board.IsEditListModus" />
+            <span></span>
+            <div class="wpf-label error-label">@Board.ErrorMessage</div>
+            <LegendView />
+        }
+    </div>
+}
+
+@code {
+    [CascadingParameter(Name = "IsDisplayOnly")] public bool IsDisplayOnly { get; set; }
+
+    private AccessLevel _accessLevel = AccessLevel.Locked;
+    private bool _isWrongPassword;
+    private bool _isInfoVisible;
+
+    private void SetInfoVisible(bool isInfoVisible)
+    {
+        _isInfoVisible = isInfoVisible;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Board.Changed += OnBoardChanged;
+        if (IsDisplayOnly)
+        {
+            Board.SetDisplayOnly();
+            _accessLevel = AccessLevel.Operator;
+        }
+        else if (!PasswordCheck.IsLockEnabled(UIConfig.CurrentValue))
+        {
+            _accessLevel = AccessLevel.Operator;
+        }
+
+        if (_accessLevel != AccessLevel.Locked)
+        {
+            await Board.StartAsync();
+        }
+    }
+
+    private async Task LoginAsync(string password)
+    {
+        _accessLevel = PasswordCheck.GetAccessLevel(UIConfig.CurrentValue, password);
+        _isWrongPassword = _accessLevel == AccessLevel.Locked;
+        if (_isWrongPassword)
+        {
+            // Bremst das Durchprobieren von Passwörtern.
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            return;
+        }
+        await Board.StartAsync();
+    }
+
+    private void OnBoardChanged()
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Board.Changed -= OnBoardChanged;
+    }
+}

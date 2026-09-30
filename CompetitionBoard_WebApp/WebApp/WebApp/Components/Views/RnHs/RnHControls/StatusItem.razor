@@ -1,0 +1,14 @@
+<span class="status-item @(ShowText ? null : "icon-only")">
+    <StatusImage Status="Status" Size="40" />
+    @if (ShowText)
+    {
+        <span></span>
+        <span class="wpf-label status-item-label">@RnHStatusTexts.GetText(Status)</span>
+    }
+</span>
+
+@code {
+    [Parameter] public RnHStatus Status { get; set; }
+
+    [Parameter] public bool ShowText { get; set; } = true;
+}

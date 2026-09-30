@@ -1,0 +1,44 @@
+@inject BoardSvc Board
+
+<div class="title-view">
+    @if (!IsEditListModus)
+    {
+        <div class="wpf-label title-label">@Title</div>
+    }
+    else
+    {
+        <div class="title-edit">
+            <input type="text" class="wpf-textbox" @bind="_title" @bind:event="oninput" />
+            <span></span>
+            <ImageButton Source="images/StatusImgs/index.png" Size="40" Title="Titel speichern"
+                         OnClick="SaveAsync" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+
+    private string _title;
+    private string _lastTitle;
+    private bool _lastIsEditListModus;
+
+    protected override void OnParametersSet()
+    {
+        // Eingabe nur überschreiben, wenn sich der gespeicherte Titel geändert hat
+        // oder der Listen-Bearbeitungsmodus neu betreten wird.
+        if (Title != _lastTitle || IsEditListModus != _lastIsEditListModus)
+        {
+            _title = Title;
+        }
+        _lastTitle = Title;
+        _lastIsEditListModus = IsEditListModus;
+    }
+
+    private Task SaveAsync()
+    {
+        return Board.SaveTitleAsync(_title);
+    }
+}

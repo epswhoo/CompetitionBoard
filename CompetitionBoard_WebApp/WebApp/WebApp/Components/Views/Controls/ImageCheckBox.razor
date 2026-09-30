@@ -1,0 +1,23 @@
+@* Entspricht den WPF-CheckBoxen mit Image-ControlTemplate (Opacity 0.5 / 1). *@
+<button type="button" role="checkbox" aria-checked="@(Checked ? "true" : "false")"
+        class="image-checkbox @(Checked ? "checked" : null)" title="@Title"
+        style="width:@(Size)px;height:@(Size)px" @onclick="ToggleAsync">
+    <img src="@Source" alt="@Title" />
+</button>
+
+@code {
+    [Parameter] public string Source { get; set; }
+
+    [Parameter] public int Size { get; set; } = 40;
+
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public bool Checked { get; set; }
+
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+    private Task ToggleAsync()
+    {
+        return CheckedChanged.InvokeAsync(!Checked);
+    }
+}

@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Base/">
+    <File Path="Base/BaseDocu.html" />
+    <Project Path="Base/Base/Base.csproj" />
+  </Folder>
+  <Folder Name="/DBSvcs/">
+    <File Path="DBSvcs/DBSvcsDocu.html" />
+    <Project Path="DBSvcs/DBSvcs.Tests/DBSvcs.Tests.csproj" />
+    <Project Path="DBSvcs/DBSvcs/DBSvcs.csproj" />
+  </Folder>
+  <Folder Name="/Repos/">
+    <File Path="Repos/ReposDocu.html" />
+    <Project Path="Repos/Repos.Tests/Repos.Tests.csproj" />
+    <Project Path="Repos/Repos/Repos.csproj" />
+  </Folder>
+  <Folder Name="/WebApp/">
+    <File Path="WebApp/install-service.ps1" />
+    <File Path="WebApp/WebAppDocu.html" />
+    <Project Path="WebApp/WebApp.Tests/WebApp.Tests.csproj" />
+    <Project Path="WebApp/WebApp/WebApp.csproj" />
+  </Folder>
+</Solution>

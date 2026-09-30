@@ -1,0 +1,42 @@
+@inject BoardSvc Board
+
+<div class="horse-no-control">
+    @if (!IsEditListModus)
+    {
+        <div class="wpf-label horse-no-label">@RnH.HorseNo</div>
+    }
+    else
+    {
+        <div class="horse-no-edit">
+            <input type="text" class="wpf-textbox horse-no-textbox" inputmode="numeric"
+                   @bind="_horseNoStr" @bind:event="oninput" />
+            <ImageButton Source="images/StatusImgs/index.png" Size="25" Title="Startnummer speichern"
+                         OnClick="SaveAsync" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+
+    private string _horseNoStr;
+    private int? _lastHorseNo;
+    private bool _lastIsEditListModus;
+
+    protected override void OnParametersSet()
+    {
+        if (RnH.HorseNo != _lastHorseNo || IsEditListModus != _lastIsEditListModus)
+        {
+            _horseNoStr = RnH.HorseNo.ToString();
+        }
+        _lastHorseNo = RnH.HorseNo;
+        _lastIsEditListModus = IsEditListModus;
+    }
+
+    private Task SaveAsync()
+    {
+        return Board.SaveHorseNoAsync(RnH, _horseNoStr);
+    }
+}

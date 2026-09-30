@@ -1,0 +1,1194 @@
+<title>Base</title>
+<style>
+  :root {
+    --bg: #f0f3f6;
+    --surface: #ffffff;
+    --surface-2: #e6ebf0;
+    --surface-3: #dbe2e8;
+    --border: #cdd6dd;
+    --text: #182430;
+    --text-muted: #576773;
+    --accent: #1b94a7;
+    --accent-ink: #155a65;
+    --accent-soft: #cdeef3;
+    --accent-2: #2c6e8e;
+    --accent-2-soft: #dbeaf0;
+    --good: #2b7a4b;
+    --good-soft: #dcefe2;
+    --bad: #ad3a3a;
+    --bad-soft: #f6dede;
+    --code-bg: #eaeef2;
+    --shadow: 0 1px 2px rgba(24,36,48,.06), 0 8px 24px rgba(24,36,48,.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161d;
+      --surface: #161f28;
+      --surface-2: #1c2732;
+      --surface-3: #24313d;
+      --border: #2c3947;
+      --text: #dee6ec;
+      --text-muted: #90a2b0;
+      --accent: #52c7d6;
+      --accent-ink: #bcebf1;
+      --accent-soft: #12393f;
+      --accent-2: #6bacc9;
+      --accent-2-soft: #1c3038;
+      --good: #4fae76;
+      --good-soft: #1b3327;
+      --bad: #e07f78;
+      --bad-soft: #3a2222;
+      --code-bg: #0e151b;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10161d;
+    --surface: #161f28;
+    --surface-2: #1c2732;
+    --surface-3: #24313d;
+    --border: #2c3947;
+    --text: #dee6ec;
+    --text-muted: #90a2b0;
+    --accent: #52c7d6;
+    --accent-ink: #bcebf1;
+    --accent-soft: #12393f;
+    --accent-2: #6bacc9;
+    --accent-2-soft: #1c3038;
+    --good: #4fae76;
+    --good-soft: #1b3327;
+    --bad: #e07f78;
+    --bad-soft: #3a2222;
+    --code-bg: #0e151b;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--accent-soft); }
+
+  h1, h2, h3 {
+    font-family: system-ui, -apple-system, "Segoe UI Semibold", Roboto, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .mono, .tag-mono, table td.num {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: var(--accent-2); }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 100vh;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 28px 24px;
+    border-right: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border-radius: 7px;
+    background: linear-gradient(155deg, var(--accent) 0%, var(--accent-ink) 100%);
+    position: relative;
+  }
+
+  .brand-mark::before, .brand-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--surface);
+    opacity: .85;
+  }
+
+  .brand-mark::before {
+    left: 7px; top: 8px; width: 16px; height: 2px;
+  }
+
+  .brand-mark::after {
+    left: 7px; top: 15px; width: 10px; height: 2px;
+  }
+
+  .brand-name {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: .01em;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 2px 0 20px;
+    padding-left: 40px;
+  }
+
+  .side-group {
+    margin-bottom: 4px;
+  }
+
+  .side-group-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--text-muted);
+    margin: 18px 0 6px;
+    padding: 0 10px;
+  }
+
+  .side-group:first-of-type .side-group-label { margin-top: 4px; }
+
+  nav.side a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+
+  nav.side a .num {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 11px;
+    color: var(--border);
+    flex: none;
+  }
+
+  nav.side a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  nav.side a.active {
+    color: var(--text);
+    background: var(--surface-2);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  nav.side a.active .num { color: var(--accent); }
+
+  nav.side a.sub {
+    padding-left: 24px;
+    font-size: 12.5px;
+  }
+
+  nav.side a.sub .num { font-size: 10px; }
+
+  /* ---------- Main ---------- */
+
+  main {
+    padding: 40px clamp(20px, 4vw, 56px) 100px;
+    min-width: 0;
+  }
+
+  header.hero {
+    margin-bottom: 44px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 4px 9px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  header.hero h1 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 10px;
+  }
+
+  header.hero .lede {
+    max-width: 62ch;
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 20px;
+  }
+
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    font-size: 12px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  section > .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  section > .section-head .idx {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  section h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+
+  section > p.intro {
+    max-width: 68ch;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+
+  h3 {
+    font-size: 15.5px;
+    margin: 26px 0 10px;
+  }
+
+  h3 .sub-idx {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  p { max-width: 72ch; margin: 0 0 14px; }
+
+  /* ---------- Cards / grid ---------- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .proj-card {
+    padding: 18px 18px 16px;
+  }
+
+  .proj-card .proj-kind {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent-2);
+    margin-bottom: 6px;
+  }
+
+  .proj-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 600;
+  }
+
+  .proj-card p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 10px; }
+
+  .proj-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .proj-card li { margin-bottom: 3px; }
+  .proj-card li b { color: var(--text); font-weight: 600; }
+
+  /* ---------- Diagram figures ---------- */
+
+  figure.diagram {
+    margin: 0 0 8px;
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  figure.diagram .scroller {
+    overflow-x: auto;
+  }
+
+  figure.diagram svg { width: 100%; height: auto; display: block; min-width: 640px; }
+
+  figure.diagram text { fill: currentColor; }
+
+  figcaption {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    max-width: 70ch;
+  }
+
+  .node-box { fill: var(--surface-2); stroke: var(--border); stroke-width: 1.3; }
+  .node-box.accent { fill: var(--accent-soft); stroke: var(--accent); }
+  .node-box.accent2 { fill: var(--accent-2-soft); stroke: var(--accent-2); }
+  .node-title { font-size: 13px; font-weight: 600; }
+  .node-sub { font-size: 10.5px; opacity: .68; }
+  .edge-line { stroke: currentColor; stroke-width: 1.3; fill: none; opacity: .55; }
+  .edge-line.hot { stroke: var(--accent); opacity: 1; }
+  .edge-label { font-size: 10.5px; opacity: .8; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .boundary { fill: none; stroke: var(--accent-2); stroke-width: 1.2; stroke-dasharray: 5 4; opacity: .7; }
+  .boundary-label { font-size: 11px; fill: var(--accent-2); font-family: ui-monospace, "Cascadia Code", monospace; }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--surface);
+    min-width: 560px;
+  }
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td.q { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent-ink); white-space: nowrap; }
+  td.muted { color: var(--text-muted); }
+
+  /* ---------- Code blocks ---------- */
+
+  pre.code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.55;
+  }
+  pre.code .k { color: var(--accent-2); }
+  pre.code .s { color: var(--accent-ink); }
+  pre.code .c { color: var(--text-muted); font-style: italic; }
+
+  /* ---------- Misc components ---------- */
+
+  .note {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2);
+    font-size: 13px;
+    max-width: 72ch;
+  }
+  .note b { color: var(--accent-2); font-weight: 700; }
+  .note span { min-width: 0; overflow-wrap: break-word; }
+  .note code { overflow-wrap: break-word; word-break: break-word; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .kv-card {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+  }
+  .kv-card .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 4px; }
+  .kv-card .v { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 13.5px; }
+
+  /* ---------- API-Referenz ---------- */
+
+  .class-block {
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .class-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .class-head-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .class-kind {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--accent-2);
+    background: var(--accent-2-soft);
+    padding: 2px 7px;
+    border-radius: 5px;
+    flex: none;
+  }
+
+  .class-kind.model { color: var(--accent-ink); background: var(--accent-soft); }
+  .class-kind.iface { color: var(--accent-ink); background: var(--accent-soft); }
+
+  .class-name {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .class-file {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .class-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 74ch;
+    margin: 8px 0 0;
+  }
+
+  .class-block table { font-size: 13px; }
+  .class-block th { font-size: 10.5px; }
+  .class-block .member-name { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; }
+  .class-block .member-kind {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .proj-chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    margin: 0 0 20px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .proj-chapter-head .proj-chapter-mark {
+    width: 38px; height: 38px; flex: none; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 700; font-size: 15px;
+    background: var(--accent-soft); color: var(--accent-ink);
+  }
+  .proj-chapter-head h3 { margin: 0 0 2px; font-size: 15px; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .proj-chapter-head p { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+
+  footer.page-foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.side { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    nav.side a { transition: background .12s ease, border-color .12s ease; }
+  }
+</style>
+
+<div class="layout">
+  <nav class="side" aria-label="Inhaltsverzeichnis">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Base</span>
+    </div>
+    <div class="brand-sub">Interne Doku</div>
+
+    <div class="side-group">
+      <a href="#ueberblick" data-nav><span class="num">00</span> Übersicht</a>
+      <a href="#architektur" data-nav><span class="num">01</span> Architektur &amp; Ablauf</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Die Interfaces</div>
+      <a href="#interfaces" data-nav><span class="num">02</span> Interfaces &amp; Modelle</a>
+      <a href="#verwendung" data-nav><span class="num">03</span> Verwendung im Code</a>
+      <a href="#db-verbinden" data-nav class="sub"><span class="num">03.01</span> Datenbank verbinden</a>
+      <a href="#titel" data-nav class="sub"><span class="num">03.02</span> Titel speichern &amp; laden</a>
+      <a href="#starterliste" data-nav class="sub"><span class="num">03.03</span> Starterliste anlegen</a>
+      <a href="#einfuegen-loeschen" data-nav class="sub"><span class="num">03.04</span> Einfügen &amp; Löschen</a>
+      <a href="#werte-speichern" data-nav class="sub"><span class="num">03.05</span> Werte speichern</a>
+      <a href="#fehler-behandeln" data-nav class="sub"><span class="num">03.06</span> Fehler behandeln</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">API-Referenz</div>
+      <a href="#api-base" data-nav><span class="num">04</span> Base</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <span class="eyebrow">Technische Dokumentation</span>
+      <h1>Base</h1>
+      <p class="lede">
+        Gemeinsame Vertrags- und Modellschicht des CompetitionBoards: drei Interfaces
+        (<code>IDBSvc</code>, <code>IRnHsRepo</code>, <code>ITitleRepo</code>) beschreiben den Zugriff auf
+        Datenbank, Starterliste und Titel, drei Modelle (<code>RnH</code>, <code>RnHStatus</code>,
+        <code>DBConnectionSettings</code>) transportieren die Daten. Das Projekt selbst liefert keine
+        Implementierung — diese liegt in den Nachbarprojekten <code>DBSvcs</code> und <code>Repos</code>.
+        Fehler werden als Klartext (<code>string</code>) über das Event <code>ErrorRised</code> gemeldet.
+      </p>
+      <div class="stack-row">
+        <span class="chip">.NET 10</span>
+        <span class="chip">Nullable disable</span>
+        <span class="chip">3 Interfaces · 2 Modelle · 1 Enum</span>
+        <span class="chip">keine Abhängigkeiten</span>
+      </div>
+    </header>
+
+    <!-- 00 ÜBERBLICK -->
+    <section id="ueberblick">
+      <div class="section-head"><span class="idx">00</span><h2>Übersicht</h2></div>
+      <p class="intro">
+        <code>Base</code> liegt unter <code>Base/Base</code> und enthält ausschließlich öffentliche
+        Interfaces und Datenmodelle — keine Logik, keine <code>ProjectReference</code> und keine
+        <code>PackageReference</code>. Es ist damit das unterste Projekt der Solution: <code>DBSvcs</code>
+        und <code>Repos</code> referenzieren <code>Base</code>, nie umgekehrt. Ein „RnH“ steht für
+        <em>Reiter und Pferd</em>, also einen Eintrag der Starterliste einer Prüfung. Die konkreten
+        Implementierungen werden hier nur so weit beschrieben, wie es zum Verständnis des Vertrags nötig ist.
+      </p>
+      <div class="kv-grid">
+        <div class="kv-card"><div class="k">Öffentliche API</div><div class="v">3 Interfaces, 2 Modelle, 1 Enum</div></div>
+        <div class="kv-card"><div class="k">Eigene Implementierung</div><div class="v">keine — reiner Vertrag</div></div>
+        <div class="kv-card"><div class="k">Bekannte Implementierungen</div><div class="v">DBSvc · RnHsRepo · TitleRepo</div></div>
+        <div class="kv-card"><div class="k">Referenziert von</div><div class="v">DBSvcs, Repos</div></div>
+      </div>
+    </section>
+
+    <!-- 01 ARCHITEKTUR -->
+    <section id="architektur">
+      <div class="section-head"><span class="idx">01</span><h2>Architektur &amp; Ablauf</h2></div>
+      <p class="intro">
+        Die Interfaces aus <code>Base</code> bilden zwei Ebenen: <code>IRnHsRepo</code> und
+        <code>ITitleRepo</code> sind die fachlichen Einstiegspunkte für die Anwendung, <code>IDBSvc</code>
+        ist die darunterliegende Persistenzschicht. Die Repositories aus <code>Repos</code> implementieren
+        die fachlichen Interfaces und greifen selbst nur über <code>IDBSvc</code> auf die Datenbank zu;
+        <code>DBSvc</code> aus <code>DBSvcs</code> implementiert <code>IDBSvc</code> mit Entity Framework
+        Core gegen SQL Server.
+      </p>
+
+      <figure class="diagram">
+        <div class="scroller">
+          <svg viewBox="0 0 1040 280" role="img" aria-label="Ein aufrufender Svc verwendet IRnHsRepo und ITitleRepo aus Base. RnHsRepo und TitleRepo aus dem Projekt Repos implementieren diese Interfaces und rufen die Datenbank über IDBSvc auf. DBSvc aus dem Projekt DBSvcs implementiert IDBSvc.">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path>
+              </marker>
+              <marker id="arrowHot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- Aufrufender Svc -->
+            <rect class="node-box accent2" x="16" y="100" width="200" height="80" rx="8"></rect>
+            <text class="node-title" x="116" y="130" text-anchor="middle">Aufrufender Svc / UI</text>
+            <text class="node-sub" x="116" y="146" text-anchor="middle">kennt nur IRnHsRepo</text>
+            <text class="node-sub" x="116" y="160" text-anchor="middle">und ITitleRepo</text>
+
+            <!-- Base -->
+            <rect class="node-box accent" x="300" y="20" width="330" height="240" rx="8"></rect>
+            <text class="node-title" x="465" y="48" text-anchor="middle">Base</text>
+            <text class="node-sub" x="465" y="74" text-anchor="middle">Interfaces — Vertrag</text>
+            <text class="node-sub" x="465" y="92" text-anchor="middle">IRnHsRepo · ITitleRepo</text>
+            <text class="node-sub" x="465" y="107" text-anchor="middle">IDBSvc (Persistenz)</text>
+            <text class="node-sub" x="465" y="140" text-anchor="middle">Models</text>
+            <text class="node-sub" x="465" y="158" text-anchor="middle">RnH · RnHStatus</text>
+            <text class="node-sub" x="465" y="173" text-anchor="middle">DBConnectionSettings</text>
+            <text class="node-sub" x="465" y="210" text-anchor="middle">keine Implementierung,</text>
+            <text class="node-sub" x="465" y="225" text-anchor="middle">keine Abhängigkeiten</text>
+
+            <!-- Repos -->
+            <rect class="node-box" x="730" y="30" width="290" height="90" rx="8"></rect>
+            <text class="node-title" x="875" y="58" text-anchor="middle">Repos</text>
+            <text class="node-sub" x="875" y="76" text-anchor="middle">RnHsRepo : IRnHsRepo</text>
+            <text class="node-sub" x="875" y="91" text-anchor="middle">TitleRepo : ITitleRepo</text>
+            <text class="node-sub" x="875" y="106" text-anchor="middle">Validierung, Reihenfolge</text>
+
+            <!-- DBSvcs -->
+            <rect class="node-box" x="730" y="165" width="290" height="90" rx="8"></rect>
+            <text class="node-title" x="875" y="193" text-anchor="middle">DBSvcs</text>
+            <text class="node-sub" x="875" y="211" text-anchor="middle">DBSvc : IDBSvc</text>
+            <text class="node-sub" x="875" y="226" text-anchor="middle">EF Core · SQL Server</text>
+
+            <!-- Svc -> Base -->
+            <line class="edge-line hot" x1="216" y1="140" x2="298" y2="140" marker-end="url(#arrowHot)"></line>
+            <text class="edge-label" x="257" y="126" text-anchor="middle">verwendet</text>
+
+            <!-- Repos -> Base -->
+            <line class="edge-line" x1="730" y1="75" x2="632" y2="75" stroke-dasharray="4 4" marker-end="url(#arrow)"></line>
+            <text class="edge-label" x="681" y="64" text-anchor="middle">implementiert</text>
+
+            <!-- DBSvcs -> Base -->
+            <line class="edge-line" x1="730" y1="210" x2="632" y2="210" stroke-dasharray="4 4" marker-end="url(#arrow)"></line>
+            <text class="edge-label" x="681" y="199" text-anchor="middle">implementiert</text>
+
+            <!-- Repos -> DBSvcs -->
+            <line class="edge-line" x1="875" y1="120" x2="875" y2="163" marker-end="url(#arrow)"></line>
+            <text class="edge-label" x="885" y="146">ruft über IDBSvc</text>
+          </svg>
+        </div>
+        <figcaption>
+          Farbcode: <span style="color:var(--accent-2)">■</span> der aufrufende Svc,
+          <span style="color:var(--accent)">■</span> der von <code>Base</code> definierte Vertrag,
+          neutral die konkreten Implementierungen. <code>Base</code> kennt keine seiner Implementierungen —
+          die gestrichelten Pfeile zeigen bewusst von der Implementierung zum Vertrag, nie umgekehrt.
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- 02 INTERFACES -->
+    <section id="interfaces">
+      <div class="section-head"><span class="idx">02</span><h2>Interfaces &amp; Modelle</h2></div>
+      <p class="intro">
+        Kurzüberblick über alle öffentlichen Typen. Die vollständigen Signaturen stehen in der
+        <a href="#api-base">API-Referenz</a>.
+      </p>
+
+      <div class="proj-grid">
+        <div class="card proj-card">
+          <div class="proj-kind">Interface · fachlich</div>
+          <h3>IRnHsRepo</h3>
+          <p>Verwaltung der Starterliste (Reiter und Pferd).</p>
+          <ul>
+            <li><b>Liste</b> anlegen, lesen, komplett löschen</li>
+            <li><b>Einfügen / Löschen</b> an einer Position</li>
+            <li><b>Einzelwerte</b> speichern: Note, Status, Pferdenr., …</li>
+          </ul>
+        </div>
+        <div class="card proj-card">
+          <div class="proj-kind">Interface · fachlich</div>
+          <h3>ITitleRepo</h3>
+          <p>Titel der Anzeige (z.&nbsp;B. Name der Prüfung).</p>
+          <ul>
+            <li><b>Save</b> — Titel speichern</li>
+            <li><b>Load</b> — Titel laden</li>
+            <li><b>Clear</b> — Titel leeren</li>
+          </ul>
+        </div>
+        <div class="card proj-card">
+          <div class="proj-kind">Interface · Persistenz</div>
+          <h3>IDBSvc</h3>
+          <p>Direkter Datenbankzugriff, genutzt von den Repositories.</p>
+          <ul>
+            <li><b>SetDBSettings</b> — Verbindung setzen</li>
+            <li><b>CRUD</b> für <code>RnH</code>, Titel speichern/laden</li>
+            <li><b>ErrorRised</b> — Fehler als Text</li>
+          </ul>
+        </div>
+        <div class="card proj-card">
+          <div class="proj-kind">Modelle</div>
+          <h3>RnH · RnHStatus</h3>
+          <p>Ein Eintrag der Starterliste und sein Status im Prüfungsablauf.</p>
+          <ul>
+            <li><b>RnH</b> — Id, HorseNo, Order, Status, Mark, …</li>
+            <li><b>RnHStatus</b> — NotPresent … CompetitionDone</li>
+          </ul>
+        </div>
+        <div class="card proj-card">
+          <div class="proj-kind">Modell</div>
+          <h3>DBConnectionSettings</h3>
+          <p>Zugangsdaten zur Datenbank, Parameter von <code>IDBSvc.SetDBSettings</code>.</p>
+          <ul>
+            <li><b>Server</b>, <b>DB</b>, <b>Username</b>, <b>Password</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>RnHStatus — Ablauf einer Prüfung</h3>
+      <p>
+        Die Werte von <code>RnHStatus</code> bilden die Stationen eines Starters in fester Reihenfolge ab.
+        Der Vertrag erzwingt diese Reihenfolge nicht; <code>RnHsRepo</code> prüft aber, dass Note und
+        Disqualifikation erst bei <code>CompetitionDone</code> gesetzt werden (siehe
+        <a href="#werte-speichern">03.05</a>).
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Wert</th><th>Int</th><th>Bedeutung</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">NotPresent</td><td class="num muted">0</td><td class="muted">Noch nicht anwesend (Standardwert eines neuen <code>RnH</code>).</td></tr>
+            <tr><td class="member-name">OnWarmUpField</td><td class="num muted">1</td><td class="muted">Auf dem Abreiteplatz.</td></tr>
+            <tr><td class="member-name">OnPreparationField</td><td class="num muted">2</td><td class="muted">Auf dem Vorbereitungsplatz.</td></tr>
+            <tr><td class="member-name">OnCompetitionField</td><td class="num muted">3</td><td class="muted">Auf dem Prüfungsplatz.</td></tr>
+            <tr><td class="member-name">CompetitionDone</td><td class="num muted">4</td><td class="muted">Prüfung abgeschlossen — erst jetzt darf eine Note vergeben werden.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin-top:18px">
+        <b>Hinweis zu den Namespaces —</b>&nbsp;<span>Die Interfaces liegen im Namespace
+        <code>Interfaces</code>, die Modelle dagegen in <code>Base.Models.DB</code> bzw.
+        <code>Base.Models.RnHs</code>. Konsumenten brauchen deshalb beide <code>using</code>-Direktiven
+        (<code>using Interfaces;</code> und <code>using Base.Models.RnHs;</code>).</span>
+      </div>
+    </section>
+
+    <!-- 03 VERWENDUNG -->
+    <section id="verwendung">
+      <div class="section-head"><span class="idx">03</span><h2>Verwendung im Code</h2></div>
+      <p class="intro">
+        Dieses Kapitel begleitet einen aufrufenden Svc vom <a href="#db-verbinden">Verbinden mit der
+        Datenbank</a> über <a href="#titel">Titel</a>, <a href="#starterliste">Starterliste</a>,
+        <a href="#einfuegen-loeschen">Einfügen &amp; Löschen</a> und das
+        <a href="#werte-speichern">Speichern einzelner Werte</a> bis zur
+        <a href="#fehler-behandeln">Fehlerbehandlung</a>. Wo das Verhalten über den reinen Vertrag
+        hinausgeht, ist die bestehende Implementierung (<code>RnHsRepo</code>, <code>DBSvc</code>) genannt.
+      </p>
+
+      <h3 id="db-verbinden"><span class="sub-idx">03.01</span>Datenbank verbinden (DBConnectionSettings)</h3>
+      <p>
+        <code>DBConnectionSettings</code> ist ein reines Datenmodell mit vier Properties ohne eigene
+        Validierung. <code>IDBSvc.SetDBSettings</code> übernimmt die Daten und liefert zurück, ob eine
+        Verbindung möglich ist. <code>DBSvc</code> baut daraus einen SQL-Server-Connection-String
+        (<code>Data Source</code>, <code>Initial Catalog</code>, <code>User ID</code>, <code>Password</code>,
+        <code>TrustServerCertificate=True</code>) und prüft ihn mit <code>CanConnect()</code>.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Property</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">Server</td><td class="mono muted">string</td><td class="muted">Hostname bzw. Instanz des SQL Servers.</td></tr>
+            <tr><td class="member-name">DB</td><td class="mono muted">string</td><td class="muted">Name der Datenbank.</td></tr>
+            <tr><td class="member-name">Username</td><td class="mono muted">string</td><td class="muted">Benutzername für die Authentifizierung.</td></tr>
+            <tr><td class="member-name">Password</td><td class="mono muted">string</td><td class="muted">Passwort für die Authentifizierung.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="code"><span class="c">// Beispiel — dbSvc ist eine beliebige IDBSvc-Implementierung</span>
+DBConnectionSettings settings = <span class="k">new</span> DBConnectionSettings
+{
+    Server = <span class="s">"localhost"</span>,
+    DB = <span class="s">"CompetitionBoard"</span>,
+    Username = <span class="s">"sa"</span>,
+    Password = <span class="s">"geheim"</span>
+};
+<span class="k">bool</span> connected = dbSvc.SetDBSettings(settings);</pre>
+
+      <h3 id="titel"><span class="sub-idx">03.02</span>Titel speichern &amp; laden (ITitleRepo)</h3>
+      <p>
+        <code>ITitleRepo</code> kapselt genau einen Text — den Titel der Anzeige. <code>Save</code> gibt
+        den gespeicherten Titel zurück, <code>Load</code> den aktuell gespeicherten (oder einen leeren
+        String), <code>Clear</code> speichert einen leeren Titel. <code>TitleRepo</code> leitet die
+        Aufrufe an <code>IDBSvc.TitleSave</code>/<code>TitleLoad</code> weiter.
+      </p>
+      <pre class="code"><span class="c">// Beispiel</span>
+titleRepo.Save(<span class="s">"Dressurpferdeprüfung Kl. L"</span>);
+<span class="k">string</span> title = titleRepo.Load();</pre>
+
+      <h3 id="starterliste"><span class="sub-idx">03.03</span>Starterliste anlegen</h3>
+      <p>
+        <code>SetNewRnHs(string str)</code> ersetzt die komplette Starterliste. <code>str</code> ist eine
+        kommagetrennte Liste von Pferdenummern; die Reihenfolge im String bestimmt <code>Order</code>
+        (beginnend bei 1). In <code>RnHsRepo</code> werden dabei zuerst alle bestehenden Einträge
+        gelöscht. Nicht-numerische Einträge führen zu einem Fehler über <code>ErrorRised</code> und dem
+        Rückgabewert <code>null</code>.
+      </p>
+      <pre class="code"><span class="c">// Beispiel — erzeugt drei RnH mit Order 1, 2, 3</span>
+IEnumerable&lt;RnH&gt; rnhs = rnhsRepo.SetNewRnHs(<span class="s">"12, 7, 33"</span>);
+
+<span class="c">// Aktuelle Liste lesen</span>
+<span class="k">foreach</span> (RnH rnh <span class="k">in</span> rnhsRepo.ReadAll().OrderBy(r =&gt; r.Order))
+{
+    Console.WriteLine($<span class="s">"{rnh.Order}. Pferd {rnh.HorseNo} — {rnh.Status}"</span>);
+}
+
+<span class="c">// Liste komplett leeren</span>
+rnhsRepo.DeleteAll();</pre>
+
+      <h3 id="einfuegen-loeschen"><span class="sub-idx">03.04</span>Einfügen &amp; Löschen</h3>
+      <p>
+        <code>InsertNewWithOrder(int order)</code> fügt einen leeren Eintrag an Position
+        <code>order</code> ein; alle Einträge ab dieser Position rücken um eins nach hinten. Erlaubt sind
+        Positionen von 1 bis „letzte Position + 1“. <code>Delete(RnH rnh)</code> entfernt einen Eintrag
+        und lässt alle nachfolgenden um eins nach vorn rücken — die <code>Order</code>-Werte bleiben so
+        lückenlos.
+      </p>
+      <pre class="code"><span class="c">// Neuen Starter an Position 2 einfügen, anschließend Pferdenummer setzen</span>
+RnH neu = rnhsRepo.InsertNewWithOrder(2);
+neu.HorseNo = 21;
+rnhsRepo.SaveHorseNo(neu);
+
+<span class="c">// Starter wieder entfernen</span>
+rnhsRepo.Delete(neu);</pre>
+
+      <h3 id="werte-speichern"><span class="sub-idx">03.05</span>Einzelwerte speichern</h3>
+      <p>
+        Neben <code>Save(RnH)</code>, das alle Felder schreibt, bietet <code>IRnHsRepo</code> für jedes
+        änderbare Feld eine eigene Methode. Die Methoden lesen den gespeicherten Eintrag anhand der
+        <code>Id</code>, übernehmen das jeweilige Feld aus dem übergebenen Objekt und prüfen den
+        resultierenden Stand gegen die fachlichen Regeln unten.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Methode</th><th>Übernimmt Feld</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">SaveHorseNo(RnH)</td><td class="muted"><code>HorseNo</code></td></tr>
+            <tr><td class="member-name">SaveStatus(RnH)</td><td class="muted"><code>Status</code></td></tr>
+            <tr><td class="member-name">SaveMark(RnH)</td><td class="muted"><code>Mark</code></td></tr>
+            <tr><td class="member-name">SaveIsDisqualificated(RnH)</td><td class="muted"><code>IsDisqualificated</code></td></tr>
+            <tr><td class="member-name">SaveIsRanked(RnH)</td><td class="muted"><code>IsRanked</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px">
+        <code>RnHsRepo</code> prüft vor dem Speichern folgende fachliche Regeln. Bei einem Verstoß wird
+        jede verletzte Regel über <code>ErrorRised</code> gemeldet, <strong>nichts gespeichert</strong> und
+        <code>null</code> zurückgegeben:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Regel</th><th>Meldung (gekürzt)</th></tr></thead>
+          <tbody>
+            <tr><td class="muted"><code>Mark</code> zwischen 0 und 10</td><td class="muted">„Note … nicht erlaubt.“</td></tr>
+            <tr><td class="muted">Note nur bei <code>CompetitionDone</code></td><td class="muted">„… die Prüfung noch nicht abgeschlossen hat.“</td></tr>
+            <tr><td class="muted">Keine Note bei Disqualifikation</td><td class="muted">„… in dieser Prüfung disqualifiziert sind.“</td></tr>
+            <tr><td class="muted">Disqualifikation nur bei <code>CompetitionDone</code></td><td class="muted">„… kann nicht disqualifiziert werden …“</td></tr>
+            <tr><td class="muted">Nicht zugleich platziert und disqualifiziert</td><td class="muted">„… in dieser Prüfung platziert wurden.“</td></tr>
+            <tr><td class="muted">Platzierung nur mit Note</td><td class="muted">„… nicht bewertet wurden.“</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="code"><span class="c">// Beispiel — Prüfung beenden, dann Note vergeben</span>
+rnh.Status = RnHStatus.CompetitionDone;
+rnhsRepo.SaveStatus(rnh);
+
+rnh.Mark = 7.4;
+RnH saved = rnhsRepo.SaveMark(rnh);
+<span class="k">if</span> (saved == <span class="k">null</span>)
+{
+    <span class="c">// Regel verletzt oder DB-Fehler — Meldung kam über ErrorRised</span>
+}</pre>
+      <div class="note">
+        <b>Nur ein Feld —</b>&nbsp;<span>Die <code>Save…</code>-Einzelmethoden schreiben den
+        gespeicherten Datenbankstand, in dem nur das jeweilige Feld ersetzt wurde. Andere Felder des
+        übergebenen Objekts werden ignoriert; eine parallel geänderte Note wird z.&nbsp;B. durch
+        <code>SaveStatus</code> nicht überschrieben. Existiert die <code>Id</code> nicht, wird
+        „Reiter und Pferd mit Id … nicht gefunden.“ gemeldet und <code>null</code> zurückgegeben.</span>
+      </div>
+
+      <h3 id="fehler-behandeln"><span class="sub-idx">03.06</span>Fehler behandeln (ErrorRised)</h3>
+      <p>
+        Fehler werden nicht als Exception an den Aufrufer weitergegeben. Stattdessen löst die
+        Implementierung <code>ErrorRised</code> mit dem Fehlertext aus und liefert den Standardwert des
+        Rückgabetyps — <code>null</code> für <code>RnH</code>, <code>string</code> und Listen,
+        <code>false</code> für <code>bool</code>. Rückgabewerte sollten deshalb immer auf
+        <code>null</code>/<code>false</code> geprüft werden. Anders als bei <code>Messengers</code> ist der
+        Fehler hier ein einfacher <code>string</code> (<code>EventHandler&lt;string&gt;</code>), kein
+        <code>Errors.Error</code> mit Fehlercode.
+      </p>
+      <p>
+        <code>ErrorRised</code> ist sowohl in <code>IDBSvc</code> als auch in <code>IRnHsRepo</code>
+        deklariert. Über <code>IRnHsRepo.ErrorRised</code> kommen die fachlichen Meldungen aus
+        <a href="#werte-speichern">03.05</a>, ungültige Eingaben und Positionen, Exceptions aus dem
+        Repository sowie — weitergeleitet — alle Meldungen des verwendeten <code>IDBSvc</code>.
+        Aufrufer, die <code>IRnHsRepo</code> nutzen, abonnieren deshalb nur dieses Event.
+      </p>
+      <pre class="code"><span class="c">// Beispiel — direkt nach dem Erzeugen registrieren</span>
+dbSvc.ErrorRised += (sender, message) =&gt;
+{
+    Console.WriteLine($<span class="s">"DB-Fehler: {message}"</span>);
+};
+rnhsRepo.ErrorRised += (sender, message) =&gt;
+{
+    Console.WriteLine($<span class="s">"Fehler: {message}"</span>);
+};</pre>
+    </section>
+
+    <!-- 04 API BASE -->
+    <section id="api-base">
+      <div class="section-head"><span class="idx">04</span><h2>API-Referenz — Base</h2></div>
+      <div class="proj-chapter-head">
+        <span class="proj-chapter-mark">01</span>
+        <div>
+          <h3>Base.csproj</h3>
+          <p>Klassenbibliothek · net10.0 · ImplicitUsings enable · Nullable disable · keine Abhängigkeiten</p>
+        </div>
+      </div>
+      <p class="intro">
+        Erst die Interfaces (fachlich vor Persistenz), dann die Modelle.
+      </p>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind iface">interface · public</span>
+            <h3 class="class-name">IRnHsRepo</h3>
+            <span class="class-file">Interfaces/IRnHsRepo.cs</span>
+          </div>
+          <p class="class-desc">Fachliches Repository für die Starterliste. Implementiert von <code>Repos.RnHs.RnHsRepo</code>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Event</td><td class="member-name">EventHandler&lt;string&gt; ErrorRised</td><td class="muted">Meldet Regelverstöße und Fehler als Text.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">IEnumerable&lt;RnH&gt; SetNewRnHs(string str)</td><td class="muted">Ersetzt die Starterliste durch kommagetrennte Pferdenummern.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">IEnumerable&lt;RnH&gt; ReadAll()</td><td class="muted">Liest alle Einträge, sortiert nach <code>Order</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool DeleteAll()</td><td class="muted">Löscht alle Einträge.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH InsertNewWithOrder(int order)</td><td class="muted">Fügt einen leeren Eintrag an Position <code>order</code> ein.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool Delete(RnH rnh)</td><td class="muted">Löscht einen Eintrag und schließt die Lücke in <code>Order</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH Save(RnH rnh)</td><td class="muted">Speichert alle Felder eines Eintrags.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH SaveHorseNo(RnH rnh)</td><td class="muted">Speichert <code>HorseNo</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH SaveStatus(RnH rnh)</td><td class="muted">Speichert <code>Status</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH SaveMark(RnH rnh)</td><td class="muted">Speichert <code>Mark</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH SaveIsDisqualificated(RnH rnh)</td><td class="muted">Speichert <code>IsDisqualificated</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH SaveIsRanked(RnH rnh)</td><td class="muted">Speichert <code>IsRanked</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind iface">interface · public</span>
+            <h3 class="class-name">ITitleRepo</h3>
+            <span class="class-file">Interfaces/ITitleRepo.cs</span>
+          </div>
+          <p class="class-desc">Speichert und lädt den Titel der Anzeige. Implementiert von <code>Repos.Title.TitleRepo</code>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string Save(string title)</td><td class="muted">Speichert den Titel, gibt den gespeicherten Titel zurück.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string Load()</td><td class="muted">Lädt den gespeicherten Titel.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string Clear()</td><td class="muted">Speichert einen leeren Titel.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind iface">interface · public</span>
+            <h3 class="class-name">IDBSvc</h3>
+            <span class="class-file">Interfaces/IDBSvc.cs</span>
+          </div>
+          <p class="class-desc">Persistenzschicht für Titel und RnH-Einträge. Implementiert von <code>DBSvcs.DBSvc</code> (EF Core, SQL Server).</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Event</td><td class="member-name">EventHandler&lt;string&gt; ErrorRised</td><td class="muted">Meldet Fehler einer Operation als Text.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool SetDBSettings(DBConnectionSettings settings)</td><td class="muted">Setzt die Verbindungsdaten, <code>true</code> wenn die DB erreichbar ist.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string TitleSave(string title)</td><td class="muted">Speichert den Titel.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string TitleLoad()</td><td class="muted">Lädt den Titel.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH Insert(RnH rnh)</td><td class="muted">Legt einen Eintrag an, gibt ihn mit vergebener <code>Id</code> zurück.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH Save(RnH rnh)</td><td class="muted">Speichert einen bestehenden Eintrag (Suche per <code>Id</code>).</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool Delete(RnH rnh)</td><td class="muted">Löscht einen Eintrag (Suche per <code>Id</code>).</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH ReadById(int id)</td><td class="muted">Liest einen Eintrag als Kopie.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">IEnumerable&lt;RnH&gt; ReadAll()</td><td class="muted">Liest alle Einträge als Kopien, sortiert nach <code>Order</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind model">Modell · public</span>
+            <h3 class="class-name">RnH</h3>
+            <span class="class-file">Models/RnHs/RnH.cs</span>
+          </div>
+          <p class="class-desc">Ein Eintrag der Starterliste: Reiter und Pferd in einer Prüfung.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-name">Id</td><td class="mono muted">int</td><td class="muted">Primärschlüssel, von der Datenbank vergeben.</td></tr>
+              <tr><td class="member-name">HorseNo</td><td class="mono muted">int</td><td class="muted">Pferde- bzw. Startnummer.</td></tr>
+              <tr><td class="member-name">Order</td><td class="mono muted">int</td><td class="muted">Position in der Starterliste, beginnend bei 1.</td></tr>
+              <tr><td class="member-name">Status</td><td class="mono muted">RnHStatus</td><td class="muted">Aktuelle Station im Prüfungsablauf.</td></tr>
+              <tr><td class="member-name">Mark</td><td class="mono muted">double</td><td class="muted">Note (0–10), <code>0</code> = noch nicht bewertet.</td></tr>
+              <tr><td class="member-name">IsDisqualificated</td><td class="mono muted">bool</td><td class="muted">Disqualifiziert.</td></tr>
+              <tr><td class="member-name">IsRanked</td><td class="mono muted">bool</td><td class="muted">Platziert.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind model">Enum · public</span>
+            <h3 class="class-name">RnHStatus</h3>
+            <span class="class-file">Models/RnHs/RnHStatus.cs</span>
+          </div>
+          <p class="class-desc">Station eines Starters im Prüfungsablauf.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Wert</th><th>Int</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-name">NotPresent</td><td class="num muted">0</td><td class="muted">Noch nicht anwesend.</td></tr>
+              <tr><td class="member-name">OnWarmUpField</td><td class="num muted">1</td><td class="muted">Auf dem Abreiteplatz.</td></tr>
+              <tr><td class="member-name">OnPreparationField</td><td class="num muted">2</td><td class="muted">Auf dem Vorbereitungsplatz.</td></tr>
+              <tr><td class="member-name">OnCompetitionField</td><td class="num muted">3</td><td class="muted">Auf dem Prüfungsplatz.</td></tr>
+              <tr><td class="member-name">CompetitionDone</td><td class="num muted">4</td><td class="muted">Prüfung abgeschlossen.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind model">Modell · public</span>
+            <h3 class="class-name">DBConnectionSettings</h3>
+            <span class="class-file">Models/DB/DBConnectionSettings.cs</span>
+          </div>
+          <p class="class-desc">Zugangsdaten zur Datenbank, Parameter von <code>IDBSvc.SetDBSettings</code>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-name">Server</td><td class="mono muted">string</td><td class="muted">Hostname bzw. Instanz des SQL Servers.</td></tr>
+              <tr><td class="member-name">DB</td><td class="mono muted">string</td><td class="muted">Name der Datenbank.</td></tr>
+              <tr><td class="member-name">Username</td><td class="mono muted">string</td><td class="muted">Benutzername für die Authentifizierung.</td></tr>
+              <tr><td class="member-name">Password</td><td class="mono muted">string</td><td class="muted">Passwort für die Authentifizierung.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      Stand: Projekt <code>Base</code> · Base/Base · erstellt aus dem aktuellen Quellcode.
+    </footer>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.side a[data-nav]'));
+    var sections = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    if ('IntersectionObserver' in window && sections.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        if (visible.length) {
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] });
+
+      sections.forEach(function (s) { observer.observe(s); });
+    }
+
+    if (sections.length) setActive(sections[0].id);
+  })();
+</script>

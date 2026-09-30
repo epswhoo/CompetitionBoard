@@ -1,0 +1,21 @@
+@* Entspricht dem DataGrid ohne Header/Gitterlinien. Alle Zeilen teilen sich die Höhe gleichmäßig. *@
+<div class="rnhs-control" style="grid-template-rows:repeat(@Math.Max(1, RowCount), minmax(0, 1fr))">
+    @for (int row = 0; row < RnHs.Count; row++)
+    {
+        RnH rnh = RnHs[row];
+        <div class="rnhs-row" @key="rnh.Id">
+            <RnHControl RnH="rnh" IsEditModus="IsEditModus" IsEditListModus="IsEditListModus"
+                        IsInLowerHalf="row >= RowCount / 2.0" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public IReadOnlyList<RnH> RnHs { get; set; }
+
+    [Parameter] public int RowCount { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    [Parameter] public bool IsEditListModus { get; set; }
+}

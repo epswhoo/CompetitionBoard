@@ -1,0 +1,38 @@
+@* Passwortabfrage, die bei jedem Seitenaufruf anstelle der Tafel erscheint. *@
+<div class="login-view">
+    <form class="login-form" @onsubmit="SubmitAsync">
+        <div class="login-title">CompetitionBoard</div>
+        <label for="login-password">Passwort</label>
+        <input id="login-password" type="password" class="wpf-textbox" autocomplete="current-password"
+               @ref="_passwordInput" @bind="_password" @bind:event="oninput" />
+        @if (IsWrongPassword)
+        {
+            <div class="login-error">Das Passwort ist falsch.</div>
+        }
+        <button type="submit" class="login-button">Anmelden</button>
+    </form>
+</div>
+
+@code {
+    [Parameter] public bool IsWrongPassword { get; set; }
+
+    [Parameter] public EventCallback<string> OnLogin { get; set; }
+
+    private ElementReference _passwordInput;
+    private string _password;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _passwordInput.FocusAsync();
+        }
+    }
+
+    private async Task SubmitAsync()
+    {
+        string password = _password;
+        _password = string.Empty;
+        await OnLogin.InvokeAsync(password);
+    }
+}

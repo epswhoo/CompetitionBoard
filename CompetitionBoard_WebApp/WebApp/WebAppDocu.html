@@ -1,0 +1,996 @@
+<title>WebApp</title>
+<style>
+  :root {
+    --bg: #f0f3f6;
+    --surface: #ffffff;
+    --surface-2: #e6ebf0;
+    --surface-3: #dbe2e8;
+    --border: #cdd6dd;
+    --text: #182430;
+    --text-muted: #576773;
+    --accent: #1b94a7;
+    --accent-ink: #155a65;
+    --accent-soft: #cdeef3;
+    --accent-2: #2c6e8e;
+    --accent-2-soft: #dbeaf0;
+    --good: #2b7a4b;
+    --good-soft: #dcefe2;
+    --bad: #ad3a3a;
+    --bad-soft: #f6dede;
+    --code-bg: #eaeef2;
+    --shadow: 0 1px 2px rgba(24,36,48,.06), 0 8px 24px rgba(24,36,48,.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161d;
+      --surface: #161f28;
+      --surface-2: #1c2732;
+      --surface-3: #24313d;
+      --border: #2c3947;
+      --text: #dee6ec;
+      --text-muted: #90a2b0;
+      --accent: #52c7d6;
+      --accent-ink: #bcebf1;
+      --accent-soft: #12393f;
+      --accent-2: #6bacc9;
+      --accent-2-soft: #1c3038;
+      --good: #4fae76;
+      --good-soft: #1b3327;
+      --bad: #e07f78;
+      --bad-soft: #3a2222;
+      --code-bg: #0e151b;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10161d;
+    --surface: #161f28;
+    --surface-2: #1c2732;
+    --surface-3: #24313d;
+    --border: #2c3947;
+    --text: #dee6ec;
+    --text-muted: #90a2b0;
+    --accent: #52c7d6;
+    --accent-ink: #bcebf1;
+    --accent-soft: #12393f;
+    --accent-2: #6bacc9;
+    --accent-2-soft: #1c3038;
+    --good: #4fae76;
+    --good-soft: #1b3327;
+    --bad: #e07f78;
+    --bad-soft: #3a2222;
+    --code-bg: #0e151b;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--accent-soft); }
+
+  h1, h2, h3 {
+    font-family: system-ui, -apple-system, "Segoe UI Semibold", Roboto, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .mono, .tag-mono, table td.num {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: var(--accent-2); }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 100vh;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 28px 24px;
+    border-right: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border-radius: 7px;
+    background: linear-gradient(155deg, var(--accent) 0%, var(--accent-ink) 100%);
+    position: relative;
+  }
+
+  .brand-mark::before, .brand-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--surface);
+    opacity: .85;
+  }
+
+  .brand-mark::before {
+    left: 7px; top: 8px; width: 16px; height: 2px;
+  }
+
+  .brand-mark::after {
+    left: 7px; top: 15px; width: 10px; height: 2px;
+  }
+
+  .brand-name {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: .01em;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 2px 0 20px;
+    padding-left: 40px;
+  }
+
+  .side-group {
+    margin-bottom: 4px;
+  }
+
+  .side-group-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--text-muted);
+    margin: 18px 0 6px;
+    padding: 0 10px;
+  }
+
+  .side-group:first-of-type .side-group-label { margin-top: 4px; }
+
+  nav.side a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+
+  nav.side a .num {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 11px;
+    color: var(--border);
+    flex: none;
+  }
+
+  nav.side a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  nav.side a.active {
+    color: var(--text);
+    background: var(--surface-2);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  nav.side a.active .num { color: var(--accent); }
+
+  nav.side a.sub {
+    padding-left: 24px;
+    font-size: 12.5px;
+  }
+
+  nav.side a.sub .num { font-size: 10px; }
+
+  /* ---------- Main ---------- */
+
+  main {
+    padding: 40px clamp(20px, 4vw, 56px) 100px;
+    min-width: 0;
+  }
+
+  header.hero {
+    margin-bottom: 44px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 4px 9px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  header.hero h1 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 10px;
+  }
+
+  header.hero .lede {
+    max-width: 62ch;
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 20px;
+  }
+
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    font-size: 12px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  section > .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  section > .section-head .idx {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  section h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+
+  section > p.intro {
+    max-width: 68ch;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+
+  h3 {
+    font-size: 15.5px;
+    margin: 26px 0 10px;
+  }
+
+  h3 .sub-idx {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  p { max-width: 72ch; margin: 0 0 14px; }
+
+  /* ---------- Cards / grid ---------- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .proj-card {
+    padding: 18px 18px 16px;
+  }
+
+  .proj-card .proj-kind {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent-2);
+    margin-bottom: 6px;
+  }
+
+  .proj-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 600;
+  }
+
+  .proj-card p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 10px; }
+
+  .proj-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .proj-card li { margin-bottom: 3px; }
+  .proj-card li b { color: var(--text); font-weight: 600; }
+
+  /* ---------- Diagram figures ---------- */
+
+  figure.diagram {
+    margin: 0 0 8px;
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  figure.diagram .scroller {
+    overflow-x: auto;
+  }
+
+  figure.diagram svg { width: 100%; height: auto; display: block; min-width: 640px; }
+
+  figure.diagram text { fill: currentColor; }
+
+  figcaption {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    max-width: 70ch;
+  }
+
+  .node-box { fill: var(--surface-2); stroke: var(--border); stroke-width: 1.3; }
+  .node-box.accent { fill: var(--accent-soft); stroke: var(--accent); }
+  .node-box.accent2 { fill: var(--accent-2-soft); stroke: var(--accent-2); }
+  .node-title { font-size: 13px; font-weight: 600; }
+  .node-sub { font-size: 10.5px; opacity: .68; }
+  .edge-line { stroke: currentColor; stroke-width: 1.3; fill: none; opacity: .55; }
+  .edge-line.hot { stroke: var(--accent); opacity: 1; }
+  .edge-label { font-size: 10.5px; opacity: .8; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .boundary { fill: none; stroke: var(--accent-2); stroke-width: 1.2; stroke-dasharray: 5 4; opacity: .7; }
+  .boundary-label { font-size: 11px; fill: var(--accent-2); font-family: ui-monospace, "Cascadia Code", monospace; }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--surface);
+    min-width: 560px;
+  }
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td.q { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent-ink); white-space: nowrap; }
+  td.muted { color: var(--text-muted); }
+
+  /* ---------- Code blocks ---------- */
+
+  pre.code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.55;
+  }
+  pre.code .k { color: var(--accent-2); }
+  pre.code .s { color: var(--accent-ink); }
+  pre.code .c { color: var(--text-muted); font-style: italic; }
+
+  /* ---------- Misc components ---------- */
+
+  .note {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2);
+    font-size: 13px;
+    max-width: 72ch;
+  }
+  .note b { color: var(--accent-2); font-weight: 700; }
+  .note span { min-width: 0; overflow-wrap: break-word; }
+  .note code { overflow-wrap: break-word; word-break: break-word; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .kv-card {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+  }
+  .kv-card .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 4px; }
+  .kv-card .v { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 13.5px; }
+
+  /* ---------- API-Referenz ---------- */
+
+  .class-block {
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .class-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .class-head-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .class-kind {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--accent-2);
+    background: var(--accent-2-soft);
+    padding: 2px 7px;
+    border-radius: 5px;
+    flex: none;
+  }
+
+  .class-kind.model { color: var(--accent-ink); background: var(--accent-soft); }
+  .class-kind.iface { color: var(--accent-ink); background: var(--accent-soft); }
+
+  .class-name {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .class-file {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .class-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 74ch;
+    margin: 8px 0 0;
+  }
+
+  .class-block table { font-size: 13px; }
+  .class-block th { font-size: 10.5px; }
+  .class-block .member-name { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; }
+  .class-block .member-kind {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .proj-chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    margin: 0 0 20px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .proj-chapter-head .proj-chapter-mark {
+    width: 38px; height: 38px; flex: none; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 700; font-size: 15px;
+    background: var(--accent-soft); color: var(--accent-ink);
+  }
+  .proj-chapter-head h3 { margin: 0 0 2px; font-size: 15px; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .proj-chapter-head p { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+
+  footer.page-foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.side { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    nav.side a { transition: background .12s ease, border-color .12s ease; }
+  }
+</style>
+
+<style>
+  .pill.warn { background: var(--accent-2-soft); color: var(--accent-2); }
+  .pill.info { background: var(--surface-2); color: var(--text-muted); }
+  td.sev { white-space: nowrap; }
+  td.where { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+</style>
+
+<div class="layout">
+  <nav class="side" aria-label="Inhaltsverzeichnis">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">WebApp</span>
+    </div>
+    <div class="brand-sub">Interne Doku</div>
+
+    <div class="side-group">
+      <a href="#ueberblick" data-nav><span class="num">00</span> Übersicht</a>
+      <a href="#ports" data-nav><span class="num">01</span> Bedienung &amp; Anzeige</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Passwortschutz</div>
+      <a href="#passwoerter" data-nav><span class="num">02</span> Passwörter</a>
+      <a href="#abfrage" data-nav class="sub"><span class="num">02.01</span> Abfrage je Seitenaufruf</a>
+      <a href="#rollen" data-nav class="sub"><span class="num">02.02</span> Bedienung &amp; Admin</a>
+      <a href="#aendern" data-nav class="sub"><span class="num">02.03</span> Passwort ändern</a>
+      <a href="#speicherung" data-nav class="sub"><span class="num">02.04</span> Speicherung</a>
+      <a href="#grenzen" data-nav class="sub"><span class="num">02.05</span> Sicherheitsgrenzen</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Betrieb</div>
+      <a href="#konfiguration" data-nav><span class="num">03</span> Konfiguration</a>
+      <a href="#installation" data-nav><span class="num">04</span> Installation &amp; Update</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Qualität</div>
+      <a href="#tests" data-nav><span class="num">05</span> Tests</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">API-Referenz</div>
+      <a href="#api-login" data-nav><span class="num">06</span> Login &amp; Konfiguration</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <span class="eyebrow">Technische Dokumentation</span>
+      <h1>WebApp</h1>
+      <p class="lede">
+        Blazor-Server-Anwendung der Anzeigetafel. Sie läuft als Windows-Dienst <code>CompetitionBoard</code>,
+        liest die Starterliste über <code>IRnHsRepo</code> und <code>ITitleRepo</code> und stellt sie im Browser dar.
+        Die Bedienung ist durch Passwörter geschützt, ein eigener Port liefert eine reine Anzeige ohne Bedienelemente.
+      </p>
+      <div class="stack-row">
+        <span class="chip">.NET 10 · Blazor Server</span>
+        <span class="chip">Bedienung :5080</span>
+        <span class="chip">Anzeige :5081</span>
+        <span class="chip">MSTest + bUnit</span>
+      </div>
+    </header>
+
+    <!-- 00 ÜBERBLICK -->
+    <section id="ueberblick">
+      <div class="section-head"><span class="idx">00</span><h2>Übersicht</h2></div>
+      <p class="intro">
+        <code>WebApp</code> liegt unter <code>WebApp/WebApp</code> und hängt von <code>Base</code>, <code>DBSvcs</code>
+        und <code>Repos</code> ab. Jede Browser-Verbindung (Blazor-Circuit) bekommt über <code>Scoped</code>-Registrierung
+        ein eigenes <code>DBSvc</code>, eigene Repositories und einen eigenen <code>BoardSvc</code>, der den Zustand der
+        Tafel hält und per Timer aktualisiert. Die Oberfläche wird ohne Prerendering interaktiv gerendert.
+      </p>
+      <div class="kv-grid">
+        <div class="kv-card"><div class="k">Einstieg</div><div class="v">Program.cs · Components/App.razor · Pages/Home.razor</div></div>
+        <div class="kv-card"><div class="k">Zustand der Tafel</div><div class="v">Services/Board/BoardSvc</div></div>
+        <div class="kv-card"><div class="k">Passwortschutz</div><div class="v">Services/Login · LoginView · ChangePasswordView</div></div>
+        <div class="kv-card"><div class="k">Konfiguration</div><div class="v">appsettings.json · Configs/UIConfig</div></div>
+      </div>
+    </section>
+
+    <!-- 01 PORTS -->
+    <section id="ports">
+      <div class="section-head"><span class="idx">01</span><h2>Bedienung &amp; Anzeige</h2></div>
+      <p class="intro">
+        Kestrel lauscht auf zwei Endpunkten. Welcher Port eine Seite ausgeliefert hat, entscheidet darüber,
+        ob bedient werden darf. Beide Ports liefern dieselbe Anwendung und dieselben Daten.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Endpunkt</th><th>Port</th><th>Passwortabfrage</th><th>Bedienelemente</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Kestrel:Endpoints:Http</td><td>5080</td><td>ja, sobald ein Passwort gesetzt ist</td><td>alle; Admin zusätzlich „Passwort ändern“</td></tr>
+            <tr><td class="mono">Kestrel:Endpoints:Display</td><td>5081 (<code>UI:DisplayPort</code>)</td><td>nein</td><td>keine</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Ablauf</h3>
+      <ol>
+        <li><code>App.razor</code> wird statisch gerendert und hat Zugriff auf den <code>HttpContext</code>. Es vergleicht
+          <code>Connection.LocalPort</code> mit <code>UI:DisplayPort</code> (<code>PasswordCheck.IsDisplayPort</code>).</li>
+        <li>Das Ergebnis geht als Parameter <code>IsDisplayOnly</code> an die interaktive Root-Komponente <code>Routes</code>.
+          Blazor schützt die Parameter von Root-Komponenten mit Data Protection; der Browser kann den Wert nicht verändern.</li>
+        <li><code>Routes.razor</code> reicht ihn als benannten <code>CascadingValue</code> („IsDisplayOnly“) an die Seiten weiter.</li>
+        <li><code>Home.razor</code> ruft bei <code>true</code> <code>BoardSvc.SetDisplayOnly()</code> auf, überspringt die
+          Passwortabfrage und rendert keine Schaltflächen. <code>BoardSvc</code> lässt den Bearbeitungsmodus danach
+          nicht mehr zu, auch nicht über einen direkten Aufruf.</li>
+      </ol>
+      <div class="note"><b>Hinweis —</b>&nbsp;<span>Wird der Port der Anzeige geändert, müssen
+        <code>Kestrel:Endpoints:Display:Url</code> und <code>UI:DisplayPort</code> übereinstimmen. Mit
+        <code>UI:DisplayPort = 0</code> gibt es keinen Anzeige-Port; der Endpunkt sollte dann entfernt werden.</span></div>
+    </section>
+
+    <!-- 02 PASSWÖRTER -->
+    <section id="passwoerter">
+      <div class="section-head"><span class="idx">02</span><h2>Passwörter</h2></div>
+      <p class="intro">
+        Die Bedienung auf Port 5080 ist durch zwei Passwörter aus <code>UI:Password</code> und <code>UI:AdminPassword</code>
+        geschützt. Die Prüfung findet nicht per Cookie statt, sondern im Zustand der Blazor-Verbindung. Dadurch wird bei
+        jedem Seitenaufruf neu gefragt, und es gibt kein Anmelde-Cookie, das auf einem Gerät liegen bleibt.
+      </p>
+
+      <h3 id="abfrage"><span class="sub-idx">02.01</span>Abfrage je Seitenaufruf</h3>
+      <p>
+        <code>Home.razor</code> startet mit <code>AccessLevel.Locked</code> und rendert statt der Tafel die
+        <code>LoginView</code>. Jeder Seitenaufruf, jedes Neuladen und jeder neue Tab erzeugt einen neuen Circuit und damit
+        eine neue, gesperrte <code>Home</code>-Instanz. Ein kurzer Verbindungsabbruch mit automatischem Wiederverbinden
+        behält den Circuit und damit die Anmeldung.
+      </p>
+      <ul>
+        <li>Solange gesperrt ist, wird <code>BoardSvc.StartAsync()</code> nicht aufgerufen: keine Datenbankverbindung,
+          kein Timer.</li>
+        <li>Die Schaltflächen und Eingabefelder der Tafel werden gar nicht gerendert. Blazor nimmt nur Ereignisse für
+          gerenderte Elemente an, ein gesperrter Circuit kann also nichts ändern.</li>
+        <li>Nach einem falschen Passwort wartet <code>LoginAsync</code> eine Sekunde, um Durchprobieren zu bremsen.</li>
+        <li>Die Vergleiche laufen über <code>CryptographicOperations.FixedTimeEquals</code>.</li>
+        <li>Sind beide Passwörter leer (<code>PasswordCheck.IsLockEnabled</code> = <code>false</code>), entfällt die Abfrage.</li>
+      </ul>
+
+      <h3 id="rollen"><span class="sub-idx">02.02</span>Bedienung &amp; Admin</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Eingabe</th><th><code>AccessLevel</code></th><th>Möglich</th></tr></thead>
+          <tbody>
+            <tr><td><code>UI:AdminPassword</code></td><td class="mono">Admin</td><td>Bedienung und Schaltfläche „Passwort ändern“ (<code>ChangePasswordView</code>)</td></tr>
+            <tr><td><code>UI:Password</code></td><td class="mono">Operator</td><td>Bedienung der Tafel</td></tr>
+            <tr><td>anderes / leer</td><td class="mono">Locked</td><td>nur die Passwortabfrage</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <code>PasswordCheck.GetAccessLevel</code> prüft zuerst das Admin-Passwort. Ein leeres konfiguriertes Passwort
+        passt nie, auch nicht zu einer leeren Eingabe.
+      </p>
+
+      <h3 id="aendern"><span class="sub-idx">02.03</span>Passwort ändern</h3>
+      <p>
+        Nur ein Admin sieht den Schlüssel-Knopf (<code>images/key.svg</code>). Er öffnet ein Fenster mit zwei Feldern.
+        <code>PasswordCheck.ValidateNewPassword</code> lehnt ab:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fall</th><th>Meldung</th></tr></thead>
+          <tbody>
+            <tr><td>leer</td><td class="muted">„Das Passwort darf nicht leer sein.“</td></tr>
+            <tr><td>Wiederholung weicht ab</td><td class="muted">„Die Passwörter stimmen nicht überein.“</td></tr>
+            <tr><td>gleich dem Admin-Passwort</td><td class="muted">„Das Passwort darf nicht dem Admin-Passwort entsprechen.“</td></tr>
+            <tr><td>Datei nicht schreibbar</td><td class="muted">„Das Passwort konnte nicht gespeichert werden: …“</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Das neue Passwort gilt ab der nächsten Anmeldung; bereits angemeldete Verbindungen bleiben angemeldet.
+        Das Admin-Passwort lässt sich nur in der <code>appsettings.json</code> ändern (danach Dienst neu starten).
+        Auf kleinen Bildschirmen steht das Fenster mittig im Display statt unter dem Knopf.
+      </p>
+
+      <h3 id="speicherung"><span class="sub-idx">02.04</span>Speicherung</h3>
+      <p>
+        <code>PasswordStore</code> (Singleton) schreibt das neue Passwort nach <code>UI:Password</code> in die
+        <code>appsettings.json</code> im Content-Root, also neben <code>WebApp.exe</code>. Die Datei wird mit
+        <code>System.Text.Json.Nodes</code> gelesen und eingerückt zurückgeschrieben; alle anderen Einträge bleiben
+        erhalten, fehlt der Abschnitt <code>UI</code>, wird er angelegt.
+      </p>
+      <p>
+        Die Konfiguration lädt <code>appsettings.json</code> bei Änderungen selbst nach. <code>Home</code> und
+        <code>ChangePasswordView</code> lesen deshalb über <code>IOptionsMonitor&lt;UIConfig&gt;.CurrentValue</code>,
+        damit das neue Passwort ohne Neustart gilt.
+      </p>
+      <div class="note"><b>Achtung —</b>&nbsp;<span>Wird <code>UI__Password</code> als Umgebungsvariable gesetzt, überdeckt
+        sie die Datei; ein in der Tafel geändertes Passwort hat dann keine Wirkung.</span></div>
+
+      <h3 id="grenzen"><span class="sub-idx">02.05</span>Sicherheitsgrenzen</h3>
+      <ul>
+        <li>Die Passwörter stehen im Klartext in der <code>appsettings.json</code> (wie auch das Datenbank-Passwort).</li>
+        <li>Die Anwendung läuft über HTTP; Passwörter gehen unverschlüsselt durchs Netz.</li>
+        <li>Der Schutz richtet sich gegen unbefugtes Bedienen am Turnierplatz, nicht gegen jemanden, der den Netzwerkverkehr
+          mitliest oder Zugriff auf den Rechner des Dienstes hat.</li>
+        <li>Die Anzeige auf Port 5081 ist für jeden im Netz offen; sie zeigt aber nur, was ohnehin auf der Tafel steht.</li>
+      </ul>
+    </section>
+
+    <!-- 03 KONFIGURATION -->
+    <section id="konfiguration">
+      <div class="section-head"><span class="idx">03</span><h2>Konfiguration</h2></div>
+      <p class="intro">
+        Alle Einstellungen stehen in <code>appsettings.json</code>. Als Windows-Dienst ist der Content-Root das Verzeichnis
+        der <code>WebApp.exe</code> (<code>Program.cs</code> setzt ihn, weil das Arbeitsverzeichnis eines Dienstes
+        <code>C:\Windows\System32</code> ist).
+      </p>
+      <pre class="code">{
+  <span class="k">"Kestrel"</span>: {
+    <span class="k">"Endpoints"</span>: {
+      <span class="k">"Http"</span>:    { <span class="k">"Url"</span>: <span class="s">"http://0.0.0.0:5080"</span> },
+      <span class="k">"Display"</span>: { <span class="k">"Url"</span>: <span class="s">"http://0.0.0.0:5081"</span> }
+    }
+  },
+  <span class="k">"Db"</span>: { … },
+  <span class="k">"UI"</span>: {
+    <span class="k">"EditTime"</span>: 15,
+    <span class="k">"RefreshTime"</span>: 2,
+    <span class="k">"DisplayPort"</span>: 5081,
+    <span class="k">"Password"</span>: <span class="s">""</span>,        <span class="c">// Bedienung, änderbar in der Tafel</span>
+    <span class="k">"AdminPassword"</span>: <span class="s">""</span>    <span class="c">// nur hier änderbar</span>
+  }
+}</pre>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Einstellung</th><th>Bedeutung</th><th>Standard</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">UI:DisplayPort</td><td>Port ohne Bedienelemente und ohne Passwort; <code>0</code> = keiner.</td><td class="mono">5081</td></tr>
+            <tr><td class="mono">UI:Password</td><td>Passwort der Bedienung. Leer und <code>AdminPassword</code> leer = kein Schutz.</td><td class="muted">leer</td></tr>
+            <tr><td class="mono">UI:AdminPassword</td><td>Admin: Bedienung plus Ändern von <code>UI:Password</code>.</td><td class="muted">leer</td></tr>
+            <tr><td class="mono">UI:RefreshTime / EditTime</td><td>Sekunden zwischen zwei Aktualisierungen, normal bzw. im Bearbeitungsmodus.</td><td class="mono">2 / 15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Die Bedienungsanleitung in der App (<code>wwwroot/docu/Bedienungsanleitung.html</code>) beschreibt die Passwörter bewusst nicht.</p>
+    </section>
+
+    <!-- 04 INSTALLATION -->
+    <section id="installation">
+      <div class="section-head"><span class="idx">04</span><h2>Installation &amp; Update</h2></div>
+      <p class="intro">
+        <code>WebApp/install-service.ps1</code> installiert oder aktualisiert den Dienst. Es muss als Administrator laufen.
+      </p>
+      <ol>
+        <li><code>dotnet publish</code> nach <code>%TEMP%\CompetitionBoard_publish</code>.</li>
+        <li>Dienst stoppen, falls er läuft.</li>
+        <li>Beide Passwörter aus der installierten <code>appsettings.json</code> merken.</li>
+        <li>Alles nach <code>%ProgramFiles%\CompetitionBoard</code> kopieren (die <code>appsettings.json</code> wird dabei überschrieben).</li>
+        <li>Fehlt ein Passwort, fragt das Skript danach (leer = keins). Danach schreibt es Endpunkte, <code>DisplayPort</code>
+          und beide Passwörter in die installierte <code>appsettings.json</code>.</li>
+        <li>Dienst anlegen bzw. Pfad setzen, Starttyp <b>Manuell</b>.</li>
+        <li>Firewall-Regeln für beide Ports anlegen oder aktualisieren, Dienst starten, erreichbare Adressen ausgeben.</li>
+      </ol>
+      <div class="note"><b>Browser-Cache —</b>&nbsp;<span>Statische Dateien werden bis zu einer Stunde gecacht. Das Icon von
+        „Passwort ändern“ wird über <code>@Assets["images/key.svg"]</code> mit Prüfsumme im Namen eingebunden und daher
+        nach einem Update sofort neu geladen.</span></div>
+    </section>
+
+    <!-- 05 TESTS -->
+    <section id="tests">
+      <div class="section-head"><span class="idx">05</span><h2>Tests</h2></div>
+      <p class="intro">
+        <code>WebApp/WebApp.Tests</code> (MSTest, bUnit für Komponenten). Fakes für <code>IDBSvc</code>, die Repositories und
+        <code>IOptionsMonitor</code> liegen unter <code>Fakes/</code>.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Testklasse</th><th>Prüft</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Services/Login/PasswordCheckTests</td><td>Anzeige-Port, Sperre an/aus, Zugriffsstufen, Regeln für neue Passwörter.</td></tr>
+            <tr><td class="mono">Services/Login/PasswordStoreTests</td><td>Nur <code>UI:Password</code> wird ersetzt, fehlender Abschnitt wird angelegt, Sonderzeichen bleiben lesbar.</td></tr>
+            <tr><td class="mono">Components/HomeTests</td><td>Abfrage vor der Tafel, keine DB-Verbindung vor der Anmeldung, falsches Passwort, Bedienung ohne und Admin mit Schlüssel-Knopf, Anzeige-Port ohne Abfrage und Knöpfe, erneute Abfrage bei neuem Aufruf.</td></tr>
+            <tr><td class="mono">Components/ChangePasswordViewTests</td><td>Öffnen/Schließen, Speichern in die Datei, alle Fehlerfälle.</td></tr>
+            <tr><td class="mono">Services/Board/BoardSvcTests</td><td>Unter anderem: <code>SetDisplayOnly</code> beendet und sperrt den Bearbeitungsmodus.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 API -->
+    <section id="api-login">
+      <div class="section-head"><span class="idx">06</span><h2>API-Referenz — Login &amp; Konfiguration</h2></div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Klasse · public static</span>
+            <h3 class="class-name">PasswordCheck</h3>
+            <span class="class-file">Services/Login/PasswordCheck.cs</span>
+          </div>
+          <p class="class-desc">Regeln für Anzeige-Port und Passwörter, ohne Zustand.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool IsDisplayPort(UIConfig uiConfig, int localPort)</td><td class="muted"><code>DisplayPort &gt; 0</code> und gleich <code>localPort</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool IsLockEnabled(UIConfig uiConfig)</td><td class="muted">Mindestens eines der beiden Passwörter gesetzt.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">AccessLevel GetAccessLevel(UIConfig uiConfig, string password)</td><td class="muted">Admin vor Operator, sonst Locked.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string ValidateNewPassword(UIConfig uiConfig, string password, string repeatedPassword)</td><td class="muted">Fehlermeldung oder <code>null</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Klasse · public</span>
+            <h3 class="class-name">PasswordStore</h3>
+            <span class="class-file">Services/Login/PasswordStore.cs</span>
+          </div>
+          <p class="class-desc">Schreibt <code>UI:Password</code> in die <code>appsettings.json</code>. Als Singleton registriert, Schreibzugriffe per <code>lock</code> serialisiert.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Konstruktor</td><td class="member-name">PasswordStore(string settingsFile)</td><td class="muted">Pfad der <code>appsettings.json</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">void SavePassword(string password)</td><td class="muted">Setzt <code>UI:Password</code>; wirft bei IO-Fehlern.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Enum · public</span>
+            <h3 class="class-name">AccessLevel</h3>
+            <span class="class-file">Services/Login/AccessLevel.cs</span>
+          </div>
+          <p class="class-desc"><code>Locked</code> (nur Abfrage), <code>Operator</code> (Bedienung), <code>Admin</code> (Bedienung und Passwort ändern).</p>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Klasse · public</span>
+            <h3 class="class-name">UIConfig</h3>
+            <span class="class-file">Configs/UIConfig.cs</span>
+          </div>
+          <p class="class-desc">Abschnitt <code>UI</code> der Konfiguration.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Property</td><td class="member-name">int EditTime / RefreshTime</td><td class="muted">Aktualisierung in Sekunden.</td></tr>
+              <tr><td class="member-kind">Property</td><td class="member-name">int DisplayPort</td><td class="muted">Port der reinen Anzeige, 0 = keiner.</td></tr>
+              <tr><td class="member-kind">Property</td><td class="member-name">string Password</td><td class="muted">Passwort der Bedienung.</td></tr>
+              <tr><td class="member-kind">Property</td><td class="member-name">string AdminPassword</td><td class="muted">Admin-Passwort.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Komponenten</span>
+            <h3 class="class-name">LoginView · ChangePasswordView</h3>
+            <span class="class-file">Components/Views/</span>
+          </div>
+          <p class="class-desc"><code>LoginView</code>: Passwortfeld, Parameter <code>IsWrongPassword</code>, Callback <code>OnLogin(string)</code>.
+            <code>ChangePasswordView</code>: Schlüssel-Knopf mit Fenster, nutzt <code>PasswordCheck</code> und <code>PasswordStore</code>.
+            <code>BoardSvc</code> ergänzt <code>IsDisplayOnly</code> und <code>SetDisplayOnly()</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      Stand: Projekt <code>WebApp</code> · WebApp/WebApp · erstellt aus dem aktuellen Quellcode.
+    </footer>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.side a[data-nav]'));
+    var sections = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    if ('IntersectionObserver' in window && sections.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        if (visible.length) {
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] });
+
+      sections.forEach(function (s) { observer.observe(s); });
+    }
+
+    if (sections.length) setActive(sections[0].id);
+  })();
+</script>

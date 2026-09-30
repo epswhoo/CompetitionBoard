@@ -1,0 +1,717 @@
+/* Nachbildung des WPF-Layouts (MainWindow.xaml und Views). Die Anzeigetafel ist immer hell. */
+
+:root {
+    color-scheme: light only;
+    --wpf-text: #000000;
+    --wpf-background: #ffffff;
+    --wpf-textbox-border: #abadb3;
+    --wpf-textbox-border-focus: #569de5;
+    --wpf-combobox-hover: #e5f3fb;
+    --wpf-combobox-selected: #cce8ff;
+    --wpf-combobox-border: #acacac;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: var(--wpf-background);
+    color: var(--wpf-text);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* ---------- Gemeinsame WPF-Elemente ---------- */
+
+.wpf-label {
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.wpf-textbox {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0 1px;
+    border: 1px solid var(--wpf-textbox-border);
+    border-radius: 0;
+    background: var(--wpf-background);
+    color: var(--wpf-text);
+    font: inherit;
+    outline: none;
+}
+
+    .wpf-textbox:hover,
+    .wpf-textbox:focus {
+        border-color: var(--wpf-textbox-border-focus);
+    }
+
+.image-button,
+.image-checkbox {
+    display: inline-flex;
+    flex: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+    .image-button img,
+    .image-checkbox img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .image-checkbox img {
+        opacity: 0.5;
+    }
+
+    .image-checkbox.checked img {
+        opacity: 1;
+    }
+
+    .image-button:focus-visible,
+    .image-checkbox:focus-visible {
+        outline: 1px dotted var(--wpf-text);
+    }
+
+/* ---------- MainWindow ---------- */
+
+.board {
+    display: grid;
+    grid-template-rows: 50px 5px minmax(0, 1fr) 40px auto auto;
+    height: 100vh;
+    padding: 10px;
+}
+
+.board-header {
+    display: grid;
+    /* Linke und rechte Spalte gleich breit, damit der Titel in der Seitenmitte steht. */
+    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 2fr) 40px minmax(0, 1fr);
+    align-items: center;
+    min-width: 0;
+}
+
+.board-header-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.error-label {
+    white-space: pre-line;
+}
+
+/* Eingeblendete Bedienungsanleitung: nimmt den Platz von Tafel, Meldungen und Legende ein. */
+.board.info-visible {
+    grid-template-rows: 50px 5px minmax(0, 1fr);
+}
+
+.info-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: none;
+    background: var(--wpf-background);
+}
+
+    .error-label:empty {
+        padding: 0;
+    }
+
+/* ---------- LoginView ---------- */
+
+.login-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 16px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(320px, 100%);
+    font-size: 18px;
+}
+
+.login-title {
+    margin-bottom: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-form .wpf-textbox {
+    height: 40px;
+    font-size: 20px;
+}
+
+.login-button,
+.change-password-buttons button {
+    height: 40px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.login-error,
+.change-password-message.error {
+    color: #c00000;
+}
+
+/* ---------- ChangePasswordView ---------- */
+
+.change-password-view {
+    position: relative;
+    display: inline-flex;
+}
+
+.change-password-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+.change-password-popup {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    z-index: 11;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: min(300px, calc(100vw - 32px));
+    padding: 12px;
+    border: 1px solid var(--wpf-combobox-border);
+    background: var(--wpf-background);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+.change-password-title {
+    font-weight: bold;
+}
+
+.change-password-popup .wpf-textbox {
+    height: 30px;
+    font-size: 16px;
+}
+
+.change-password-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+    .change-password-buttons button {
+        flex: 1;
+        height: 32px;
+    }
+
+/* ---------- TitleView ---------- */
+
+.title-view {
+    height: 50px;
+    min-width: 0;
+    font-size: 30px;
+}
+
+.title-label {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.title-edit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 10px 40px;
+    align-items: center;
+    height: 100%;
+}
+
+    .title-edit .wpf-textbox {
+        height: 100%;
+    }
+
+/* ---------- AddNewListView ---------- */
+
+.add-new-list-view {
+    height: 40px;
+    min-width: 0;
+}
+
+.add-new-list-edit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 10px 40px;
+    align-items: center;
+    height: 100%;
+}
+
+    .add-new-list-edit .wpf-textbox {
+        height: 100%;
+        font-size: 24px;
+    }
+
+/* ---------- LegendView ---------- */
+
+.legend-view {
+    display: flex;
+    justify-self: center;
+    height: 40px;
+    background: var(--wpf-background);
+    font-size: 16px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-label {
+    margin: 0 20px 0 10px;
+}
+
+/* ---------- RnHsView / RnHsControl (DataGrid) ---------- */
+
+/* Die Listen teilen sich Breite und Höhe gleichmäßig; jede RnH steht mittig in ihrer Zelle. */
+.rnhs-view {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    min-height: 0;
+}
+
+.rnhs-control {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--wpf-background);
+    font-size: 30px;
+}
+
+.rnhs-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--wpf-background);
+}
+
+/* ---------- RnHControl ---------- */
+
+/* Wie in WPF: so hoch wie der Inhalt (StatusImage 80 px), vertikal in der Zeile zentriert. */
+.rnh-control {
+    display: grid;
+    grid-template-columns: 70px 5px 90px 5px 100px 5px 20px;
+    align-items: stretch;
+}
+
+.rnh-mark-cell {
+    position: relative;
+    min-height: 70px;
+}
+
+.rnh-status-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rnh-horse-no-cell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.rnh-add-cell {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* MarkControl: rechtsbündig, vertikal zentriert */
+.mark-control {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.mark-label {
+    text-align: right;
+}
+
+.mark-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 70px;
+}
+
+/* Feste Höhe, damit Pokal und X genau an Ober- und Unterkante der Eingabe ausgerichtet werden können. */
+.mark-textbox {
+    height: 40px;
+    text-align: right;
+}
+
+.mark-edit .image-button {
+    margin-top: -5px;
+}
+
+/* RankedControl: 20x20 oben links */
+.ranked-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+}
+
+/* Im Bearbeitungsmodus bündig mit der Oberkante der Noteneingabe.
+   MarkEdit ist 60 px hoch (Eingabe 40 px + Button 25 px - 5 px) und vertikal zentriert. */
+.rnhs-view.editing .ranked-control {
+    top: calc(50% - 30px);
+}
+
+    .ranked-control > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+/* DisControl: 70 hoch, vertikal zentriert */
+.dis-control {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.dis-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    transform: translate(-50%, -50%);
+}
+
+/* Bündig mit der Unterkante der Noteneingabe (Unterkante bei 50% + 10 px, siehe RankedControl). */
+.dis-checkbox {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+    pointer-events: auto;
+}
+
+/* StatusImage: Dressurbild + Status-Symbol im oberen rechten Feld (Grid 0.6/0.4 x 0.4/0.6) */
+.status-image {
+    position: relative;
+    flex: none;
+}
+
+.status-image-main {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.status-image-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    max-height: 40%;
+    object-fit: contain;
+}
+
+/* StatusControl (ComboBox im Bearbeitungsmodus) */
+.status-control {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+}
+
+.status-combobox {
+    position: relative;
+    width: 100%;
+}
+
+.status-combobox-selected {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17px;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 2px;
+    border: 1px solid var(--wpf-background);
+    background: var(--wpf-background);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+    .status-combobox-selected:hover {
+        border-color: var(--wpf-textbox-border-focus);
+    }
+
+.status-combobox-arrow {
+    justify-self: center;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--wpf-text);
+}
+
+.status-combobox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+.status-combobox-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 11;
+    min-width: 100%;
+    border: 1px solid var(--wpf-combobox-border);
+    background: var(--wpf-background);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+    .status-combobox-popup.upwards {
+        top: auto;
+        bottom: 100%;
+    }
+
+/* Im Bearbeitungsmodus darf das Status-Popup über die Zeile hinausragen. */
+.rnhs-view.editing .rnhs-control,
+.rnhs-view.editing .rnhs-row {
+    overflow: visible;
+}
+
+.status-combobox-item {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 2px;
+    border: 1px solid transparent;
+    background: var(--wpf-background);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+    .status-combobox-item:hover {
+        background: var(--wpf-combobox-hover);
+    }
+
+    .status-combobox-item.selected {
+        background: var(--wpf-combobox-selected);
+    }
+
+.status-item {
+    display: grid;
+    grid-template-columns: 40px 10px auto;
+    align-items: center;
+    background: var(--wpf-background);
+    white-space: nowrap;
+}
+
+    .status-item.icon-only {
+        grid-template-columns: 40px;
+    }
+
+.status-combobox-item:hover .status-item,
+.status-combobox-item.selected .status-item {
+    background: transparent;
+}
+
+/* HorseNoControl */
+.horse-no-control {
+    width: 100px;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.horse-no-label {
+    text-align: center;
+}
+
+.horse-no-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+    .horse-no-edit .image-button {
+        margin-top: -5px;
+    }
+
+/* AddControl: Zeilen 20 / * / 20 */
+.add-control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100%;
+    min-height: 60px;
+}
+
+/* ---------- Kleine Bildschirme (Handy) ---------- */
+
+/* Statt einer Tafel, die den ganzen Bildschirm füllt: scrollbare Seite,
+   Listen untereinander (im Querformat so viele nebeneinander, wie hineinpassen). */
+@media (max-width: 700px), (max-height: 500px) {
+    html, body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .board {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+        .board > span {
+            display: none;
+        }
+
+    .board-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px 10px;
+    }
+
+        .board-header > span {
+            display: none;
+        }
+
+    .title-view {
+        order: -1;
+        width: 100%;
+        height: auto;
+        min-height: 40px;
+        font-size: 22px;
+    }
+
+    .title-label {
+        white-space: normal;
+    }
+
+    .add-new-list-view {
+        flex: 1 1 0;
+        height: auto;
+    }
+
+    .add-new-list-edit {
+        height: 40px;
+    }
+
+        .add-new-list-edit .wpf-textbox {
+            font-size: 18px;
+        }
+
+    .board-header-buttons {
+        margin-left: auto;
+    }
+
+    /* Das Fenster hängt nicht am Knopf, sondern steht mittig im Display. */
+    .change-password-popup {
+        position: fixed;
+        top: 60px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        max-width: 400px;
+        max-height: calc(100vh - 76px);
+        margin: 0 auto;
+        overflow-y: auto;
+    }
+
+    .rnhs-view {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 10px;
+    }
+
+    /* Die Zeilenhöhe richtet sich nach dem Inhalt statt nach der Bildschirmhöhe. */
+    .rnhs-control {
+        grid-template-rows: none !important;
+        grid-auto-rows: auto;
+        overflow: visible;
+    }
+
+    .rnhs-row {
+        overflow: visible;
+    }
+
+    /* Damit die Status-Auswahl nicht über den rechten Bildschirmrand hinausragt. */
+    .status-combobox-popup {
+        font-size: 18px;
+    }
+
+    /* Die Seite scrollt hier selbst, die Anleitung bekommt eine feste Höhe. */
+    .info-frame {
+        height: calc(100vh - 120px);
+        min-height: 300px;
+    }
+
+    .legend-view {
+        flex-wrap: wrap;
+        justify-content: center;
+        justify-self: stretch;
+        height: auto;
+        font-size: 14px;
+    }
+
+    .legend-item {
+        height: 40px;
+    }
+
+    .legend-label {
+        margin: 0 10px 0 5px;
+    }
+}
+
+/* ---------- Blazor-Fehleranzeige ---------- */
+
+.blazor-error-boundary {
+    background: #b32121;
+    padding: 1rem;
+    color: white;
+}
+
+    .blazor-error-boundary::after {
+        content: "Ein Fehler ist aufgetreten.";
+    }

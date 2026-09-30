@@ -1,0 +1,1138 @@
+<title>DBSvcs</title>
+<style>
+  :root {
+    --bg: #f0f3f6;
+    --surface: #ffffff;
+    --surface-2: #e6ebf0;
+    --surface-3: #dbe2e8;
+    --border: #cdd6dd;
+    --text: #182430;
+    --text-muted: #576773;
+    --accent: #1b94a7;
+    --accent-ink: #155a65;
+    --accent-soft: #cdeef3;
+    --accent-2: #2c6e8e;
+    --accent-2-soft: #dbeaf0;
+    --good: #2b7a4b;
+    --good-soft: #dcefe2;
+    --bad: #ad3a3a;
+    --bad-soft: #f6dede;
+    --code-bg: #eaeef2;
+    --shadow: 0 1px 2px rgba(24,36,48,.06), 0 8px 24px rgba(24,36,48,.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161d;
+      --surface: #161f28;
+      --surface-2: #1c2732;
+      --surface-3: #24313d;
+      --border: #2c3947;
+      --text: #dee6ec;
+      --text-muted: #90a2b0;
+      --accent: #52c7d6;
+      --accent-ink: #bcebf1;
+      --accent-soft: #12393f;
+      --accent-2: #6bacc9;
+      --accent-2-soft: #1c3038;
+      --good: #4fae76;
+      --good-soft: #1b3327;
+      --bad: #e07f78;
+      --bad-soft: #3a2222;
+      --code-bg: #0e151b;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10161d;
+    --surface: #161f28;
+    --surface-2: #1c2732;
+    --surface-3: #24313d;
+    --border: #2c3947;
+    --text: #dee6ec;
+    --text-muted: #90a2b0;
+    --accent: #52c7d6;
+    --accent-ink: #bcebf1;
+    --accent-soft: #12393f;
+    --accent-2: #6bacc9;
+    --accent-2-soft: #1c3038;
+    --good: #4fae76;
+    --good-soft: #1b3327;
+    --bad: #e07f78;
+    --bad-soft: #3a2222;
+    --code-bg: #0e151b;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--accent-soft); }
+
+  h1, h2, h3 {
+    font-family: system-ui, -apple-system, "Segoe UI Semibold", Roboto, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .mono, .tag-mono, table td.num {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: var(--accent-2); }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 100vh;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 28px 24px;
+    border-right: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border-radius: 7px;
+    background: linear-gradient(155deg, var(--accent) 0%, var(--accent-ink) 100%);
+    position: relative;
+  }
+
+  .brand-mark::before, .brand-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--surface);
+    opacity: .85;
+  }
+
+  .brand-mark::before {
+    left: 7px; top: 8px; width: 16px; height: 2px;
+  }
+
+  .brand-mark::after {
+    left: 7px; top: 15px; width: 10px; height: 2px;
+  }
+
+  .brand-name {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: .01em;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 2px 0 20px;
+    padding-left: 40px;
+  }
+
+  .side-group {
+    margin-bottom: 4px;
+  }
+
+  .side-group-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--text-muted);
+    margin: 18px 0 6px;
+    padding: 0 10px;
+  }
+
+  .side-group:first-of-type .side-group-label { margin-top: 4px; }
+
+  nav.side a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+
+  nav.side a .num {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 11px;
+    color: var(--border);
+    flex: none;
+  }
+
+  nav.side a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  nav.side a.active {
+    color: var(--text);
+    background: var(--surface-2);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  nav.side a.active .num { color: var(--accent); }
+
+  nav.side a.sub {
+    padding-left: 24px;
+    font-size: 12.5px;
+  }
+
+  nav.side a.sub .num { font-size: 10px; }
+
+  /* ---------- Main ---------- */
+
+  main {
+    padding: 40px clamp(20px, 4vw, 56px) 100px;
+    min-width: 0;
+  }
+
+  header.hero {
+    margin-bottom: 44px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 4px 9px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  header.hero h1 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 10px;
+  }
+
+  header.hero .lede {
+    max-width: 62ch;
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 20px;
+  }
+
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    font-size: 12px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  section > .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  section > .section-head .idx {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  section h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+
+  section > p.intro {
+    max-width: 68ch;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+
+  h3 {
+    font-size: 15.5px;
+    margin: 26px 0 10px;
+  }
+
+  h3 .sub-idx {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  p { max-width: 72ch; margin: 0 0 14px; }
+
+  /* ---------- Cards / grid ---------- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .proj-card {
+    padding: 18px 18px 16px;
+  }
+
+  .proj-card .proj-kind {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent-2);
+    margin-bottom: 6px;
+  }
+
+  .proj-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 600;
+  }
+
+  .proj-card p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 10px; }
+
+  .proj-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .proj-card li { margin-bottom: 3px; }
+  .proj-card li b { color: var(--text); font-weight: 600; }
+
+  /* ---------- Diagram figures ---------- */
+
+  figure.diagram {
+    margin: 0 0 8px;
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  figure.diagram .scroller {
+    overflow-x: auto;
+  }
+
+  figure.diagram svg { width: 100%; height: auto; display: block; min-width: 640px; }
+
+  figure.diagram text { fill: currentColor; }
+
+  figcaption {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    max-width: 70ch;
+  }
+
+  .node-box { fill: var(--surface-2); stroke: var(--border); stroke-width: 1.3; }
+  .node-box.accent { fill: var(--accent-soft); stroke: var(--accent); }
+  .node-box.accent2 { fill: var(--accent-2-soft); stroke: var(--accent-2); }
+  .node-title { font-size: 13px; font-weight: 600; }
+  .node-sub { font-size: 10.5px; opacity: .68; }
+  .edge-line { stroke: currentColor; stroke-width: 1.3; fill: none; opacity: .55; }
+  .edge-line.hot { stroke: var(--accent); opacity: 1; }
+  .edge-label { font-size: 10.5px; opacity: .8; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .boundary { fill: none; stroke: var(--accent-2); stroke-width: 1.2; stroke-dasharray: 5 4; opacity: .7; }
+  .boundary-label { font-size: 11px; fill: var(--accent-2); font-family: ui-monospace, "Cascadia Code", monospace; }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--surface);
+    min-width: 560px;
+  }
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td.q { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent-ink); white-space: nowrap; }
+  td.muted { color: var(--text-muted); }
+
+  /* ---------- Code blocks ---------- */
+
+  pre.code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.55;
+  }
+  pre.code .k { color: var(--accent-2); }
+  pre.code .s { color: var(--accent-ink); }
+  pre.code .c { color: var(--text-muted); font-style: italic; }
+
+  /* ---------- Misc components ---------- */
+
+  .note {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2);
+    font-size: 13px;
+    max-width: 72ch;
+  }
+  .note b { color: var(--accent-2); font-weight: 700; }
+  .note span { min-width: 0; overflow-wrap: break-word; }
+  .note code { overflow-wrap: break-word; word-break: break-word; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .kv-card {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+  }
+  .kv-card .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 4px; }
+  .kv-card .v { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 13.5px; }
+
+  /* ---------- API-Referenz ---------- */
+
+  .class-block {
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .class-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .class-head-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .class-kind {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--accent-2);
+    background: var(--accent-2-soft);
+    padding: 2px 7px;
+    border-radius: 5px;
+    flex: none;
+  }
+
+  .class-kind.model { color: var(--accent-ink); background: var(--accent-soft); }
+  .class-kind.iface { color: var(--accent-ink); background: var(--accent-soft); }
+
+  .class-name {
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .class-file {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .class-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 74ch;
+    margin: 8px 0 0;
+  }
+
+  .class-block table { font-size: 13px; }
+  .class-block th { font-size: 10.5px; }
+  .class-block .member-name { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12.5px; }
+  .class-block .member-kind {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .proj-chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    margin: 0 0 20px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .proj-chapter-head .proj-chapter-mark {
+    width: 38px; height: 38px; flex: none; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, "Cascadia Code", monospace;
+    font-weight: 700; font-size: 15px;
+    background: var(--accent-soft); color: var(--accent-ink);
+  }
+  .proj-chapter-head h3 { margin: 0 0 2px; font-size: 15px; font-family: ui-monospace, "Cascadia Code", monospace; }
+  .proj-chapter-head p { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+
+  footer.page-foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.side { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    nav.side a { transition: background .12s ease, border-color .12s ease; }
+  }
+</style>
+
+<style>
+  .pill.warn { background: var(--accent-2-soft); color: var(--accent-2); }
+  .pill.info { background: var(--surface-2); color: var(--text-muted); }
+  td.sev { white-space: nowrap; }
+  td.where { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+</style>
+
+<div class="layout">
+  <nav class="side" aria-label="Inhaltsverzeichnis">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">DBSvcs</span>
+    </div>
+    <div class="brand-sub">Interne Doku</div>
+
+    <div class="side-group">
+      <a href="#ueberblick" data-nav><span class="num">00</span> Übersicht</a>
+      <a href="#architektur" data-nav><span class="num">01</span> Architektur &amp; Ablauf</a>
+      <a href="#schema" data-nav><span class="num">02</span> Datenbank-Schema</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Verwendung</div>
+      <a href="#verwendung" data-nav><span class="num">03</span> Verwendung im Code</a>
+      <a href="#verbinden" data-nav class="sub"><span class="num">03.01</span> Verbinden</a>
+      <a href="#lesen" data-nav class="sub"><span class="num">03.02</span> Lesen</a>
+      <a href="#schreiben" data-nav class="sub"><span class="num">03.03</span> Einfügen, Speichern, Löschen</a>
+      <a href="#titel" data-nav class="sub"><span class="num">03.04</span> Titel</a>
+      <a href="#fehler-behandeln" data-nav class="sub"><span class="num">03.05</span> Fehler behandeln</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Qualität</div>
+      <a href="#review" data-nav><span class="num">04</span> Code-Review</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">API-Referenz</div>
+      <a href="#api-dbsvcs" data-nav><span class="num">05</span> DBSvcs</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <span class="eyebrow">Technische Dokumentation</span>
+      <h1>DBSvcs</h1>
+      <p class="lede">
+        Persistenzschicht des CompetitionBoards: <code>DBSvc</code> implementiert <code>IDBSvc</code> aus
+        <code>Base</code> mit Entity Framework Core gegen SQL Server. Das Projekt speichert die
+        Starterliste (<code>RnH</code>) und den Titel der Anzeige. Fehler werden nicht geworfen,
+        sondern als Text über <code>ErrorRised</code> gemeldet; die Methode liefert dann den
+        Standardwert ihres Rückgabetyps.
+      </p>
+      <div class="stack-row">
+        <span class="chip">.NET 10</span>
+        <span class="chip">Nullable disable</span>
+        <span class="chip">EF Core 10.0.12</span>
+        <span class="chip">SQL Server</span>
+        <span class="chip">keine Tests</span>
+      </div>
+    </header>
+
+    <!-- 00 ÜBERBLICK -->
+    <section id="ueberblick">
+      <div class="section-head"><span class="idx">00</span><h2>Übersicht</h2></div>
+      <p class="intro">
+        <code>DBSvcs</code> liegt unter <code>DBSvcs/DBSvcs</code> und referenziert nur <code>Base</code>
+        sowie die NuGet-Pakete <code>Microsoft.EntityFrameworkCore</code> und
+        <code>Microsoft.EntityFrameworkCore.SqlServer</code>. Nach außen zählt eigentlich nur
+        <code>DBSvc</code>; <code>CompetitionBoardDBContext</code> und <code>TitleDBContextModel</code> sind
+        zwar <code>public</code>, werden aber nur intern verwendet. Die Helfer unter <code>Helpers/</code>
+        sind <code>internal</code>. In der WebApp wird <code>DBSvc</code> als <code>Scoped</code>
+        registriert, also eine Instanz pro Browser-Verbindung.
+      </p>
+      <div class="kv-grid">
+        <div class="kv-card"><div class="k">Implementiert</div><div class="v">IDBSvc (Base)</div></div>
+        <div class="kv-card"><div class="k">Öffentliche Typen</div><div class="v">DBSvc, DBContext, 1 Modell</div></div>
+        <div class="kv-card"><div class="k">Verwendet von</div><div class="v">Repos, WebApp</div></div>
+        <div class="kv-card"><div class="k">Review</div><div class="v">10 behoben · 2 offen</div></div>
+      </div>
+    </section>
+
+    <!-- 01 ARCHITEKTUR -->
+    <section id="architektur">
+      <div class="section-head"><span class="idx">01</span><h2>Architektur &amp; Ablauf</h2></div>
+      <p class="intro">
+        <code>DBSvc</code> speichert nur den Connection-String. Jede Methode erzeugt über
+        <code>CreateDBContext()</code> einen eigenen, kurzlebigen <code>CompetitionBoardDBContext</code>
+        und gibt ihn am Ende wieder frei (<code>using</code>). Dadurch sieht jeder Aufruf den aktuellen
+        Datenbankstand, es bleiben keine Kontexte liegen, und parallele Aufrufe teilen sich keinen
+        Kontext. Alle öffentlichen Methoden laufen durch <code>TryCatchException</code>, das Exceptions
+        in <code>ErrorRised</code> umwandelt.
+      </p>
+
+      <figure class="diagram">
+        <div class="scroller">
+          <svg viewBox="0 0 1040 230" role="img" aria-label="Repos ruft IDBSvc auf. DBSvc implementiert IDBSvc, erzeugt pro Aufruf einen CompetitionBoardDBContext und greift darüber auf die Tabellen RnHsTable und TitleTable im SQL Server zu.">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path>
+              </marker>
+              <marker id="arrowHot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- Aufrufer -->
+            <rect class="node-box accent2" x="16" y="75" width="170" height="80" rx="8"></rect>
+            <text class="node-title" x="101" y="105" text-anchor="middle">Repos</text>
+            <text class="node-sub" x="101" y="121" text-anchor="middle">RnHsRepo, TitleRepo</text>
+            <text class="node-sub" x="101" y="135" text-anchor="middle">kennen nur IDBSvc</text>
+
+            <!-- DBSvcs Boundary -->
+            <rect class="boundary" x="250" y="14" width="540" height="200" rx="10"></rect>
+            <text class="boundary-label" x="264" y="34">DBSvcs</text>
+
+            <!-- DBSvc -->
+            <rect class="node-box accent" x="275" y="60" width="230" height="110" rx="8"></rect>
+            <text class="node-title" x="390" y="88" text-anchor="middle">DBSvc : IDBSvc</text>
+            <text class="node-sub" x="390" y="108" text-anchor="middle">TryCatchException → ErrorRised</text>
+            <text class="node-sub" x="390" y="123" text-anchor="middle">CreateDBContext() je Aufruf</text>
+            <text class="node-sub" x="390" y="138" text-anchor="middle">RnHHelpers.SetData (Kopie)</text>
+            <text class="node-sub" x="390" y="153" text-anchor="middle">GetConnectionString()</text>
+
+            <!-- DBContext -->
+            <rect class="node-box" x="560" y="60" width="210" height="110" rx="8"></rect>
+            <text class="node-title" x="665" y="88" text-anchor="middle">CompetitionBoard-</text>
+            <text class="node-title" x="665" y="104" text-anchor="middle">DBContext</text>
+            <text class="node-sub" x="665" y="126" text-anchor="middle">DbSet&lt;RnH&gt; RnHsTable</text>
+            <text class="node-sub" x="665" y="141" text-anchor="middle">DbSet&lt;TitleDBContextModel&gt;</text>
+            <text class="node-sub" x="665" y="155" text-anchor="middle">TitleTable</text>
+
+            <!-- SQL Server -->
+            <rect class="node-box" x="850" y="65" width="175" height="100" rx="8"></rect>
+            <text class="node-title" x="937" y="95" text-anchor="middle">SQL Server</text>
+            <text class="node-sub" x="937" y="115" text-anchor="middle">Tabelle RnHsTable</text>
+            <text class="node-sub" x="937" y="130" text-anchor="middle">Tabelle TitleTable</text>
+            <text class="node-sub" x="937" y="148" text-anchor="middle">Schema extern angelegt</text>
+
+            <line class="edge-line hot" x1="186" y1="115" x2="273" y2="115" marker-end="url(#arrowHot)"></line>
+            <text class="edge-label" x="229" y="104" text-anchor="middle">IDBSvc</text>
+
+            <line class="edge-line" x1="505" y1="115" x2="558" y2="115" marker-end="url(#arrow)"></line>
+            <text class="edge-label" x="531" y="104" text-anchor="middle">erzeugt</text>
+
+            <line class="edge-line" x1="770" y1="115" x2="848" y2="115" marker-end="url(#arrow)"></line>
+            <text class="edge-label" x="809" y="104" text-anchor="middle">EF Core</text>
+          </svg>
+        </div>
+        <figcaption>
+          Farbcode: <span style="color:var(--accent-2)">■</span> der Aufrufer,
+          <span style="color:var(--accent)">■</span> der Einstiegspunkt <code>DBSvc</code>, neutral die
+          internen Bausteine und die Datenbank. Die gestrichelte Linie markiert die Projektgrenze.
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- 02 SCHEMA -->
+    <section id="schema">
+      <div class="section-head"><span class="idx">02</span><h2>Datenbank-Schema</h2></div>
+      <p class="intro">
+        Das Projekt enthält weder Migrations noch einen Aufruf von <code>EnsureCreated</code>. Die
+        Datenbank muss also bereits existieren. Nach den EF-Core-Konventionen heißen die Tabellen wie
+        die <code>DbSet</code>-Properties, <code>Id</code>/<code>ID</code> ist jeweils der Primärschlüssel,
+        Enums werden als <code>int</code> gespeichert.
+      </p>
+
+      <h3>RnHsTable — Modell <code>Base.Models.RnHs.RnH</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Spalte</th><th>C#-Typ</th><th>SQL (Konvention)</th><th>Bemerkung</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">Id</td><td class="mono muted">int</td><td class="mono muted">int, PK, Identity</td><td class="muted">Von der DB vergeben.</td></tr>
+            <tr><td class="member-name">HorseNo</td><td class="mono muted">int</td><td class="mono muted">int</td><td class="muted">Pferde- bzw. Startnummer.</td></tr>
+            <tr><td class="member-name">Order</td><td class="mono muted">int</td><td class="mono muted">int</td><td class="muted">Position in der Starterliste.</td></tr>
+            <tr><td class="member-name">Status</td><td class="mono muted">RnHStatus</td><td class="mono muted">int</td><td class="muted">0 = NotPresent … 4 = CompetitionDone.</td></tr>
+            <tr><td class="member-name">Mark</td><td class="mono muted">double</td><td class="mono muted">float</td><td class="muted">Note.</td></tr>
+            <tr><td class="member-name">IsDisqualificated</td><td class="mono muted">bool</td><td class="mono muted">bit</td><td class="muted"></td></tr>
+            <tr><td class="member-name">IsRanked</td><td class="mono muted">bool</td><td class="mono muted">bit</td><td class="muted"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>TitleTable — Modell <code>DBSvcs.Models.TitleDBContextModel</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Spalte</th><th>C#-Typ</th><th>SQL (Konvention)</th><th>Bemerkung</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">ID</td><td class="mono muted">int</td><td class="mono muted">int, PK, Identity</td><td class="muted"></td></tr>
+            <tr><td class="member-name">Title</td><td class="mono muted">string</td><td class="mono muted">nvarchar(max)</td><td class="muted">Es wird immer nur die erste Zeile gelesen/geschrieben.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:18px">
+        <b>Titelzeile —</b>&nbsp;<span>Ist <code>TitleTable</code> leer, liefert <code>TitleLoad</code>
+        einen leeren String, und <code>TitleSave</code> legt die Zeile beim ersten Speichern an.</span>
+      </div>
+    </section>
+
+    <!-- 03 VERWENDUNG -->
+    <section id="verwendung">
+      <div class="section-head"><span class="idx">03</span><h2>Verwendung im Code</h2></div>
+      <p class="intro">
+        <code>DBSvc</code> hat einen parameterlosen Konstruktor. Vor jedem anderen Aufruf muss
+        <code>SetDBSettings</code> einmal gelaufen sein, sonst meldet jede Methode
+        „Es sind keine Datenbankeinstellungen gesetzt.“. Im Normalfall wird <code>DBSvc</code> nicht direkt benutzt, sondern als
+        <code>IDBSvc</code> an <code>RnHsRepo</code> und <code>TitleRepo</code> übergeben.
+      </p>
+
+      <h3 id="verbinden"><span class="sub-idx">03.01</span>Verbinden</h3>
+      <p>
+        <code>SetDBSettings</code> baut aus <code>DBConnectionSettings</code> mit einem
+        <code>SqlConnectionStringBuilder</code> den Connection-String und prüft mit
+        <code>Database.CanConnect()</code>, ob die Datenbank erreichbar ist. Sonderzeichen wie
+        <code>;</code> im Passwort werden dabei korrekt maskiert. Der Verbindungs-Timeout beträgt
+        5&nbsp;Sekunden, ein nicht erreichbarer Server blockiert den Aufruf also höchstens so lange.
+        <code>CheckConnection()</code> prüft die Verbindung später erneut.
+      </p>
+      <pre class="code"><span class="c">// Aufbau des Connection-Strings (DBConnectionStringHelpers)</span>
+DataSource = Server, InitialCatalog = DB, UserID = Username, Password = Password,
+TrustServerCertificate = <span class="k">true</span>, ConnectTimeout = 5
+
+<span class="c">// Beispiel</span>
+IDBSvc dbSvc = <span class="k">new</span> DBSvc();
+dbSvc.ErrorRised += (sender, message) =&gt; Console.WriteLine(message);
+
+<span class="k">bool</span> connected = dbSvc.SetDBSettings(<span class="k">new</span> DBConnectionSettings
+{
+    Server = <span class="s">"localhost"</span>,
+    DB = <span class="s">"CompetitionBoard"</span>,
+    Username = <span class="s">"sa"</span>,
+    Password = <span class="s">"geheim"</span>
+});</pre>
+
+      <h3 id="lesen"><span class="sub-idx">03.02</span>Lesen</h3>
+      <p>
+        <code>ReadAll()</code> liefert alle Einträge nach <code>Order</code> sortiert,
+        <code>ReadById(id)</code> einen einzelnen Eintrag. Beide geben vom Kontext losgelöste Objekte
+        zurück; Änderungen daran wirken sich erst aus, wenn sie über <code>Save</code> gespeichert
+        werden. Existiert die <code>Id</code> nicht, meldet <code>ReadById</code>
+        „Reiter und Pferd mit Id … nicht gefunden.“ und liefert <code>null</code>.
+      </p>
+      <pre class="code">IEnumerable&lt;RnH&gt; starter = dbSvc.ReadAll();   <span class="c">// sortiert nach Order</span>
+RnH einer = dbSvc.ReadById(17);</pre>
+
+      <h3 id="schreiben"><span class="sub-idx">03.03</span>Einfügen, Speichern, Löschen</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Methode</th><th>Ablauf</th><th>Rückgabe</th></tr></thead>
+          <tbody>
+            <tr><td class="member-name">Insert(RnH)</td><td class="muted">Kopiert alle Felder in ein neues Objekt, setzt dessen <code>Id</code> auf 0, fügt es ein und schreibt die vergebene <code>Id</code> zurück in das übergebene Objekt.</td><td class="muted">das übergebene Objekt mit <code>Id</code></td></tr>
+            <tr><td class="member-name">Save(RnH)</td><td class="muted">Lädt den Eintrag per <code>Id</code>, übernimmt alle Felder und speichert.</td><td class="muted">das übergebene Objekt</td></tr>
+            <tr><td class="member-name">Delete(RnH)</td><td class="muted">Lädt den Eintrag per <code>Id</code>, entfernt ihn und prüft danach, dass er nicht mehr existiert.</td><td class="muted"><code>true</code> wenn gelöscht</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px">
+        Bei unbekannter <code>Id</code> melden <code>Save</code> und <code>Delete</code>
+        „Reiter und Pferd mit Id … nicht gefunden.“ und liefern <code>null</code> bzw. <code>false</code>.
+      </p>
+      <pre class="code"><span class="c">// Beispiel</span>
+RnH neu = dbSvc.Insert(<span class="k">new</span> RnH { HorseNo = 12, Order = 1 });   <span class="c">// neu.Id ist jetzt gesetzt</span>
+neu.Status = RnHStatus.OnWarmUpField;
+dbSvc.Save(neu);
+dbSvc.Delete(neu);</pre>
+
+      <h3 id="titel"><span class="sub-idx">03.04</span>Titel</h3>
+      <p>
+        <code>TitleLoad()</code> liefert den Titel der ersten Zeile von <code>TitleTable</code> oder einen
+        leeren String. <code>TitleSave(title)</code> überschreibt den Titel dieser Zeile (bzw. legt sie
+        an) und gibt ihn zurück.
+      </p>
+      <pre class="code">dbSvc.TitleSave(<span class="s">"Dressurpferdeprüfung Kl. L"</span>);
+<span class="k">string</span> title = dbSvc.TitleLoad();</pre>
+
+      <h3 id="fehler-behandeln"><span class="sub-idx">03.05</span>Fehler behandeln (ErrorRised)</h3>
+      <p>
+        Jede öffentliche Methode ist in <code>TryCatchException</code> gekapselt. Tritt eine Exception auf,
+        wird <code>ErrorRised</code> mit <code>sender = this</code> und <code>ex.Message</code> ausgelöst
+        und der Standardwert zurückgegeben (<code>null</code> bzw. <code>false</code>). Fehlende
+        Einstellungen und unbekannte Ids werden mit eigenen deutschen Meldungen gemeldet; alle übrigen
+        Meldungen stammen direkt aus EF Core bzw. dem SQL-Client.
+      </p>
+      <pre class="code"><span class="k">private</span> T TryCatchException&lt;T&gt;(Func&lt;T&gt; todo)
+{
+    <span class="k">try</span> { <span class="k">return</span> todo(); }
+    <span class="k">catch</span> (Exception ex)
+    {
+        ErrorRised?.Invoke(<span class="k">this</span>, ex.Message);
+        <span class="k">return default</span>;
+    }
+}</pre>
+    </section>
+
+    <!-- 04 REVIEW -->
+    <section id="review">
+      <div class="section-head"><span class="idx">04</span><h2>Code-Review</h2></div>
+      <p class="intro">
+        Ergebnis der Durchsicht des Quellcodes. Die Befunde wurden korrigiert; offen sind nur noch die
+        Punkte in der zweiten Tabelle.
+      </p>
+
+      <h3>Behoben</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Stelle</th><th>Befund</th><th>Korrektur</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">CheckConnection</td>
+              <td class="muted">Vor <code>SetDBSettings</code> ungefangene NullReferenceException, weil <code>_dbContext.Database</code> außerhalb des <code>try</code> ausgewertet wurde.</td>
+              <td class="muted">Zugriff im Lambda; ohne Einstellungen kommt „Es sind keine Datenbankeinstellungen gesetzt.“ über <code>ErrorRised</code>.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">Reload</td>
+              <td class="muted">Jeder Reload erzeugte einen neuen <code>DbContext</code>, ohne den alten freizugeben.</td>
+              <td class="muted"><code>Reload</code> entfernt; kurzlebiger Kontext pro Aufruf mit <code>using</code>.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">DBSvc (gesamt)</td>
+              <td class="muted">Ein gemeinsamer, nicht threadsicherer <code>DbContext</code> für alle Aufrufe.</td>
+              <td class="muted">Jeder Aufruf hat seinen eigenen Kontext.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">Save / Delete / TitleSave</td>
+              <td class="muted">Arbeiteten mit getrackten, möglicherweise veralteten Entities und konnten Änderungen anderer Clients überschreiben.</td>
+              <td class="muted">Frischer Kontext pro Aufruf; Lesezugriffe mit <code>AsNoTracking</code>.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">DBConnectionStringHelpers</td>
+              <td class="muted">Connection-String per String-Interpolation; <code>;</code> in Werten zerlegte ihn.</td>
+              <td class="muted"><code>SqlConnectionStringBuilder</code>.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">DBConnectionStringHelpers</td>
+              <td class="muted">Kein <code>Connect Timeout</code> → 15&nbsp;s Standard.</td>
+              <td class="muted"><code>ConnectTimeout = 5</code> wie in der Net8-Version.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">Save / Delete</td>
+              <td class="muted">Unbekannte <code>Id</code> führte zu einer technischen Null-Exception.</td>
+              <td class="muted"><code>FindRnH</code> meldet „Reiter und Pferd mit Id … nicht gefunden.“</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">TitleLoad / TitleSave</td>
+              <td class="muted">Setzten eine vorhandene Zeile in <code>TitleTable</code> voraus.</td>
+              <td class="muted"><code>TitleLoad</code> liefert <code>""</code>, <code>TitleSave</code> legt die Zeile an.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">Insert</td>
+              <td class="muted">Ein Objekt mit <code>Id ≠ 0</code> ließ das Insert scheitern.</td>
+              <td class="muted"><code>Id</code> wird vor dem Einfügen auf 0 gesetzt.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill good">behoben</span></td>
+              <td class="where">Aufräumen</td>
+              <td class="muted">Leere Klasse <code>DBContextOptionsHelpers</code>; ungenutzte Methode <code>SaveIsRanked</code>.</td>
+              <td class="muted">Beide entfernt. <code>ReadAll</code> liefert jetzt sortiert; neue Methode <code>ReadById</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Offen</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Schwere</th><th>Stelle</th><th>Befund</th><th>Empfehlung</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="sev"><span class="pill info">Hinweis</span></td>
+              <td class="where">DBConnectionStringHelpers</td>
+              <td class="muted"><code>TrustServerCertificate = true</code> schaltet die Zertifikatsprüfung ab. Für einen lokalen SQL Server mit selbstsigniertem Zertifikat ist das üblich, im Netzwerk aber unsicher.</td>
+              <td class="muted">Bei Bedarf als Property in <code>DBConnectionSettings</code> konfigurierbar machen.</td>
+            </tr>
+            <tr>
+              <td class="sev"><span class="pill info">Hinweis</span></td>
+              <td class="where">Schema</td>
+              <td class="muted">Keine Migrations, kein <code>EnsureCreated</code> — das Schema muss von Hand angelegt werden.</td>
+              <td class="muted">EF-Migrations einführen oder ein SQL-Skript beilegen.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 05 API DBSVCS -->
+    <section id="api-dbsvcs">
+      <div class="section-head"><span class="idx">05</span><h2>API-Referenz — DBSvcs</h2></div>
+      <div class="proj-chapter-head">
+        <span class="proj-chapter-mark">01</span>
+        <div>
+          <h3>DBSvcs.csproj</h3>
+          <p>Klassenbibliothek · net10.0 · Nullable disable · Abhängigkeiten: Base (ProjectReference), EF Core + SqlServer 10.0.12</p>
+        </div>
+      </div>
+      <p class="intro">
+        Erst der Service, dann Kontext und Modell, zuletzt die internen Helfer.
+      </p>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">Klasse · public</span>
+            <h3 class="class-name">DBSvc : IDBSvc</h3>
+            <span class="class-file">DBSvc.cs</span>
+          </div>
+          <p class="class-desc">EF-Core-Implementierung von <code>IDBSvc</code>. Speichert nur den Connection-String und erzeugt pro Aufruf einen eigenen Kontext; alle öffentlichen Methoden fangen Exceptions ab und melden sie über <code>ErrorRised</code>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Event</td><td class="member-name">EventHandler&lt;string&gt; ErrorRised</td><td class="muted">Fehlermeldung, <code>sender</code> ist die <code>DBSvc</code>-Instanz.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool SetDBSettings(DBConnectionSettings settings)</td><td class="muted">Connection-String setzen, <code>CanConnect()</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool CheckConnection()</td><td class="muted"><code>CanConnect()</code> mit den gesetzten Einstellungen. Nicht im Interface.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">IEnumerable&lt;RnH&gt; ReadAll()</td><td class="muted">Alle Einträge, sortiert nach <code>Order</code>.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH ReadById(int id)</td><td class="muted">Ein Eintrag als Kopie.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH Insert(RnH rnh)</td><td class="muted">Neuen Eintrag anlegen, <code>Id</code> zurückschreiben.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">RnH Save(RnH rnh)</td><td class="muted">Alle Felder eines Eintrags per <code>Id</code> speichern.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">bool Delete(RnH rnh)</td><td class="muted">Eintrag per <code>Id</code> löschen.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string TitleSave(string title)</td><td class="muted">Titel der ersten Zeile überschreiben bzw. Zeile anlegen.</td></tr>
+              <tr><td class="member-kind">Methode</td><td class="member-name">string TitleLoad()</td><td class="muted">Titel der ersten Zeile oder <code>""</code>.</td></tr>
+              <tr><td class="member-kind">privat</td><td class="member-name">CompetitionBoardDBContext CreateDBContext()</td><td class="muted">Neuer Kontext; wirft, wenn keine Einstellungen gesetzt sind.</td></tr>
+              <tr><td class="member-kind">privat</td><td class="member-name">static RnH FindRnH(CompetitionBoardDBContext, int id)</td><td class="muted">Getrackter Eintrag oder Exception „… nicht gefunden.“</td></tr>
+              <tr><td class="member-kind">privat</td><td class="member-name">T TryCatchException&lt;T&gt;(Func&lt;T&gt; todo)</td><td class="muted">Exception → <code>ErrorRised</code> + <code>default</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind model">DbContext · public</span>
+            <h3 class="class-name">CompetitionBoardDBContext</h3>
+            <span class="class-file">Models/CompetitionBoardDBContext.cs</span>
+          </div>
+          <p class="class-desc">EF-Core-Kontext ohne eigenes <code>OnModelCreating</code>; alles läuft über Konventionen.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Konstruktor</td><td class="member-name">CompetitionBoardDBContext(DbContextOptions&lt;CompetitionBoardDBContext&gt; options)</td><td class="muted">Optionen inkl. <code>UseSqlServer</code> kommen von außen.</td></tr>
+              <tr><td class="member-kind">Property</td><td class="member-name">DbSet&lt;RnH&gt; RnHsTable</td><td class="muted">Starterliste.</td></tr>
+              <tr><td class="member-kind">Property</td><td class="member-name">DbSet&lt;TitleDBContextModel&gt; TitleTable</td><td class="muted">Titel (eine Zeile).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind model">Modell · public</span>
+            <h3 class="class-name">TitleDBContextModel</h3>
+            <span class="class-file">Models/TitleDBContextModel.cs</span>
+          </div>
+          <p class="class-desc">Zeile der Tabelle <code>TitleTable</code>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-name">ID</td><td class="mono muted">int</td><td class="muted">Primärschlüssel.</td></tr>
+              <tr><td class="member-name">Title</td><td class="mono muted">string</td><td class="muted">Titel der Anzeige.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">static · internal</span>
+            <h3 class="class-name">DBConnectionStringHelpers</h3>
+            <span class="class-file">Helpers/DBConnectionStringHelpers.cs</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Extension</td><td class="member-name">string GetConnectionString(this DBConnectionSettings)</td><td class="muted">Baut den Connection-String mit <code>SqlConnectionStringBuilder</code> (Timeout 5&nbsp;s, <code>TrustServerCertificate</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card class-block">
+        <div class="class-head">
+          <div class="class-head-row">
+            <span class="class-kind">static · internal</span>
+            <h3 class="class-name">RnHHelpers</h3>
+            <span class="class-file">Helpers/RnHHelpers.cs</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Art</th><th>Signatur</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td class="member-kind">Extension</td><td class="member-name">void SetData(this RnH rnh, RnH source)</td><td class="muted">Kopiert alle sieben Felder (inkl. <code>Id</code>) von <code>source</code> nach <code>rnh</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      Stand: Projekt <code>DBSvcs</code> · DBSvcs/DBSvcs · erstellt aus dem aktuellen Quellcode.
+    </footer>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.side a[data-nav]'));
+    var sections = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    if ('IntersectionObserver' in window && sections.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        if (visible.length) {
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] });
+
+      sections.forEach(function (s) { observer.observe(s); });
+    }
+
+    if (sections.length) setActive(sections[0].id);
+  })();
+</script>

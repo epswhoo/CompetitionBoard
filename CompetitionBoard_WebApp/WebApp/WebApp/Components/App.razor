@@ -1,0 +1,39 @@
+@using Microsoft.Extensions.Options
+@using WebApp.Configs
+@using WebApp.Services.Login
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["WebApp.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="RenderModeServer" />
+</head>
+
+<body>
+    <Routes @rendermode="RenderModeServer" IsDisplayOnly="IsDisplayOnly" />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+
+</html>
+
+@code {
+    // Ohne Prerendering: der Board-Zustand (Timer, DB-Verbindung) entsteht nur einmal im Circuit.
+    private static readonly IComponentRenderMode RenderModeServer = new InteractiveServerRenderMode(prerender: false);
+
+    [CascadingParameter] private HttpContext HttpContext { get; set; }
+
+    [Inject] private IOptions<UIConfig> UIConfig { get; set; }
+
+    // Über den Anzeige-Port aufgerufen: nur anzeigen, nicht bearbeiten.
+    private bool IsDisplayOnly => HttpContext != null
+        && PasswordCheck.IsDisplayPort(UIConfig.Value, HttpContext.Connection.LocalPort);
+}

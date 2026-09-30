@@ -1,0 +1,46 @@
+@inject BoardSvc Board
+
+<div class="mark-control">
+    @if (!IsEditModus)
+    {
+        <div class="wpf-label mark-label" style="visibility:@(RnH.Mark < 0.001 ? "hidden" : "visible")">
+            @BoardSvc.FormatMark(RnH.Mark)
+        </div>
+    }
+    else
+    {
+        <div class="mark-edit">
+            <input type="text" class="wpf-textbox mark-textbox" inputmode="decimal"
+                   @bind="_markStr" @bind:event="oninput" />
+            <ImageButton Source="images/StatusImgs/index.png" Size="25" Title="Note speichern"
+                         OnClick="SaveAsync" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    private string _markStr;
+    private double? _lastMark;
+    private bool _lastIsEditModus;
+
+    protected override void OnParametersSet()
+    {
+        // Eingabe beim Aktualisieren nicht überschreiben, außer die Note hat sich geändert
+        // oder der Bearbeitungsmodus wurde gewechselt.
+        if (RnH.Mark != _lastMark || IsEditModus != _lastIsEditModus)
+        {
+            _markStr = BoardSvc.FormatMarkForEdit(RnH.Mark);
+        }
+        _lastMark = RnH.Mark;
+        _lastIsEditModus = IsEditModus;
+    }
+
+    private Task SaveAsync()
+    {
+        return Board.SaveMarkAsync(RnH, _markStr);
+    }
+}

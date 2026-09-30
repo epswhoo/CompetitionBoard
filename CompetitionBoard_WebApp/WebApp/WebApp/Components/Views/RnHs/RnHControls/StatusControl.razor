@@ -1,0 +1,71 @@
+@inject BoardSvc Board
+
+<div class="status-control">
+    @if (!IsEditModus)
+    {
+        <StatusImage Status="RnH.Status" Size="80" />
+    }
+    else
+    {
+        @* Entspricht der WPF-ComboBox mit Bild und Text je Eintrag. *@
+        <div class="status-combobox">
+            <button type="button" class="status-combobox-selected" @onclick="Toggle">
+                @* Geschlossen nur das Symbol, der Text erscheint erst in der Auswahlliste. *@
+                <StatusItem Status="RnH.Status" ShowText="false" />
+                <span class="status-combobox-arrow"></span>
+            </button>
+            @if (_isOpen)
+            {
+                <div class="status-combobox-backdrop" @onclick="Close"></div>
+                <div class="status-combobox-popup @(OpenUpwards ? "upwards" : null)">
+                    @foreach (RnHStatus status in Enum.GetValues<RnHStatus>())
+                    {
+                        <button type="button"
+                                class="status-combobox-item @(status == RnH.Status ? "selected" : null)"
+                                @onclick="() => SelectAsync(status)">
+                            <StatusItem Status="status" />
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    [Parameter] public bool OpenUpwards { get; set; }
+
+    private bool _isOpen;
+
+    protected override void OnParametersSet()
+    {
+        if (!IsEditModus)
+        {
+            _isOpen = false;
+        }
+    }
+
+    private void Toggle()
+    {
+        _isOpen = !_isOpen;
+    }
+
+    private void Close()
+    {
+        _isOpen = false;
+    }
+
+    private Task SelectAsync(RnHStatus status)
+    {
+        _isOpen = false;
+        if (status == RnH.Status)
+        {
+            return Task.CompletedTask;
+        }
+        return Board.SaveStatusAsync(RnH, status);
+    }
+}

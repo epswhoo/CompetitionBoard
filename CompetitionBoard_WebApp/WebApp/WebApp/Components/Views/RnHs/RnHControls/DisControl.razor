@@ -1,0 +1,29 @@
+@inject BoardSvc Board
+
+<div class="dis-control">
+    @if (!IsEditModus)
+    {
+        @if (RnH.IsDisqualificated)
+        {
+            <img class="dis-image" src="images/dis.jpg" alt="Disqualifiziert" />
+        }
+    }
+    else
+    {
+        <div class="dis-checkbox">
+            <ImageCheckBox Source="images/dis.jpg" Size="20" Title="Disqualifiziert"
+                           Checked="RnH.IsDisqualificated" CheckedChanged="SaveAsync" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RnH RnH { get; set; }
+
+    [Parameter] public bool IsEditModus { get; set; }
+
+    private Task SaveAsync(bool isDisqualificated)
+    {
+        return Board.SaveIsDisqualificatedAsync(RnH, isDisqualificated);
+    }
+}
