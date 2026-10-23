@@ -87,7 +87,8 @@ html, body {
 .board {
     display: grid;
     grid-template-rows: 50px 5px minmax(0, 1fr) 40px auto auto;
-    height: 100vh;
+    /* 100% statt 100vh: Prozentwerte werden von zoom (siehe "Große Bildschirme") nicht mitskaliert. */
+    height: 100%;
     padding: 10px;
 }
 
@@ -582,6 +583,34 @@ html, body {
     align-items: flex-end;
     height: 100%;
     min-height: 60px;
+}
+
+/* ---------- Große Bildschirme ---------- */
+
+/* Alle Maße sind feste Pixel und auf etwa 1600 x 900 ausgelegt. Bei mehr Platz wird die ganze Tafel
+   stufenweise vergrößert; Breite und Höhe müssen beide reichen, damit nichts abgeschnitten wird. */
+@media (min-width: 2000px) and (min-height: 1125px) {
+    .board { zoom: 1.25; }
+}
+
+@media (min-width: 2400px) and (min-height: 1350px) {
+    .board { zoom: 1.5; }
+}
+
+@media (min-width: 2800px) and (min-height: 1575px) {
+    .board { zoom: 1.75; }
+}
+
+@media (min-width: 3200px) and (min-height: 1800px) {
+    .board { zoom: 2; }
+}
+
+@media (min-width: 4000px) and (min-height: 2250px) {
+    .board { zoom: 2.5; }
+}
+
+@media (min-width: 4800px) and (min-height: 2700px) {
+    .board { zoom: 3; }
 }
 
 /* ---------- Kleine Bildschirme (Handy) ---------- */

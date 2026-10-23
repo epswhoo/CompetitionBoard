@@ -39,7 +39,24 @@ builder.Services.AddSingleton(new PasswordStore(
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Einbinden in fremde Seiten erlauben: X-Frame-Options kann keine fremden Seiten freigeben,
+// daher wird es durch CSP frame-ancestors ersetzt.
+string frameAncestors = builder.Configuration["UI:FrameAncestors"];
+if (!string.IsNullOrWhiteSpace(frameAncestors))
+{
+    builder.Services.AddAntiforgery(antiforgeryOptions => antiforgeryOptions.SuppressXFrameOptionsHeader = true);
+}
+
 var app = builder.Build();
+
+if (!string.IsNullOrWhiteSpace(frameAncestors))
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.ContentSecurityPolicy = $"frame-ancestors {frameAncestors}";
+        await next();
+    });
+}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -50,7 +67,14 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+// Blazor setzt für interaktive Seiten selbst "frame-ancestors 'self'"; ein zweiter CSP-Header würde unseren überstimmen.
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode(serverOptions =>
+    {
+        if (!string.IsNullOrWhiteSpace(frameAncestors))
+        {
+            serverOptions.ContentSecurityFrameAncestorsPolicy = null;
+        }
+    });
 
 app.Run();

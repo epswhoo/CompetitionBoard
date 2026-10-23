@@ -22,5 +22,11 @@ namespace WebApp.Configs
         /// Sind beide Passwörter leer, gibt es keinen Passwortschutz.
         /// </summary>
         public string AdminPassword { get; set; }
+
+        /// <summary>
+        /// Seiten, die die Tafel in einem iframe einbinden dürfen (CSP frame-ancestors),
+        /// z.B. "https://www.verein.de" oder "*" für alle. Leer = nur gleiche Herkunft (X-Frame-Options: SAMEORIGIN).
+        /// </summary>
+        public string FrameAncestors { get; set; }
     }
 }

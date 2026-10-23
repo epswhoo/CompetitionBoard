@@ -41,10 +41,13 @@ if ($service -and $service.Status -ne "Stopped") {
 $settingsFile = Join-Path $InstallDir "appsettings.json"
 $password = ""
 $adminPassword = ""
+$frameAncestors = $null
 if (Test-Path $settingsFile) {
     $oldSettings = Get-Content $settingsFile -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($oldSettings.UI.Password) { $password = $oldSettings.UI.Password }
     if ($oldSettings.UI.AdminPassword) { $adminPassword = $oldSettings.UI.AdminPassword }
+    # Eine angepasste Einbinde-Freigabe (iframe) ebenfalls übernehmen.
+    if ($null -ne $oldSettings.UI.FrameAncestors) { $frameAncestors = $oldSettings.UI.FrameAncestors }
 }
 
 Write-Host "Kopiere nach $InstallDir ..."
@@ -60,11 +63,15 @@ if (-not $adminPassword) {
 
 # Endpunkte auf allen Netzwerkadressen und Passwörter in die installierte appsettings.json schreiben.
 $settings = Get-Content $settingsFile -Raw -Encoding UTF8 | ConvertFrom-Json
-$settings.Kestrel.Endpoints.Http.Url = "http://0.0.0.0:$Port"
-$settings.Kestrel.Endpoints.Display.Url = "http://0.0.0.0:$DisplayPort"
+# [::] lauscht auf IPv4 und IPv6, da Hostnamen in der Fritzbox zuerst auf IPv6 aufgelöst werden.
+$settings.Kestrel.Endpoints.Http.Url = "http://[::]:$Port"
+$settings.Kestrel.Endpoints.Display.Url = "http://[::]:$DisplayPort"
 $settings.UI | Add-Member -NotePropertyName DisplayPort -NotePropertyValue $DisplayPort -Force
 $settings.UI | Add-Member -NotePropertyName Password -NotePropertyValue $password -Force
 $settings.UI | Add-Member -NotePropertyName AdminPassword -NotePropertyValue $adminPassword -Force
+if ($null -ne $frameAncestors) {
+    $settings.UI | Add-Member -NotePropertyName FrameAncestors -NotePropertyValue $frameAncestors -Force
+}
 $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile -Encoding UTF8
 
 $exe = Join-Path $InstallDir "WebApp.exe"
